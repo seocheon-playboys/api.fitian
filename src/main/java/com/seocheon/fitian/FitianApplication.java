@@ -9,5 +9,4 @@ public class FitianApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FitianApplication.class, args);
 	}
-//test22
 }
