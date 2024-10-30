@@ -5,13 +5,13 @@ import lombok.Data;
 @Data
 public class ResponseModel {
 
-	private UserModel userModel;
+	private MemberModel userModel;
 
-	public UserModel getUserModel() {
+	public MemberModel getUserModel() {
 		return userModel;
 	}
 
-	public void setUserModel(UserModel userModel) {
+	public void setUserModel(MemberModel userModel) {
 		this.userModel = userModel;
 	}
 	

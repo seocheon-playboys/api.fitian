@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.seocheon.fitian.mapper.UserMapper;
 import com.seocheon.fitian.model.ResponseModel;
-import com.seocheon.fitian.model.UserModel;
+import com.seocheon.fitian.model.MemberModel;
 
 @Service
 public class UserService {
@@ -17,7 +17,7 @@ public class UserService {
 		this.mapper = mapper;
 	}
 	
-	public ResponseModel join(UserModel model) {
+	public ResponseModel join(MemberModel model) {
 		
 		
 		return null;
