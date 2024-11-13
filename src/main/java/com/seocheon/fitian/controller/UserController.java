@@ -23,10 +23,14 @@ public class UserController {
     }
 	
 	@RequestMapping("/user/getTest")
-    public void getTest(@RequestBody MemberModel model) {
-		System.out.println(model.getName());
-		model.setName("테스트");
-    	String res = sv.getTest(model.getName());
-    	System.out.println(res);
+    public String getTest() {
+		/*
+		 * System.out.println(model.getName()); model.setName("테스트"); String res =
+		 * sv.getTest(model.getName());
+		 */
+		String test = "Hello world!";
+    	System.out.println("test");
+    	return test;
     }
+
 }
