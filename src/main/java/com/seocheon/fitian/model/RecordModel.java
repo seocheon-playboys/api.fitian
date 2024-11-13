@@ -1,6 +1,6 @@
 package com.seocheon.fitian.model;
 
-public class recordModel {
+public class RecordModel {
 	
 	private int recordNo;
 	private String uid;

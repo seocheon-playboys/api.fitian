@@ -1,5 +1,22 @@
 package com.seocheon.fitian.mapper;
 
-public class UserMapper {
+import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.seocheon.fitian.model.MemberModel;
+
+@Mapper
+public interface UserMapper {
+	
+	/**
+     * 회원 정보 가져오기
+	 * @param 
+     */
+	List<Map<String, Object>> getUsers();
+	
+	MemberModel getMember(MemberModel member);
+	
+	String getTest(String test);
 }

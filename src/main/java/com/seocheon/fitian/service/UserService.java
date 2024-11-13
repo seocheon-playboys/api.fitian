@@ -17,11 +17,20 @@ public class UserService {
 		this.mapper = mapper;
 	}
 	
-	public ResponseModel join(MemberModel model) {
+	public ResponseModel getMember(MemberModel model) {
+		ResponseModel res = new ResponseModel();
+		MemberModel member = mapper.getMember(model);
 		
+		res.setUserModel(member);
 		
-		return null;
+		return res;
+	}
+	
+	public String getTest(String test) {
 		
+		String answer = mapper.getTest(test);
+		
+		return answer;
 	}
 
 }
