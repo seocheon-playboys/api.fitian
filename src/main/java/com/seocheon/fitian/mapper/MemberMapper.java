@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.seocheon.fitian.model.MemberModel;
 
 @Mapper
-public interface UserMapper {
+public interface MemberMapper {
 	
 	/**
      * 회원 정보 가져오기
@@ -17,6 +17,12 @@ public interface UserMapper {
 	List<Map<String, Object>> getUsers();
 	
 	MemberModel getMember(MemberModel member);
+	
+	MemberModel joinMember(MemberModel member);
+	
+	MemberModel updateMember(MemberModel member);
+	
+	MemberModel deleteMember(MemberModel member);
 	
 	String getTest(String test);
 }

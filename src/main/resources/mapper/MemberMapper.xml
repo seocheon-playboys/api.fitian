@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.seocheon.fitian.mapper.UserMapper">
+<mapper namespace="com.seocheon.fitian.mapper.MemberMapper">
     <select id="getMember" resultType="MemberModel">
         select *
         from fitian.Member

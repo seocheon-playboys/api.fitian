@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.seocheon.fitian.mapper.WodMapper">
+    <select id="getWod" resultType="WodModel">
+        select *
+        from fitian.Wod
+        where boxNo = #{boxNo}
+        and wodDate = #{wodDate}
+    </select>
+    
+    <insert id="createWod">
+    	insert into fitian.Wod (boxNo, wodDate, wodScript, wodType, useYN) 
+    	value (#{boxNo},#{wodDate},#{wodScript},#{wodType}, "Y")
+    </insert>
+    
+    <update id="updateWod">
+    	update fitian.Wod 
+    	SET wodDate=#{wodDate}, wodScript=#{wodScript}, wodType=#{wodType}
+    	where boxNo = #{boxNo}
+        and wodDate = #{wodDate}
+    </update>
+    
+    <update id="deleteWod">
+    	update fitian.Wod 
+    	SET useYN = "N"
+    	where boxNo = #{boxNo}
+        and wodDate = #{wodDate}
+    </update>
+    
+    <select id="getTest" resultType="String">
+        select testNumber
+        from fitian.TestTable
+        where testName = #{test}
+    </select>
+</mapper>

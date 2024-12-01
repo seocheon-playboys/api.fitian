@@ -5,14 +5,32 @@ import lombok.Data;
 @Data
 public class ResponseModel {
 
-	private MemberModel userModel;
+	private MemberModel MemberModel;
+	private WodModel wodModel;
+	private String message;
 
-	public MemberModel getUserModel() {
-		return userModel;
+	public MemberModel getMemberModel() {
+		return MemberModel;
 	}
 
-	public void setUserModel(MemberModel userModel) {
-		this.userModel = userModel;
+	public void setMemberModel(MemberModel MemberModel) {
+		this.MemberModel = MemberModel;
+	}
+
+	public WodModel getWodModel() {
+		return wodModel;
+	}
+
+	public void setWodModel(WodModel wodModel) {
+		this.wodModel = wodModel;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 }
