@@ -1,11 +1,13 @@
 package com.seocheon.fitian.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.seocheon.fitian.mapper.BoxMapper;
-import com.seocheon.fitian.model.ResponseModel;
 import com.seocheon.fitian.model.BoxModel;
+import com.seocheon.fitian.model.ResponseModel;
 
+@Service
 public class BoxService {
 
 private final BoxMapper mapper;
