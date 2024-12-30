@@ -7,6 +7,7 @@ public class ResponseModel {
 
 	private MemberModel MemberModel;
 	private WodModel wodModel;
+	private BoxModel boxModel;
 	private String message;
 
 	public MemberModel getMemberModel() {
@@ -23,6 +24,14 @@ public class ResponseModel {
 
 	public void setWodModel(WodModel wodModel) {
 		this.wodModel = wodModel;
+	}
+
+	public BoxModel getBoxModel() {
+		return boxModel;
+	}
+
+	public void setBoxModel(BoxModel boxModel) {
+		this.boxModel = boxModel;
 	}
 
 	public String getMessage() {

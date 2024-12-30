@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.seocheon.fitian.mapper.BoxMapper">
+    <select id="getBox" resultType="BoxModel">
+        select *
+        from fitian.Box
+        where 1=1
+        and boxCode = #{boxCode}
+    </select>
+    
+    <insert id="createBox">
+    	insert into fitian.Box (boxCode, boxContract, boxAddress, boxScript) 
+    	value (#{boxCode},#{boxContract},#{boxAddress},#{boxScript})
+    </insert>
+    
+    <update id="updateBox">
+    	update fitian.Box
+    	SET boxContract=#{boxContract}, boxAddress=#{boxAddress}, boxScript=#{boxScript}
+    	where boxCode = #{boxCode}
+    </update>
+    
+    <update id="deleteBox">
+    	update fitian.Box 
+    	SET useYN = "N"
+    	where boxCode = #{boxCode}
+    </update>
+    
+    <select id="getTest" resultType="String">
+        select testNumber
+        from fitian.TestTable
+        where testName = #{test}
+    </select>
+</mapper>
