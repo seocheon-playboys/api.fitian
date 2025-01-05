@@ -10,7 +10,7 @@ import com.seocheon.fitian.model.ResponseModel;
 @Service
 public class BoxService {
 
-private final BoxMapper mapper;
+	private final BoxMapper mapper;
 	
 	@Autowired
 	public BoxService(BoxMapper mapper) {
