@@ -6,7 +6,13 @@
     <select id="getMember" resultType="MemberModel">
         select *
         from fitian.Member
-        where name = #{name}
+        where uid = #{uid}
+    </select>
+    
+    <select id="existMember" resultType="int">
+        select count(*)
+        from fitian.Member
+        where uid = #{uid}
     </select>
     
     <select id="getTest" resultType="String">

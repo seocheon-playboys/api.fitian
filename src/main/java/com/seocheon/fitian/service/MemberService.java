@@ -53,6 +53,22 @@ public class MemberService {
 		return res;
 	}
 	
+	public ResponseModel existMember(MemberModel model) {
+		ResponseModel res = new ResponseModel();
+		
+		int result = mapper.existMember(model);
+		
+		if(result==1) {
+			MemberModel existMember = mapper.getMember(model);
+			res.setMessage("true");
+			res.setMemberModel(existMember);
+		} else {
+			res.setMessage("false");
+		}
+		
+		return res;
+	}
+	
 	public String getTest(String test) {
 		
 		String answer = mapper.getTest(test);

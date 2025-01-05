@@ -24,5 +24,7 @@ public interface MemberMapper {
 	
 	MemberModel deleteMember(MemberModel member);
 	
+	int existMember(MemberModel member);
+	
 	String getTest(String test);
 }

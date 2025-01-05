@@ -40,6 +40,12 @@ public class MemberController {
     	return res;
     }
 	
+	@RequestMapping("/member/existMember")
+    public ResponseModel existMember(@RequestBody MemberModel model) {
+    	ResponseModel res = sv.existMember(model);
+    	return res;
+    }
+	
 	@RequestMapping("/member/getTest")
     public String getTest() {
 		/*
