@@ -1,5 +1,7 @@
 package com.seocheon.fitian.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.seocheon.fitian.model.BoxModel;
@@ -14,4 +16,8 @@ public interface BoxMapper {
 	void updateBox(BoxModel Box);
 	
 	void deleteBox(BoxModel Box);
+	
+	int searchBoxCode(BoxModel Box);
+	
+	List<BoxModel> getAllBoxCode();
 }

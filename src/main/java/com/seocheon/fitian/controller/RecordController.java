@@ -33,4 +33,5 @@ public class RecordController {
     	ResponseModel res = sv.updateRecord(model);
     	return res;
     }
+	
 }

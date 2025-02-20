@@ -9,6 +9,17 @@
         where uid = #{uid}
     </select>
     
+    <select id="getAllMember" resultType="MemberModel">
+        select *
+        from fitian.Member
+        where boxCode = #{boxCode}
+    </select>
+    
+    <insert id="joinMember">
+    	insert into fitian.Member (uid, name, nickname, boxName, email, rank, gender, boxCode) 
+    	value (#{uid},#{name},#{nickname},#{boxName},#{email},#{rank},#{gender},#{boxCode})
+    </insert>
+    
     <select id="existMember" resultType="int">
         select count(*)
         from fitian.Member

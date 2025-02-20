@@ -33,6 +33,18 @@ public class BoxController {
     	return res;
     }
 	
+	@RequestMapping("/box/searchBoxCode")
+    public ResponseModel searchBoxCode(@RequestBody BoxModel model) {
+    	ResponseModel res = sv.searchBoxCode(model);
+    	return res;
+    }
+	
+	@RequestMapping("/box/getAllBoxCode")
+    public ResponseModel getAllBoxCode() {
+    	ResponseModel res = sv.getAllBoxCode();
+    	return res;
+    }
+	
 	/*
 	@RequestMapping("/Box/deleteBox")
     public ResponseModel deleteBox(@RequestBody BoxModel model) {

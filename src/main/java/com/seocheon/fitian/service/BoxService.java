@@ -1,5 +1,8 @@
 package com.seocheon.fitian.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,8 @@ public class BoxService {
 	
 	public ResponseModel getBox(BoxModel model) {
 		ResponseModel res = new ResponseModel();
+		System.out.println(model.getBoxCode());
+		System.out.println(model.getBoxName());
 		BoxModel member = mapper.getBox(model);
 		
 		res.setBoxModel(member);
@@ -42,6 +47,40 @@ public class BoxService {
 		mapper.updateBox(model);
 		
 		res.setMessage("success");
+		
+		return res;
+	}
+	
+	public ResponseModel searchBoxCode(BoxModel model) {
+		ResponseModel res = new ResponseModel();
+		
+		mapper.searchBoxCode(model);
+		
+		int result = mapper.searchBoxCode(model);
+		
+		System.out.println(result);
+		
+		if(result==1) {
+			res.setMessage("이미 존재하는 박스코드입니다.");
+		} else {
+			res.setMessage("사용 가능한 박스코드입니다.");
+		}
+		
+		return res;
+	}
+	
+	public ResponseModel getAllBoxCode() {
+		ResponseModel res = new ResponseModel();
+		
+		List<BoxModel> boxList = mapper.getAllBoxCode();
+		
+		String[] BoxCodeArr = new String[boxList.size()];
+		
+		for(int i=0; i<boxList.size(); i++) {
+			BoxCodeArr[i] = boxList.get(i).getBoxCode();
+		}
+		
+		res.setBoxCodeList(BoxCodeArr);
 		
 		return res;
 	}

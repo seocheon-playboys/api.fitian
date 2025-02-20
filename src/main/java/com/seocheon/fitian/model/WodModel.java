@@ -7,6 +7,7 @@ public class WodModel {
 	private String wodDate;
 	private String wodScript;
 	private String wodType;
+	private String wodTitle;
 	
 	public int getWodNo() {
 		return wodNo;
@@ -37,5 +38,11 @@ public class WodModel {
 	}
 	public void setWodType(String wodType) {
 		this.wodType = wodType;
+	}
+	public String getWodTitle() {
+		return wodTitle;
+	}
+	public void setWodTitle(String wodTitle) {
+		this.wodTitle = wodTitle;
 	}
 }

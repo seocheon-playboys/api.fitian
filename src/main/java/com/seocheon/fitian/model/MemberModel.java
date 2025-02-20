@@ -2,15 +2,19 @@ package com.seocheon.fitian.model;
 
 import java.util.List;
 
+import lombok.Data;
+
+@Data
 public class MemberModel {
 
-	private String uid;
+	private String uid;	
 	private String name;
 	private String nickname;
-	private String mainBox;
-	private String phoneNo;
+	private String boxName;
+	private String email;
 	private String rank;
 	private String gender;
+	private String boxCode;
 	private List<MembershipModel> membershipList;
 	
 	public String getUid() {
@@ -31,17 +35,17 @@ public class MemberModel {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public String getMainBox() {
-		return mainBox;
+	public String getBoxName() {
+		return boxName;
 	}
-	public void setMainBox(String mainBox) {
-		this.mainBox = mainBox;
+	public void setBoxName(String boxName) {
+		this.boxName = boxName;
 	}
-	public String getPhoneNo() {
-		return phoneNo;
+	public String getEmail() {
+		return email;
 	}
-	public void setPhoneNo(String phoneNo) {
-		this.phoneNo = phoneNo;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getRank() {
 		return rank;
@@ -54,6 +58,12 @@ public class MemberModel {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public String getBoxCode() {
+		return boxCode;
+	}
+	public void setBoxCode(String boxCode) {
+		this.boxCode = boxCode;
 	}
 	public List<MembershipModel> getMembershipList() {
 		return membershipList;

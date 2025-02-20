@@ -22,6 +22,12 @@ public class MemberController {
     	return res;
     }
 	
+	@RequestMapping("/member/getAllMember")
+    public ResponseModel getAllMember(@RequestBody MemberModel model) {
+    	ResponseModel res = sv.getAllMember(model);
+    	return res;
+    }
+	
 	@RequestMapping("/member/joinMember")
     public ResponseModel joinMember(@RequestBody MemberModel model) {
     	ResponseModel res = sv.joinMember(model);

@@ -7,7 +7,12 @@
         select *
         from fitian.Box
         where 1=1
-        and boxCode = #{boxCode}
+        <if test='boxName != null  and(boxName neq "".toString())'>
+			and boxName = #{boxName}
+ 		</if>
+        <if test='boxCode != null  and(boxCode neq "".toString())'>
+			and boxCode = #{boxCode}
+ 		</if>
     </select>
     
     <insert id="createBox">
@@ -26,6 +31,18 @@
     	SET useYN = "N"
     	where boxCode = #{boxCode}
     </update>
+
+    <select id="searchBoxNo" resultType="BoxModel">
+        select count(*)
+        from fitian.Box
+        where 1=1
+        and boxCode = #{boxCode}
+    </select>
+    
+    <select id="getAllBoxCode" resultType="BoxModel">
+        select BoxCode
+        from fitian.Box
+    </select>
     
     <select id="getTest" resultType="String">
         select testNumber

@@ -14,11 +14,11 @@ public interface MemberMapper {
      * 회원 정보 가져오기
 	 * @param 
      */
-	List<Map<String, Object>> getUsers();
+	List<MemberModel> getAllMember(MemberModel member);
 	
 	MemberModel getMember(MemberModel member);
 	
-	MemberModel joinMember(MemberModel member);
+	void joinMember(MemberModel member);
 	
 	MemberModel updateMember(MemberModel member);
 	

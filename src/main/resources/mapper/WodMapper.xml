@@ -6,18 +6,18 @@
     <select id="getWod" resultType="WodModel">
         select *
         from fitian.Wod
-        where boxNo = #{boxNo}
+        where boxCode = #{boxCode}
         and wodDate = #{wodDate}
     </select>
     
     <insert id="createWod">
-    	insert into fitian.Wod (boxNo, wodDate, wodScript, wodType, useYN) 
-    	value (#{boxNo},#{wodDate},#{wodScript},#{wodType}, "Y")
+    	insert into fitian.Wod (boxNo, wodDate, wodScript, wodType, useYN, wodTitle) 
+    	value (#{boxNo},#{wodDate},#{wodScript},#{wodType}, "Y", #{wodTitle})
     </insert>
     
     <update id="updateWod">
     	update fitian.Wod 
-    	SET wodDate=#{wodDate}, wodScript=#{wodScript}, wodType=#{wodType}
+    	SET wodDate=#{wodDate}, wodScript=#{wodScript}, wodType=#{wodType}, wodTitle=#{wodTitle}
     	where boxNo = #{boxNo}
         and wodDate = #{wodDate}
     </update>

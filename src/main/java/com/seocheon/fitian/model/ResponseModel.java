@@ -8,10 +8,12 @@ import lombok.Data;
 public class ResponseModel {
 
 	private MemberModel MemberModel;
+	private List<MemberModel> MemberModelList;
 	private WodModel wodModel;
 	private BoxModel boxModel;
 	private RecordModel recordModel;
 	private List<RecordModel> recordModelList;
+	private String[] BoxCodeList;
 	private String message;
 
 	public MemberModel getMemberModel() {
@@ -20,6 +22,14 @@ public class ResponseModel {
 
 	public void setMemberModel(MemberModel MemberModel) {
 		this.MemberModel = MemberModel;
+	}
+
+	public List<MemberModel> getMemberModelList() {
+		return MemberModelList;
+	}
+
+	public void setMemberModelList(List<MemberModel> memberModelList) {
+		MemberModelList = memberModelList;
 	}
 
 	public WodModel getWodModel() {
@@ -52,6 +62,14 @@ public class ResponseModel {
 
 	public void setRecordModelList(List<RecordModel> recordModelList) {
 		this.recordModelList = recordModelList;
+	}
+
+	public String[] getBoxCodeList() {
+		return BoxCodeList;
+	}
+
+	public void setBoxCodeList(String[] boxCodeList) {
+		BoxCodeList = boxCodeList;
 	}
 
 	public String getMessage() {
