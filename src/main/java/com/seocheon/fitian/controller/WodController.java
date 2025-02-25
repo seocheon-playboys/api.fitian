@@ -47,7 +47,7 @@ public class WodController {
 		WodModel model = new WodModel();
 		
 		for(int i = 1; i<10; i++) {
-			model.setBoxNo(1111);
+			model.setBoxCode("111112");
 			model.setWodDate("2025-03-0"+i);
 			model.setWodScript("03/"+i+" 와드입니다.");
 			model.setWodType("ForTime");
@@ -62,7 +62,7 @@ public class WodController {
 		WodModel model = new WodModel();
 		
 		for(int i = 10; i<16; i++) {
-			model.setBoxNo(1111);
+			model.setBoxCode("111112");
 			model.setWodDate("2025-03-"+i);
 			model.setWodScript("03/"+i+" 와드입니다.");
 			model.setWodType("AMRAP");

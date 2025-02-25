@@ -3,23 +3,17 @@ package com.seocheon.fitian.model;
 public class WodModel {
 
 	private int wodNo;
-	private int boxNo;
 	private String wodDate;
 	private String wodScript;
 	private String wodType;
 	private String wodTitle;
+	private String boxCode;
 	
 	public int getWodNo() {
 		return wodNo;
 	}
 	public void setWodNo(int wodNo) {
 		this.wodNo = wodNo;
-	}
-	public int getBoxNo() {
-		return boxNo;
-	}
-	public void setBoxNo(int boxNo) {
-		this.boxNo = boxNo;
 	}
 	public String getWodDate() {
 		return wodDate;
@@ -44,5 +38,11 @@ public class WodModel {
 	}
 	public void setWodTitle(String wodTitle) {
 		this.wodTitle = wodTitle;
+	}
+	public String getBoxCode() {
+		return boxCode;
+	}
+	public void setBoxCode(String boxCode) {
+		this.boxCode = boxCode;
 	}
 }
