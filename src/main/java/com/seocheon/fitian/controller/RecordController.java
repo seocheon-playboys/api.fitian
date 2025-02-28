@@ -22,13 +22,13 @@ public class RecordController {
     	return res;
     }
 	
-	@RequestMapping("/Record/createRecord")
+	@RequestMapping("/record/createRecord")
     public ResponseModel createRecord(@RequestBody RecordModel model) {
     	ResponseModel res = sv.createRecord(model);
     	return res;
     }
 	
-	@RequestMapping("/Record/updateRecord")
+	@RequestMapping("/record/updateRecord")
     public ResponseModel updateRecord(@RequestBody RecordModel model) {
     	ResponseModel res = sv.updateRecord(model);
     	return res;

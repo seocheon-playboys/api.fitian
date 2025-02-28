@@ -1,5 +1,7 @@
 package com.seocheon.fitian.model;
 
+import java.util.List;
+
 public class RecordModel {
 	
 	private int recordNo;
@@ -14,6 +16,7 @@ public class RecordModel {
 	private String team;
 	private String memo;
 	private String classTime;
+	private List<RecordModel> recordModelList;
 	
 	public int getRecordNo() {
 		return recordNo;
@@ -86,5 +89,11 @@ public class RecordModel {
 	}
 	public void setClassTime(String classTime) {
 		this.classTime = classTime;
+	}
+	public List<RecordModel> getRecordModelList() {
+		return recordModelList;
+	}
+	public void setRecordModelList(List<RecordModel> recordModelList) {
+		this.recordModelList = recordModelList;
 	}
 }

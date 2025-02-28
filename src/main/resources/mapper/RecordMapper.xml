@@ -9,9 +9,9 @@
 		order by field(level, 'Rx\'d', 'A', 'B','C'), round desc
     </select>
     
-    <insert id="createBox">
-    	insert into fitian.Box (boxCode, boxContract, boxAddress, boxScript) 
-    	value (#{boxCode},#{boxContract},#{boxAddress},#{boxScript})
+    <insert id="createRecord">
+    	insert into fitian.Record (uid, name, wodNo, level, round, reps, time, result, team, memo, classTime) 
+    	value (#{uid},#{name},#{wodNo},#{level},#{round},#{reps},#{time},#{result},#{team},#{memo},#{classTime})
     </insert>
     
     <update id="updateBox">

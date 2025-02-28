@@ -47,9 +47,23 @@ public class RecordService {
 	}
 	
 	public ResponseModel createRecord(RecordModel model) {
+		
+		/*
+		1) fortime - mm/ss
+		2) amrap - round / rep
+		3) emom - round /rep
+		4) success fail - 
+		5) max - 
+		6) emom max - 
+		*/
+
 		ResponseModel res = new ResponseModel();
 		
-		mapper.createRecord(model);
+		List<RecordModel> recordList = model.getRecordModelList();
+
+		for(int i = 0; i < recordList.size(); i++) {
+			mapper.createRecord(recordList.get(i));
+		}
 		
 		res.setMessage("success");
 		
