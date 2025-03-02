@@ -28,33 +28,38 @@ public class RecordService {
 		
 		WodModel wod = wodMapper.getWod(model);
 		
-		basic.setWodNo(wod.getWodNo());
+		String wodType = wod.getWodType(); //와드타입 확인
 		
-		List<RecordModel> recordList = mapper.getRecord(basic);
-		for(int i = 0; i<recordList.size(); i++) {
-			String checkDot = recordList.get(i).getRound();
-			if(checkDot.contains(".")) {
-				checkDot = checkDot.replace(".", "R ");
-				recordList.get(i).setRound(checkDot);
-			} else {
-				recordList.get(i).setRound(checkDot+"R");
+		basic.setWodNo(wod.getWodNo()); //얻은 와드 넘버를 레코드모델 basic에 넣음.
+		
+		List<RecordModel> recordList = mapper.getRecord(basic); //basic에 있는 와드 넘버로 레코드를 가져옴
+		
+		if(wodType.equals("ForTime")) {
+			
+			for(int i = 0; i<recordList.size(); i++) {
+				String checkDot = recordList.get(i).getTime(); //  ":" 있는지 확인
+				checkDot = checkDot.replace(".", ":");
+				recordList.get(i).setTime(checkDot);
 			}
+			res.setRecordModelList(recordList);
+			
+		} else {
+			
+			res.setRecordModelList(recordList);
+			
 		}
-		
-		res.setRecordModelList(recordList);
-		
 		return res;
 	}
 	
 	public ResponseModel createRecord(RecordModel model) {
 		
 		/*
-		1) fortime - mm/ss
-		2) amrap - round / rep
-		3) emom - round /rep
-		4) success fail - 
-		5) max - 
-		6) emom max - 
+		1) ForTime - mm.ss  시간순
+		2) AMRAP - round  라운드/렙스 순
+		3) EMOM - s/f  success fail 순
+		4) SuccessFail
+		5) EMOMMAX - reps
+		6) MaxReps
 		*/
 
 		ResponseModel res = new ResponseModel();

@@ -6,7 +6,7 @@
     <select id="getRecord" resultType="RecordModel">
         select * from fitian.Record
 		where wodNo = #{wodNo}
-		order by field(level, 'Rx\'d', 'A', 'B','C'), round desc
+		order by field(level, 'Rx\'d', 'A', 'B','C'), round desc, reps desc, field(result, 'success','fail'), classTime, team
     </select>
     
     <insert id="createRecord">
@@ -14,16 +14,16 @@
     	value (#{uid},#{name},#{wodNo},#{level},#{round},#{reps},#{time},#{result},#{team},#{memo},#{classTime})
     </insert>
     
-    <update id="updateBox">
-    	update fitian.Box
-    	SET boxContract=#{boxContract}, boxAddress=#{boxAddress}, boxScript=#{boxScript}
-    	where boxCode = #{boxCode}
+    <update id="updateRecord">
+    	update fitian.Record
+    	SET level=#{level}, round=#{round}, reps=#{reps}, time=#{time}, result=#{result}, team=#{team}, memo=#{memo}, classTime=#{classTime},
+    	where recordNo = #{recordNo}
     </update>
     
-    <update id="deleteBox">
-    	update fitian.Box 
+    <update id="deleteRecord">
+    	update fitian.Record
     	SET useYN = "N"
-    	where boxCode = #{boxCode}
+    	where recordNo = #{recordNo}
     </update>
 
 </mapper>
