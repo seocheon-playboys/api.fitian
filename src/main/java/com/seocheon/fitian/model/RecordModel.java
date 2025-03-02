@@ -8,6 +8,7 @@ public class RecordModel {
 	private String uid;
 	private String name;
 	private int wodNo;
+	private String wodType;
 	private String level;
 	private String round;
 	private String reps;
@@ -41,6 +42,12 @@ public class RecordModel {
 	}
 	public void setWodNo(int wodNo) {
 		this.wodNo = wodNo;
+	}
+	public String getWodType() {
+		return wodType;
+	}
+	public void setWodType(String wodType) {
+		this.wodType = wodType;
 	}
 	public String getLevel() {
 		return level;

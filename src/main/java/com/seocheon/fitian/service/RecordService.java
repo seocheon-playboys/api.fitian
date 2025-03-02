@@ -31,6 +31,7 @@ public class RecordService {
 		String wodType = wod.getWodType(); //와드타입 확인
 		
 		basic.setWodNo(wod.getWodNo()); //얻은 와드 넘버를 레코드모델 basic에 넣음.
+		basic.setWodType(wodType); //얻은 와드타입을 레코드모델 basic에 넣음.
 		
 		List<RecordModel> recordList = mapper.getRecord(basic); //basic에 있는 와드 넘버로 레코드를 가져옴
 		

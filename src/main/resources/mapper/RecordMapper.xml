@@ -6,7 +6,27 @@
     <select id="getRecord" resultType="RecordModel">
         select * from fitian.Record
 		where wodNo = #{wodNo}
-		order by field(level, 'Rx\'d', 'A', 'B','C'), round desc, reps desc, field(result, 'success','fail'), team
+		order by field(level, 'Rx\'d', 'Rx\'d/A', 'Rx\'d/B', 'Rx\'d/C', 'Rx\'d/S',
+		'A', 'A/B', 'A/C', 'A/S', 'B', 'B/C', 'B/S', 'C', 'C/S','Scaled'),
+		<if test='wodType != null  and(wodType eq "ForTime".toString())'>
+			time,
+ 		</if>
+ 		<if test='wodType != null  and(wodType eq "AMRAP".toString())'>
+			round desc, reps desc,
+ 		</if>
+ 		<if test='wodType != null  and(wodType eq "EMOM".toString())'>
+			field(result, 'success','fail'),
+ 		</if>
+ 		<if test='wodType != null  and(wodType eq "SuccessFail".toString())'>
+			field(result, 'success','fail'),
+ 		</if>
+ 		<if test='wodType != null  and(wodType eq "EMOMMAX".toString())'>
+			reps desc
+ 		</if>
+ 		<if test='wodType != null  and(wodType eq "MaxReps".toString())'>
+			reps desc
+ 		</if>
+ 		team
     </select>
     
     <insert id="createRecord">
