@@ -6,7 +6,7 @@
     <select id="getRecord" resultType="RecordModel">
         select * from fitian.Record
 		where wodNo = #{wodNo}
-		order by field(level, 'Rx\'d', 'A', 'B','C'), round desc, reps desc, field(result, 'success','fail'), classTime, team
+		order by field(level, 'Rx\'d', 'A', 'B','C'), round desc, reps desc, field(result, 'success','fail'), team
     </select>
     
     <insert id="createRecord">
