@@ -21,10 +21,10 @@
 			field(result, 'success','fail'),
  		</if>
  		<if test='wodType != null  and(wodType eq "EMOMMAX".toString())'>
-			reps desc
+			reps desc,
  		</if>
  		<if test='wodType != null  and(wodType eq "MaxReps".toString())'>
-			reps desc
+			reps desc,
  		</if>
  		team
     </select>
