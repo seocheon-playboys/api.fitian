@@ -19,6 +19,31 @@
     	insert into fitian.Member (uid, name, nickname, boxName, email, rank, gender, boxCode) 
     	value (#{uid},#{name},#{nickname},#{boxName},#{email},#{rank},#{gender},#{boxCode})
     </insert>
+
+	<update id="updateMember">
+    	update fitian.Member
+    	SET 
+    	<if test='name != null  and(name neq "".toString())'>
+			name=#{name},
+ 		</if>
+ 		<if test='nickname != null  and(nickname neq "".toString())'>
+			nickname=#{nickname},
+ 		</if>
+ 		<if test='boxName != null  and(boxName neq "".toString())'>
+			boxName=#{boxName},
+ 		</if>
+ 		<if test='email != null  and(email neq "".toString())'>
+			email=#{email},
+ 		</if>
+ 		<if test='rank != null  and(rank neq "".toString())'>
+			rank=#{rank},
+ 		</if>
+ 		<if test='boxCode != null  and(boxCode neq "".toString())'>
+			boxCode=#{boxCode},
+ 		</if>
+ 		uid=#{uid}
+    	where uid = #{uid}
+    </update>
     
     <select id="existMember" resultType="int">
         select count(*)

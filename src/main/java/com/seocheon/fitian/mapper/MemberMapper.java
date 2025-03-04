@@ -20,7 +20,7 @@ public interface MemberMapper {
 	
 	void joinMember(MemberModel member);
 	
-	MemberModel updateMember(MemberModel member);
+	void updateMember(MemberModel member);
 	
 	MemberModel deleteMember(MemberModel member);
 	

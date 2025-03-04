@@ -7,6 +7,7 @@ public class RecordModel {
 	private int recordNo;
 	private String uid;
 	private String name;
+	private String gender;
 	private int wodNo;
 	private String wodType;
 	private String level;
@@ -36,6 +37,12 @@ public class RecordModel {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public int getWodNo() {
 		return wodNo;

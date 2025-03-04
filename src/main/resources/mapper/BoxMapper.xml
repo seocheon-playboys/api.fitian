@@ -32,7 +32,7 @@
     	where boxCode = #{boxCode}
     </update>
 
-    <select id="searchBoxNo" resultType="BoxModel">
+    <select id="searchBoxCode" resultType="int">
         select count(*)
         from fitian.Box
         where 1=1

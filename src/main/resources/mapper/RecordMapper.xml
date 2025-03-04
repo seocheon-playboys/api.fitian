@@ -4,7 +4,8 @@
 
 <mapper namespace="com.seocheon.fitian.mapper.RecordMapper">
     <select id="getRecord" resultType="RecordModel">
-        select * from fitian.Record
+        select * from fitian.Record r
+        inner join (select uid, gender from fitian.Member) m on r.uid = m.uid
 		where wodNo = #{wodNo}
 		order by field(level, 'Rx\'d', 'Rx\'d/A', 'Rx\'d/B', 'Rx\'d/C', 'Rx\'d/S',
 		'A', 'A/B', 'A/C', 'A/S', 'B', 'B/C', 'B/S', 'C', 'C/S','Scaled'),
@@ -41,8 +42,7 @@
     </update>
     
     <update id="deleteRecord">
-    	update fitian.Record
-    	SET useYN = "N"
+    	delete from fitian.Record
     	where recordNo = #{recordNo}
     </update>
 

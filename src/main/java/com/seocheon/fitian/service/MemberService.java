@@ -59,10 +59,13 @@ public class MemberService {
 	
 	public ResponseModel updateMember(MemberModel model) {
 		ResponseModel res = new ResponseModel();
-		MemberModel member = mapper.updateMember(model);
 		
-		res.setMemberModel(member);
-		
+		try {
+			mapper.updateMember(model);
+			res.setMessage("변경 완료");
+		} catch(Exception e) {
+			res.setMessage("변경 실패");
+		}	
 		return res;
 	}
 	
