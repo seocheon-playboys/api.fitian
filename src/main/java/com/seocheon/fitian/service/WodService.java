@@ -29,9 +29,17 @@ public class WodService {
 	public ResponseModel createWod(WodModel model) {
 		ResponseModel res = new ResponseModel();
 		
-		mapper.createWod(model);
-		
-		res.setMessage("success");
+		WodModel existWod = mapper.getWod(model);
+		if(existWod == null) {
+			
+			mapper.createWod(model);
+			res.setMessage("success");
+			
+		} else {
+			
+			res.setMessage("fail. There is already a wod for that day");
+			
+		}
 		
 		return res;
 	}

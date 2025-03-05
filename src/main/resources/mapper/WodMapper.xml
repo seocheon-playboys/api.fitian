@@ -8,6 +8,7 @@
         from fitian.Wod
         where boxCode = #{boxCode}
         and wodDate = #{wodDate}
+        and useYN = "Y"
     </select>
     
     <insert id="createWod">
@@ -17,7 +18,17 @@
     
     <update id="updateWod">
     	update fitian.Wod 
-    	SET wodDate=#{wodDate}, wodScript=#{wodScript}, wodType=#{wodType}, wodTitle=#{wodTitle}
+    	SET 
+    	<if test='wodScript != null  and(wodScript neq "".toString())'>
+			wodScript=#{wodScript},
+ 		</if>
+ 		<if test='wodType != null  and(wodType neq "".toString())'>
+			wodType=#{wodType},
+ 		</if>
+ 		<if test='wodTitle != null  and(wodTitle neq "".toString())'>
+			wodTitle=#{wodTitle},
+ 		</if>
+ 		wodDate=#{wodDate}
     	where boxCode = #{boxCode}
         and wodDate = #{wodDate}
     </update>
