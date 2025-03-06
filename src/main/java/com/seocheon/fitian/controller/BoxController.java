@@ -21,6 +21,12 @@ public class BoxController {
     	return res;
     }
 	
+	@RequestMapping("/box/getBoxList")
+    public ResponseModel getBoxList(@RequestBody BoxModel model) {
+    	ResponseModel res = sv.getBoxList(model);
+    	return res;
+    }
+	
 	@RequestMapping("/box/createBox")
     public ResponseModel createBox(@RequestBody BoxModel model) {
     	ResponseModel res = sv.createBox(model);

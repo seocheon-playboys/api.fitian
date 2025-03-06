@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.seocheon.fitian.mapper.ArticleMapper">
+    <select id="getArticle" resultType="ArticleModel">
+        select *
+        from fitian.Article
+        where articleNo = #{articleNo}
+    </select>
+    
+    <select id="getArticleList" resultType="ArticleModel">
+        select a.articleNo, a.articleTitle, a.uid, m.name, m.rank
+        from fitian.Article a
+        inner join fitian.Member m on a.uid = m.uid
+        where a.boxCode = #{boxCode}
+        order by a.articleNo desc
+        limit 20
+    </select>
+    
+    <insert id="createArticle">
+    	insert into fitian.Article (uid, articleTitle, articleScript, category, boxCode) 
+    	value (#{uid},#{articleTitle},#{articleScript},#{category},#{boxCode})
+    </insert>
+    
+    <update id="updateArticle">
+    	update fitian.Box
+    	SET boxContract=#{boxContract}, boxAddress=#{boxAddress}, boxScript=#{boxScript}
+    	where boxCode = #{boxCode}
+    </update>
+
+</mapper>

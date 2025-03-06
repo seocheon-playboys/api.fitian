@@ -11,8 +11,11 @@ public class ResponseModel {
 	private List<MemberModel> MemberModelList;
 	private WodModel wodModel;
 	private BoxModel boxModel;
+	private List<BoxModel> boxModelList;
 	private RecordModel recordModel;
 	private List<RecordModel> recordModelList;
+	private ArticleModel articleModel;
+	private List<ArticleModel> articleModelList;
 	private String[] BoxCodeList;
 	private String message;
 
@@ -48,6 +51,14 @@ public class ResponseModel {
 		this.boxModel = boxModel;
 	}
 
+	public List<BoxModel> getBoxModelList() {
+		return boxModelList;
+	}
+
+	public void setBoxModelList(List<BoxModel> boxModelList) {
+		this.boxModelList = boxModelList;
+	}
+
 	public RecordModel getRecordModel() {
 		return recordModel;
 	}
@@ -62,6 +73,22 @@ public class ResponseModel {
 
 	public void setRecordModelList(List<RecordModel> recordModelList) {
 		this.recordModelList = recordModelList;
+	}
+
+	public ArticleModel getArticleModel() {
+		return articleModel;
+	}
+
+	public void setArticleModel(ArticleModel articleModel) {
+		this.articleModel = articleModel;
+	}
+
+	public List<ArticleModel> getArticleModelList() {
+		return articleModelList;
+	}
+
+	public void setArticleModelList(List<ArticleModel> articleModelList) {
+		this.articleModelList = articleModelList;
 	}
 
 	public String[] getBoxCodeList() {

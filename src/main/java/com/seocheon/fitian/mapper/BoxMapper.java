@@ -19,5 +19,7 @@ public interface BoxMapper {
 	
 	int searchBoxCode(BoxModel Box);
 	
+	List<BoxModel> getBoxList();
+	
 	List<BoxModel> getAllBoxCode();
 }

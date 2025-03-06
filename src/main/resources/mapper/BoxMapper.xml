@@ -15,6 +15,11 @@
  		</if>
     </select>
     
+    <select id="getBoxList" resultType="BoxModel">
+        select boxCode,boxName,boxAddress
+        from fitian.Box
+    </select>
+    
     <insert id="createBox">
     	insert into fitian.Box (boxCode, boxContract, boxAddress, boxScript) 
     	value (#{boxCode},#{boxContract},#{boxAddress},#{boxScript})

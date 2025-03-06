@@ -1,6 +1,5 @@
 package com.seocheon.fitian.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +21,20 @@ public class BoxService {
 	
 	public ResponseModel getBox(BoxModel model) {
 		ResponseModel res = new ResponseModel();
-		System.out.println(model.getBoxCode());
-		System.out.println(model.getBoxName());
+		
 		BoxModel member = mapper.getBox(model);
 		
 		res.setBoxModel(member);
+		
+		return res;
+	}
+	
+	public ResponseModel getBoxList(BoxModel model) {
+		ResponseModel res = new ResponseModel();
+		
+		List<BoxModel> boxList = mapper.getBoxList();
+		
+		res.setBoxModelList(boxList);
 		
 		return res;
 	}
