@@ -21,13 +21,13 @@
     </select>
     
     <insert id="createBox">
-    	insert into fitian.Box (boxCode, boxContract, boxAddress, boxScript) 
-    	value (#{boxCode},#{boxContract},#{boxAddress},#{boxScript})
+    	insert into fitian.Box (boxName, boxCode, boxContact, boxAddress, boxScript, placeId) 
+    	value (#{boxName},#{boxCode},#{boxContact},#{boxAddress},#{boxScript},#{placeId})
     </insert>
     
     <update id="updateBox">
     	update fitian.Box
-    	SET boxContract=#{boxContract}, boxAddress=#{boxAddress}, boxScript=#{boxScript}
+    	SET boxContact=#{boxContact}, boxAddress=#{boxAddress}, boxScript=#{boxScript}
     	where boxCode = #{boxCode}
     </update>
     

@@ -25,8 +25,8 @@
     
     <update id="updateArticle">
     	update fitian.Box
-    	SET boxContract=#{boxContract}, boxAddress=#{boxAddress}, boxScript=#{boxScript}
-    	where boxCode = #{boxCode}
+    	SET articleTitle=#{articleTitle}, articleScript=#{articleScript}, category=#{category}
+    	where articleNo = #{articleNo}
     </update>
 
 </mapper>

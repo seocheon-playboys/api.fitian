@@ -83,8 +83,6 @@ public class MemberService {
 		
 		int result = mapper.existMember(model);
 		
-		System.out.println(result);
-		
 		if(result==1) {
 			MemberModel existMember = mapper.getMember(model);
 			res.setMessage("true");

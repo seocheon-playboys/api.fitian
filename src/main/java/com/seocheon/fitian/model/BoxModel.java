@@ -7,6 +7,7 @@ public class BoxModel {
 	private String boxContact;
 	private String boxAddress;
 	private String boxScript;
+	private String placeId;
 	
 	public String getBoxName() {
 		return boxName;
@@ -37,6 +38,12 @@ public class BoxModel {
 	}
 	public void setBoxScript(String boxScript) {
 		this.boxScript = boxScript;
+	}
+	public String getPlaceId() {
+		return placeId;
+	}
+	public void setPlaceId(String placeId) {
+		this.placeId = placeId;
 	}
 	
 }
