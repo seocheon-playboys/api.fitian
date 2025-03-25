@@ -15,6 +15,7 @@ public class MemberModel {
 	private String rank;
 	private String gender;
 	private String boxCode;
+	private String useYN;
 	private List<MembershipModel> membershipList;
 	
 	public String getUid() {
@@ -64,6 +65,12 @@ public class MemberModel {
 	}
 	public void setBoxCode(String boxCode) {
 		this.boxCode = boxCode;
+	}
+	public String getUseYN() {
+		return useYN;
+	}
+	public void setUseYN(String useYN) {
+		this.useYN = useYN;
 	}
 	public List<MembershipModel> getMembershipList() {
 		return membershipList;

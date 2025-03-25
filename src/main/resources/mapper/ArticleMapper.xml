@@ -10,7 +10,7 @@
     </select>
     
     <select id="getArticleList" resultType="ArticleModel">
-        select a.articleNo, a.articleTitle, a.uid, m.name, m.rank
+        select a.articleNo, a.articleTitle, a.postDate, a.uid, m.name, m.rank
         from fitian.Article a
         inner join fitian.Member m on a.uid = m.uid
         where a.boxCode = #{boxCode}

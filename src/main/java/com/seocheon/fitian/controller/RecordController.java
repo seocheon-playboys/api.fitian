@@ -36,4 +36,16 @@ public class RecordController {
     	return res;
     }
 	
+	@RequestMapping("/record/deleteRecord")
+    public ResponseModel deleteRecord(@RequestBody RecordModel model) {
+    	ResponseModel res = sv.deleteRecord(model);
+    	return res;
+    }
+	
+	@RequestMapping("/record/deleteAllRecord")
+    public ResponseModel deleteAllRecord(@RequestBody RecordModel model) {
+    	ResponseModel res = sv.deleteAllRecord(model);
+    	return res;
+    }
+	
 }

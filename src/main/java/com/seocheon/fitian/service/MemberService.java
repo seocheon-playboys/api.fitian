@@ -71,10 +71,13 @@ public class MemberService {
 	
 	public ResponseModel deleteMember(MemberModel model) {
 		ResponseModel res = new ResponseModel();
-		MemberModel member = mapper.deleteMember(model);
 		
-		res.setMemberModel(member);
-		
+		try {
+			mapper.deleteMember(model);
+			res.setMessage("탈퇴 완료");
+		} catch(Exception e) {
+			res.setMessage("탈퇴 실패");
+		}	
 		return res;
 	}
 	

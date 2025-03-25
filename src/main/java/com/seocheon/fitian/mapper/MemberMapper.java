@@ -22,7 +22,7 @@ public interface MemberMapper {
 	
 	void updateMember(MemberModel member);
 	
-	MemberModel deleteMember(MemberModel member);
+	void deleteMember(MemberModel member);
 	
 	int existMember(MemberModel member);
 	

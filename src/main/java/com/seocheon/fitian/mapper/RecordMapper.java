@@ -16,4 +16,6 @@ public interface RecordMapper {
 	void updateRecord(RecordModel Record);
 	
 	void deleteRecord(RecordModel Record);
+	
+	void deleteAllRecord(RecordModel Record);
 }

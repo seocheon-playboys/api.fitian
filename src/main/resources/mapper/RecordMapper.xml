@@ -41,9 +41,14 @@
     	where recordNo = #{recordNo}
     </update>
     
-    <update id="deleteRecord">
+    <delete id="deleteRecord">
     	delete from fitian.Record
     	where recordNo = #{recordNo}
-    </update>
+    </delete>
+    
+    <delete id="deleteAllRecord">
+    	delete from fitian.Record
+    	where wodNo = #{wodNo}
+    </delete>
 
 </mapper>

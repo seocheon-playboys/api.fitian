@@ -13,11 +13,12 @@
         select *
         from fitian.Member
         where boxCode = #{boxCode}
+        and useYN = 'Y'
     </select>
     
     <insert id="joinMember">
-    	insert into fitian.Member (uid, name, nickname, boxName, email, rank, gender, boxCode) 
-    	value (#{uid},#{name},#{nickname},#{boxName},#{email},#{rank},#{gender},#{boxCode})
+    	insert into fitian.Member (uid, name, nickname, boxName, email, rank, gender, boxCode, useYN) 
+    	value (#{uid},#{name},#{nickname},#{boxName},#{email},#{rank},#{gender},#{boxCode}, "Y")
     </insert>
 
 	<update id="updateMember">
@@ -41,7 +42,7 @@
  		<if test='boxCode != null  and(boxCode neq "".toString())'>
 			boxCode=#{boxCode},
  		</if>
- 		uid=#{uid}
+ 		useYN="Y", uid=#{uid}
     	where uid = #{uid}
     </update>
     
@@ -50,6 +51,11 @@
         from fitian.Member
         where uid = #{uid}
     </select>
+    
+    <update id="deleteMember">
+		update fitian.Member SET useYN="N"
+		where uid = #{uid}
+	</update>
     
     <select id="getTest" resultType="String">
         select testNumber

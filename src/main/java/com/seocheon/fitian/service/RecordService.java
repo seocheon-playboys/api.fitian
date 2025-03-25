@@ -89,9 +89,25 @@ public class RecordService {
 	public ResponseModel deleteRecord(RecordModel model) {
 		ResponseModel res = new ResponseModel();
 		
-		mapper.deleteRecord(model);
+		try {
+			mapper.deleteRecord(model);
+			res.setMessage("삭제 완료");
+		} catch(Exception e) {
+			res.setMessage("삭제 실패");
+		}	
 		
-		res.setMessage("success");
+		return res;
+	}
+	
+	public ResponseModel deleteAllRecord(RecordModel model) {
+		ResponseModel res = new ResponseModel();
+		
+		try {
+			mapper.deleteAllRecord(model);
+			res.setMessage("삭제 완료");
+		} catch(Exception e) {
+			res.setMessage("삭제 실패");
+		}	
 		
 		return res;
 	}
