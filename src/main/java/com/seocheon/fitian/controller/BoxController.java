@@ -1,14 +1,19 @@
 package com.seocheon.fitian.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.seocheon.fitian.model.BoxModel;
 import com.seocheon.fitian.model.ResponseModel;
 import com.seocheon.fitian.service.BoxService;
+import com.seocheon.fitian.service.S3Service;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8088")
@@ -16,6 +21,9 @@ public class BoxController {
 
 	@Autowired
 	private BoxService sv;
+	
+	@Autowired
+	private S3Service s3Sv;
 	
 	@RequestMapping("/box/getBox")
     public ResponseModel getBox(@RequestBody BoxModel model) {
@@ -51,6 +59,30 @@ public class BoxController {
     public ResponseModel getAllBoxCode() {
     	ResponseModel res = sv.getAllBoxCode();
     	return res;
+    }
+	
+	@PostMapping(value = "/box/addBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseModel addBoxInfoImage(
+    		@RequestPart(value = "boxFeeImage", required = false) MultipartFile boxFeeImage,
+    		@RequestPart(value = "boxTimeTableImage", required = false) MultipartFile boxTimeTableImage,
+    		@RequestPart(value = "BoxModel") BoxModel model) {
+    	ResponseModel res = new ResponseModel();
+
+    	try {
+    		if(boxFeeImage != null && !boxFeeImage.isEmpty()) {
+    			model.setBoxFeeUrl(s3Sv.uploadFile(boxFeeImage));
+    		} 
+    		if(boxTimeTableImage != null && !boxTimeTableImage.isEmpty()) {
+    			model.setBoxTimeTableUrl(s3Sv.uploadFile(boxTimeTableImage));
+    		} 
+		} catch (Exception e) {
+			res.setMessage("File upload failed: " + e.getMessage());
+			return res;
+		}
+    	
+    	res = sv.updateBox(model);
+    	
+		return res;
     }
 	
 	/*

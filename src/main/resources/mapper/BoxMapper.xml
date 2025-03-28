@@ -27,7 +27,23 @@
     
     <update id="updateBox">
     	update fitian.Box
-    	SET boxContact=#{boxContact}, boxAddress=#{boxAddress}, boxScript=#{boxScript}
+    	SET 
+    	<if test='boxContact != null  and(boxContact neq "".toString())'>
+			boxContact=#{boxContact},
+ 		</if>
+ 		<if test='boxAddress != null  and(boxAddress neq "".toString())'>
+			boxAddress=#{boxAddress},
+ 		</if>
+ 		<if test='boxScript != null  and(boxScript neq "".toString())'>
+			boxScript=#{boxScript},
+ 		</if>
+ 		<if test='boxFeeUrl != null  and(boxFeeUrl neq "".toString())'>
+			boxFeeUrl=#{boxFeeUrl},
+ 		</if>
+ 		<if test='boxTimeTableUrl != null  and(boxTimeTableUrl neq "".toString())'>
+			boxTimeTableUrl=#{boxTimeTableUrl},
+ 		</if>
+ 		boxCode=#{boxCode}
     	where boxCode = #{boxCode}
     </update>
     

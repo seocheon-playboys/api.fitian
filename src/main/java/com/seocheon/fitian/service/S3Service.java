@@ -3,6 +3,8 @@ package com.seocheon.fitian.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,11 +26,12 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    public void uploadFile(MultipartFile multipartFile) throws IOException {
+    public String uploadFile(MultipartFile multipartFile) throws IOException {
         File file = multiPartFileToFile(multipartFile);
         String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
         amazonS3.putObject(new PutObjectRequest(bucketName, fileName, file));
         file.delete();
+        return fileName;
     }
 
     private File multiPartFileToFile(MultipartFile file) throws IOException {
@@ -37,5 +40,22 @@ public class S3Service {
             fileOutputStream.write(file.getBytes());
         }
         return convertedFile;
+    }
+    
+    public List<String> uploadFiles(MultipartFile[] files) throws IOException {
+    	List<String> fileNames = new ArrayList<String>();
+    	
+    	for (MultipartFile file : files) {
+    		try {
+    			File f = multiPartFileToFile(file);
+    			String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+    			fileNames.add(fileName);
+    			amazonS3.putObject(new PutObjectRequest(bucketName, fileName, f));
+    			f.delete();
+    		} catch (IOException e) {
+    			System.out.println("File upload failed: " + e.getMessage());
+    		}
+    	}
+        return fileNames;
     }
 }
