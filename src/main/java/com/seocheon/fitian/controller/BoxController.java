@@ -85,6 +85,56 @@ public class BoxController {
 		return res;
     }
 	
+	@PostMapping(value = "/box/updateBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseModel updateBoxInfoImage(
+    		@RequestPart(value = "boxFeeImage", required = false) MultipartFile boxFeeImage,
+    		@RequestPart(value = "boxTimeTableImage", required = false) MultipartFile boxTimeTableImage,
+    		@RequestPart(value = "BoxModel") BoxModel model) {
+    	ResponseModel res = new ResponseModel();
+
+    	try {
+    		if(boxFeeImage != null && !boxFeeImage.isEmpty()) {
+    			s3Sv.deleteFile(model.getBoxFeeUrl());
+    			model.setBoxFeeUrl(s3Sv.uploadFile(boxFeeImage));
+    		} 
+    		if(boxTimeTableImage != null && !boxTimeTableImage.isEmpty()) {
+    			s3Sv.deleteFile(model.getBoxTimeTableUrl());
+    			model.setBoxTimeTableUrl(s3Sv.uploadFile(boxTimeTableImage));
+    		} 
+		} catch (Exception e) {
+			res.setMessage("File upload failed: " + e.getMessage());
+			return res;
+		}
+    	
+    	res = sv.updateBox(model);
+    	
+		return res;
+    }
+	
+	@PostMapping(value = "/box/deleteBoxInfoImage")
+    public ResponseModel deleteBoxInfoImage(@RequestBody BoxModel model) {
+    	ResponseModel res = new ResponseModel();
+
+    	try {
+    		if(model.getBoxFeeUrl() != null && !model.getBoxFeeUrl().isEmpty()) {
+    			s3Sv.deleteFile(model.getBoxFeeUrl());
+    			model.setBoxFeeUrl("NONE");
+    		} 
+    		if(model.getBoxTimeTableUrl() != null && !model.getBoxTimeTableUrl().isEmpty()) {
+    			s3Sv.deleteFile(model.getBoxTimeTableUrl());
+    			model.setBoxTimeTableUrl("NONE");
+    		}
+    		sv.updateBox(model);
+		} catch (Exception e) {
+			res.setMessage("File upload failed: " + e.getMessage());
+			return res;
+		}
+    	
+    	res = sv.updateBox(model);
+    	
+		return res;
+    }
+	
 	/*
 	@RequestMapping("/Box/deleteBox")
     public ResponseModel deleteBox(@RequestBody BoxModel model) {

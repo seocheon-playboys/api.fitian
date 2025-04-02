@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.seocheon.fitian.model.ResponseModel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -57,5 +59,17 @@ public class S3Service {
     		}
     	}
         return fileNames;
+    }
+    
+    public ResponseModel deleteFile(String fileName) throws IOException {
+    	ResponseModel res = new ResponseModel();
+    	
+        try {
+        	amazonS3.deleteObject(bucketName, fileName);
+        	res.setMessage("delete success");
+        } catch (SdkClientException e) {
+        	res.setMessage("delete failed");
+        }
+        return res;
     }
 }
