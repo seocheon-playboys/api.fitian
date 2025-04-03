@@ -22,4 +22,6 @@ public interface BoxMapper {
 	List<BoxModel> getBoxList();
 	
 	List<BoxModel> getAllBoxCode();
+	
+	BoxModel getBoxImages(BoxModel Box);
 }

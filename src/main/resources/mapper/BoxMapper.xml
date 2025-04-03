@@ -65,6 +65,12 @@
         from fitian.Box
     </select>
     
+    <select id="getBoxImages" resultType="BoxModel">
+        select boxFeeUrl, boxTimeTableUrl
+        from fitian.Box
+        where boxCode = #{boxCode}
+    </select>
+    
     <select id="getTest" resultType="String">
         select testNumber
         from fitian.TestTable

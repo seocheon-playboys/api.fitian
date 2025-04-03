@@ -61,6 +61,12 @@ public class BoxController {
     	return res;
     }
 	
+	@RequestMapping("/box/getBoxImages")
+    public ResponseModel getBoxImages(@RequestBody BoxModel model) {
+    	ResponseModel res = sv.getBoxImages(model);
+    	return res;
+    }
+	
 	@PostMapping(value = "/box/addBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseModel addBoxInfoImage(
     		@RequestPart(value = "boxFeeImage", required = false) MultipartFile boxFeeImage,

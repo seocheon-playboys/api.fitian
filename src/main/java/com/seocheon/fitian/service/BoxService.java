@@ -22,9 +22,9 @@ public class BoxService {
 	public ResponseModel getBox(BoxModel model) {
 		ResponseModel res = new ResponseModel();
 		
-		BoxModel member = mapper.getBox(model);
+		BoxModel box = mapper.getBox(model);
 		
-		res.setBoxModel(member);
+		res.setBoxModel(box);
 		
 		return res;
 	}
@@ -89,6 +89,16 @@ public class BoxService {
 		}
 		
 		res.setBoxCodeList(BoxCodeArr);
+		
+		return res;
+	}
+	
+	public ResponseModel getBoxImages(BoxModel model) {
+		ResponseModel res = new ResponseModel();
+		
+		BoxModel box = mapper.getBoxImages(model);
+		
+		res.setBoxModel(box);
 		
 		return res;
 	}
