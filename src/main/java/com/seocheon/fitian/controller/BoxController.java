@@ -87,7 +87,7 @@ public class BoxController {
 		}
     	
     	res = sv.updateBox(model);
-    	
+    	res.setBoxModel(model);
 		return res;
     }
 	
@@ -113,7 +113,7 @@ public class BoxController {
 		}
     	
     	res = sv.updateBox(model);
-    	
+    	res.setBoxModel(model);
 		return res;
     }
 	
