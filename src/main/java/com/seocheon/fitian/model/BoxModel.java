@@ -12,6 +12,7 @@ public class BoxModel {
 	private String boxContact;
 	private String boxAddress;
 	private String boxScript;
+	private String boxInsta;
 	private String placeId;
 	private String boxFeeUrl;
 	private String boxTimeTableUrl;

@@ -21,8 +21,8 @@
     </select>
     
     <insert id="createBox">
-    	insert into fitian.Box (boxName, boxCode, boxContact, boxAddress, boxScript, placeId) 
-    	value (#{boxName},#{boxCode},#{boxContact},#{boxAddress},#{boxScript},#{placeId})
+    	insert into fitian.Box (boxName, boxCode, boxContact, boxAddress, boxScript, boxInsta, placeId) 
+    	value (#{boxName},#{boxCode},#{boxContact},#{boxAddress},#{boxScript},#{boxInsta},#{placeId})
     </insert>
     
     <update id="updateBox">
@@ -36,6 +36,9 @@
  		</if>
  		<if test='boxScript != null  and(boxScript neq "".toString())'>
 			boxScript=#{boxScript},
+ 		</if>
+ 		<if test='boxInsta != null  and(boxInsta neq "".toString())'>
+			boxInsta=#{boxInsta},
  		</if>
  		<if test='boxFeeUrl != null  and(boxFeeUrl neq "".toString())'>
 			boxFeeUrl=#{boxFeeUrl},

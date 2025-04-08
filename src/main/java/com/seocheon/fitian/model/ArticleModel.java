@@ -18,7 +18,8 @@ public class ArticleModel {
 	private String boxCode;
 	private String name;
 	private String rank;
-	private List<String> fileNames;
+	private String articleImgUrl;
+	private List<String> articleImgUrls;
 	private List<ArticleModel> articleModelList;
 	
 }

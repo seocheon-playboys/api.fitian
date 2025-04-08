@@ -4,8 +4,15 @@
 
 <mapper namespace="com.seocheon.fitian.mapper.ArticleMapper">
     <select id="getArticle" resultType="ArticleModel">
-        select *
-        from fitian.Article
+        select a.*, m.name
+        from fitian.Article a
+        inner join fitian.Member m on a.uid = m.uid
+        where a.articleNo = #{articleNo}
+    </select>
+    
+    <select id="getArticleImg">
+        select articleImgUrl
+        from fitian.ArticleImage
         where articleNo = #{articleNo}
     </select>
     
@@ -23,10 +30,30 @@
     	value (#{uid},#{articleTitle},#{articleScript},#{category},#{boxCode})
     </insert>
     
+    <insert id="createArticleImg">
+    	insert into fitian.ArticleImage (articleNo, articleImgUrl) 
+    	value (#{articleNo},#{articleImgUrl})
+    </insert>
+    
     <update id="updateArticle">
     	update fitian.Box
     	SET articleTitle=#{articleTitle}, articleScript=#{articleScript}, category=#{category}
     	where articleNo = #{articleNo}
     </update>
+    
+    <select id="getLastId">
+		SELECT LAST_INSERT_ID() as articleNo
+	</select>
+    
+    <delete id="deleteArticle">
+    	delete from fitian.Article
+    	where uid = #{uid}
+    	and articleNo = #{articleNo}
+    </delete>
+    
+    <delete id="deleteArticleImg">
+    	delete from fitian.ArticleImage
+    	where articleNo = #{articleNo}
+    </delete>
 
 </mapper>

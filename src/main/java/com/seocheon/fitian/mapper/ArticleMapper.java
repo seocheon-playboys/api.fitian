@@ -11,10 +11,17 @@ public interface ArticleMapper {
 
 	ArticleModel getArticle(ArticleModel model);
 	
+	List<String> getArticleImg(ArticleModel model);
+	
 	List<ArticleModel> getArticleList(ArticleModel model);
 	
-	void createArticle(ArticleModel model);
+	void createArticle(ArticleModel model);	
+	void createArticleImg(ArticleModel model);
+	int getLastId();
 	
 	void updateArticle(ArticleModel model);
+	
+	void deleteArticle(ArticleModel model);
+	void deleteArticleImg(ArticleModel model);
 	
 }
