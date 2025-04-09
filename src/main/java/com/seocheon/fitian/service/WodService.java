@@ -33,11 +33,11 @@ public class WodService {
 		if(existWod == null) {
 			
 			mapper.createWod(model);
-			res.setMessage("success");
+			res.setMessage("와드를 생성했습니다.");
 			
 		} else {
 			
-			res.setMessage("fail. There is already a wod for that day");
+			res.setMessage("해당 날짜에 와드가 존재합니다.");
 			
 		}
 		
@@ -49,7 +49,7 @@ public class WodService {
 		
 		mapper.updateWod(model);
 		
-		res.setMessage("success");
+		res.setMessage("와드를 수정했습니다.");
 		
 		return res;
 	}
@@ -59,7 +59,7 @@ public class WodService {
 		
 		mapper.deleteWod(model);
 		
-		res.setMessage("success");
+		res.setMessage("와드를 삭제했습니다.");
 		
 		return res;
 	}

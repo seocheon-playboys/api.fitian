@@ -44,7 +44,7 @@ public class BoxService {
 		
 		mapper.createBox(model);
 		
-		res.setMessage("success");
+		res.setMessage("박스를 생성했습니다.");
 		
 		return res;
 	}
@@ -54,7 +54,7 @@ public class BoxService {
 		
 		mapper.updateBox(model);
 		
-		res.setMessage("success");
+		res.setMessage("박스 정보를 수정했습니다.");
 		
 		return res;
 	}
@@ -108,7 +108,7 @@ public class BoxService {
 		
 		mapper.deleteBox(model);
 		
-		res.setMessage("success");
+		res.setMessage("박스를 삭제했습니다.");
 		
 		return res;
 	}

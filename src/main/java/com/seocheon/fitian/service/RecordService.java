@@ -71,7 +71,7 @@ public class RecordService {
 			mapper.createRecord(recordList.get(i));
 		}
 		
-		res.setMessage("success");
+		res.setMessage("기록을 등록했습니다.");
 		
 		return res;
 	}
@@ -81,7 +81,7 @@ public class RecordService {
 		
 		mapper.updateRecord(model);
 		
-		res.setMessage("success");
+		res.setMessage("기록을 수정했습니다.");
 		
 		return res;
 	}
@@ -91,9 +91,9 @@ public class RecordService {
 		
 		try {
 			mapper.deleteRecord(model);
-			res.setMessage("삭제 완료");
+			res.setMessage("기록 삭제 완료");
 		} catch(Exception e) {
-			res.setMessage("삭제 실패");
+			res.setMessage("기록 삭제 실패");
 		}	
 		
 		return res;
@@ -104,9 +104,9 @@ public class RecordService {
 		
 		try {
 			mapper.deleteAllRecord(model);
-			res.setMessage("삭제 완료");
+			res.setMessage("해당 와드 기록 전체 삭제 완료");
 		} catch(Exception e) {
-			res.setMessage("삭제 실패");
+			res.setMessage("해당 와드 기록 전체 삭제 실패");
 		}	
 		
 		return res;

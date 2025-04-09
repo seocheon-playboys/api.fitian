@@ -62,9 +62,9 @@ public class MemberService {
 		
 		try {
 			mapper.updateMember(model);
-			res.setMessage("변경 완료");
+			res.setMessage("회원 정보 변경 완료");
 		} catch(Exception e) {
-			res.setMessage("변경 실패");
+			res.setMessage("회원 정보 변경 실패");
 		}	
 		return res;
 	}
@@ -74,9 +74,9 @@ public class MemberService {
 		
 		try {
 			mapper.deleteMember(model);
-			res.setMessage("탈퇴 완료");
+			res.setMessage("회원 탈퇴 완료");
 		} catch(Exception e) {
-			res.setMessage("탈퇴 실패");
+			res.setMessage("회원 탈퇴 실패");
 		}	
 		return res;
 	}
