@@ -36,7 +36,7 @@
     </insert>
     
     <update id="updateArticle">
-    	update fitian.Box
+    	update fitian.Article
     	SET articleTitle=#{articleTitle}, articleScript=#{articleScript}, category=#{category}
     	where articleNo = #{articleNo}
     </update>
@@ -50,6 +50,18 @@
     	where uid = #{uid}
     	and articleNo = #{articleNo}
     </delete>
+    
+    <select id="existsById" resultType="boolean">
+    SELECT EXISTS (
+        SELECT 1 FROM fitian.Article WHERE uid = #{uid} and articleNo = #{articleNo}
+    ) AS exist
+	</select>
+	
+	<update id="updateArticleImg">
+    	update fitian.ArticleImage
+    	SET articleImgUrl=#{articleImgUrl}
+    	where articleNo = #{articleNo}
+    </update>
     
     <delete id="deleteArticleImg">
     	delete from fitian.ArticleImage

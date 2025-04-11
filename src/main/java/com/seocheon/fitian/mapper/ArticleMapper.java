@@ -20,7 +20,9 @@ public interface ArticleMapper {
 	int getLastId();
 	
 	void updateArticle(ArticleModel model);
+	void updateArticleImg(ArticleModel model);
 	
+	boolean existsById(ArticleModel model);
 	void deleteArticle(ArticleModel model);
 	void deleteArticleImg(ArticleModel model);
 	

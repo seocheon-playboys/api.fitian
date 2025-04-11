@@ -50,20 +50,43 @@ public class ArticleController {
     public ResponseModel createArticleWithImage(
     		@RequestPart(value = "ArticleModel") ArticleModel model,
     		@RequestPart(value = "ArticleImages", required = false) MultipartFile[] images) throws IOException {
+		ResponseModel res = new ResponseModel();
 		//images 장수 제한
 		if (images.length > 6) {
-			ResponseModel res = new ResponseModel();
+			
 			res.setMessage("Error: Cannot upload more than 6 files at a time.");
         	return res;
     	} else {
-    		//images.s3service -> 파일명 받아오기
-    		List<String> ImageUrls = s3Sv.uploadFiles(images);
-    		//model.set파일명
-    		model.setArticleImgUrls(ImageUrls);
-    		//model.createArticle
-        	ResponseModel res = sv.createArticleWithImage(model);
+    		images[0].getOriginalFilename();
+    		if(images[0].getOriginalFilename() != "NONE") {
+    			//images.s3service -> 파일명 받아오기
+        		List<String> ImageUrls = s3Sv.uploadFiles(images);
+        		//model.set파일명
+        		model.setArticleImgUrls(ImageUrls);
+        		//model.createArticle
+            	res = sv.createArticleWithImage(model);
+    		} else {
+    			res = sv.createArticle(model);
+    		}
         	return res;
     	}
+    }
+	
+	@PostMapping(value = "/article/updateArticle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseModel updateArticle(
+    		@RequestPart(value = "ArticleModel") ArticleModel model,
+    		@RequestPart(value = "ArticleImages", required = false) MultipartFile[] images) throws IOException {
+		ResponseModel res = new ResponseModel();
+		
+		if(images != null && !images[0].isEmpty()) {
+			//하나의 파일일 경우
+			s3Sv.deleteFile(model.getArticleImgUrl());
+			List<String> ImageUrls = s3Sv.uploadFiles(images);
+			model.setArticleImgUrls(ImageUrls);
+		}
+		
+		res = sv.updateArticle(model);
+    	return res;
     }
 	
 	@RequestMapping("/article/deleteArticle")

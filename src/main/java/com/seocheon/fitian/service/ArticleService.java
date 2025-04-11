@@ -70,6 +70,15 @@ public ResponseModel getArticleimgUrls(ArticleModel model) {
 		
 		try {
 			mapper.updateArticle(model);
+			if(model.getArticleImgUrls() != null && model.getArticleImgUrls().toString() != "") {
+				List<String> ImageUrls = model.getArticleImgUrls();
+				for(int i = 0; i<ImageUrls.size(); i++) {
+					model.setArticleImgUrl(ImageUrls.get(i));
+					//글의 id와 url을 db에 등록
+					//한 장 일 경우만 가능. 추후 바꿔야함
+					mapper.updateArticleImg(model);
+				}
+			}
 			res.setMessage("글이 수정되었습니다.");
 		} catch(Exception e) {
 			res.setMessage("글 수정에 실패했습니다.");
@@ -82,9 +91,13 @@ public ResponseModel getArticleimgUrls(ArticleModel model) {
 		ResponseModel res = new ResponseModel();
 		
 		try {
-			mapper.deleteArticle(model);
-			mapper.deleteArticleImg(model);
-			res.setMessage("글이 삭제되었습니다.");
+			if(mapper.existsById(model)) {	
+				mapper.deleteArticle(model);
+				mapper.deleteArticleImg(model);
+				res.setMessage("글이 삭제되었습니다.");
+			} else {
+				res.setMessage("글 삭제에 실패했습니다.");
+			}
 		} catch(Exception e) {
 			res.setMessage("글 삭제에 실패했습니다.");
 		}
