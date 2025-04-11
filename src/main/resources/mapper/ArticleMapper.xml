@@ -17,10 +17,11 @@
     </select>
     
     <select id="getArticleList" resultType="ArticleModel">
-        select a.articleNo, a.articleTitle, a.postDate, a.uid, m.name, m.rank
+        select a.articleNo, a.articleTitle, a.postDate, a.uid, a.category, m.name, m.rank
         from fitian.Article a
         inner join fitian.Member m on a.uid = m.uid
         where a.boxCode = #{boxCode}
+        and a.category = #{category}
         order by a.articleNo desc
         limit 20
     </select>
