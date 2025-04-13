@@ -88,6 +88,11 @@ public class ArticleController {
 			} 
 		}
 		
+		if(images != null && !images[0].isEmpty()) {
+			List<String> ImageUrls = s3Sv.uploadFiles(images); // 업로드
+			model.setArticleImgUrls(ImageUrls);
+		}
+		
 		res = sv.updateArticle(model);
 		
     	return res;
