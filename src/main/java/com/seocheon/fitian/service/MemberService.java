@@ -1,14 +1,16 @@
 package com.seocheon.fitian.service;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.seocheon.fitian.mapper.MemberMapper;
-import com.seocheon.fitian.model.ResponseModel;
 import com.seocheon.fitian.model.MemberModel;
+import com.seocheon.fitian.model.ResponseModel;
 
 @Service
 public class MemberService {
@@ -45,6 +47,10 @@ public class MemberService {
 		
 		if(result != 1) {
 			try {
+				// 현재 시간 → 서울 기준 ISO_DATE 형식으로
+	            String joinTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
+	                                           .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	            model.setJoinDate(joinTime); // 모델에 시간 설정
 				mapper.joinMember(model);
 				res.setMessage("회원가입 완료");
 			} catch(Exception e) {

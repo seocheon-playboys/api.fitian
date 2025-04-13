@@ -51,25 +51,26 @@ public class ArticleController {
     		@RequestPart(value = "ArticleModel") ArticleModel model,
     		@RequestPart(value = "ArticleImages", required = false) MultipartFile[] images) throws IOException {
 		ResponseModel res = new ResponseModel();
-		//images 장수 제한
-		if (images.length > 6) {
+		
+		if(images == null) { //이미지가 없는 경우
+			res = sv.createArticle(model);
+		} else if (images != null && images.length > 0) { //이미지가 있는경우
 			
-			res.setMessage("Error: Cannot upload more than 6 files at a time.");
-        	return res;
-    	} else {
-    		images[0].getOriginalFilename();
-    		if(images[0].getOriginalFilename() != "NONE") {
-    			//images.s3service -> 파일명 받아오기
-        		List<String> ImageUrls = s3Sv.uploadFiles(images);
-        		//model.set파일명
-        		model.setArticleImgUrls(ImageUrls);
-        		//model.createArticle
-            	res = sv.createArticleWithImage(model);
-    		} else {
-    			res = sv.createArticle(model);
-    		}
-        	return res;
-    	}
+			//images 장수 제한
+			if (images.length > 6) { //이미지가 6장 이상인 경우
+				res.setMessage("Error: Cannot upload more than 6 files at a time.");
+	        	return res;
+	    	}
+			
+			//images.s3service -> 파일명 받아오기
+    		List<String> ImageUrls = s3Sv.uploadFiles(images);
+    		//model.set파일명
+    		model.setArticleImgUrls(ImageUrls);
+    		//model.createArticle
+        	res = sv.createArticleWithImage(model);
+		}
+		
+		return res;
     }
 	
 	@PostMapping(value = "/article/updateArticle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -78,14 +79,17 @@ public class ArticleController {
     		@RequestPart(value = "ArticleImages", required = false) MultipartFile[] images) throws IOException {
 		ResponseModel res = new ResponseModel();
 		
-		if(images != null && !images[0].isEmpty()) {
-			//하나의 파일일 경우
-			s3Sv.deleteFile(model.getArticleImgUrl());
-			List<String> ImageUrls = s3Sv.uploadFiles(images);
-			model.setArticleImgUrls(ImageUrls);
+		String url = model.getArticleImgUrl();
+		if(url != null && !url.trim().isEmpty()) {//url이 존재
+			s3Sv.deleteFile(model.getArticleImgUrl()); // 이미지 삭제
+			if(images != null && !images[0].isEmpty()) { // 이미지 존재
+				List<String> ImageUrls = s3Sv.uploadFiles(images); // 업로드
+				model.setArticleImgUrls(ImageUrls);
+			} 
 		}
 		
 		res = sv.updateArticle(model);
+		
     	return res;
     }
 	

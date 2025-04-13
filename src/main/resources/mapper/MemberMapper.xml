@@ -17,8 +17,8 @@
     </select>
     
     <insert id="joinMember">
-    	insert into fitian.Member (uid, name, nickname, boxName, email, rank, gender, boxCode, useYN) 
-    	value (#{uid},#{name},#{nickname},#{boxName},#{email},#{rank},#{gender},#{boxCode}, "Y")
+    	insert into fitian.Member (uid, name, nickname, boxName, email, rank, gender, boxCode, useYN, joinDate) 
+    	value (#{uid},#{name},#{nickname},#{boxName},#{email},#{rank},#{gender},#{boxCode}, "Y", #{joinDate})
     </insert>
 
 	<update id="updateMember">
