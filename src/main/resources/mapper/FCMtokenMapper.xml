@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.seocheon.fitian.mapper.FCMtokenMapper">
+    <select id="getToken" resultType="FCMtokenModel">
+        select *
+        from fitian.Fcm_token
+        where uid = #{uid}
+        and device_id = #{device_id}
+    </select>
+    
+    <select id="getTokens" resultType="String">
+        select token
+        from fitian.Fcm_token
+        where uid = #{uid}
+    </select>
+    
+    <insert id="createToken">
+    	INSERT INTO fitian.Fcm_token(uid, device_id, token)
+      	VALUES (#{uid},#{device_id},#{token})
+     	ON DUPLICATE KEY UPDATE token = VALUES(token)
+    </insert>
+    
+    <delete id="deleteToken">
+		delete from fitian.Fcm_token
+		where token = #{token}
+	</delete>
+    
+</mapper>

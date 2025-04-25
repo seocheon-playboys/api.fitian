@@ -5,22 +5,21 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.seocheon.fitian.mapper.MemberMapper;
 import com.seocheon.fitian.model.MemberModel;
+import com.seocheon.fitian.model.PushModel;
 import com.seocheon.fitian.model.ResponseModel;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor 
 public class MemberService {
 	
 	private final MemberMapper mapper;
-	
-	@Autowired
-	public MemberService(MemberMapper mapper) {
-		this.mapper = mapper;
-	}
+	private final PushService pushService;
 	
 	public ResponseModel getMember(MemberModel model) {
 		ResponseModel res = new ResponseModel();
@@ -53,6 +52,20 @@ public class MemberService {
 	            model.setJoinDate(joinTime); // 모델에 시간 설정
 				mapper.joinMember(model);
 				res.setMessage("회원가입 완료");
+				
+				//push 설정
+				if(model.getBoxCode().equals("swan")) {
+					MemberModel manager = new MemberModel();
+					manager.setBoxCode(model.getBoxCode());
+					manager.setRank("manager");
+					List<MemberModel> managers = mapper.getAllMember(manager);
+					PushModel push = new PushModel();
+					push.setTitle("New member!");
+					push.setBody(model.getName()+"님이 가입신청했어요.");
+					for(MemberModel m : managers) {
+						pushService.notifyUser(m, push);
+					}
+				}
 			} catch(Exception e) {
 				res.setMessage("회원가입 실패");
 			}

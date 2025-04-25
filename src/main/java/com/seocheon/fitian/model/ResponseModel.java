@@ -19,6 +19,8 @@ public class ResponseModel {
 	private ArticleModel articleModel;
 	private List<ArticleModel> articleModelList;
 	private List<CommonModel> commonModelList;
+	private FCMtokenModel FCMtokenModel;
+	private List<FCMtokenModel> FCMtokenModelList;
 	private String[] BoxCodeList;
 	private String message;
 

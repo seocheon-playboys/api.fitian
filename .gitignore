@@ -11,6 +11,7 @@ build/
 .settings/
 application.properties
 application-dev.properties
+serviceAccountKey.json
 
 ### STS ###
 .apt_generated

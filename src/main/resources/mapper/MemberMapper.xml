@@ -12,7 +12,11 @@
     <select id="getAllMember" resultType="MemberModel">
         select *
         from fitian.Member
-        where boxCode = #{boxCode}
+        where 1 = 1,
+        <if test='rank != null  and(rank neq "".toString())'>
+			rank=#{rank},
+ 		</if>
+ 		boxCode = #{boxCode}
         and useYN = 'Y'
     </select>
     
