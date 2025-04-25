@@ -20,7 +20,9 @@ public class FitianApplication {
 	@PostConstruct
 	void initFirebase() throws IOException {
 		try (var in = new FileInputStream(
-	            "src/main/resources/serviceAccountKey.json")) {
+				"/home/ubuntu/serviceAccountKey.json"
+	            //"src/main/resources/serviceAccountKey.json"
+				)) {
 
 			FirebaseOptions opts = FirebaseOptions.builder()
 	          .setCredentials(GoogleCredentials.fromStream(in))
