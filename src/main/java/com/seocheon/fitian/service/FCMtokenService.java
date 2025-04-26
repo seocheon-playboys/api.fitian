@@ -20,6 +20,7 @@ public class FCMtokenService {
 	public ResponseModel getToken(FCMtokenModel model) {
 		ResponseModel res = new ResponseModel();
 		res.setFCMtokenModel(mapper.getToken(model));
+		res.setMessage("토큰저장");
 		return res;
 	}
 	

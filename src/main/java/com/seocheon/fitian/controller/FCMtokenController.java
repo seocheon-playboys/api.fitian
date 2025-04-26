@@ -2,6 +2,7 @@ package com.seocheon.fitian.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,13 +18,13 @@ public class FCMtokenController {
 	private FCMtokenService sv;
 	
 	@RequestMapping("/token/getToken")
-    public ResponseModel getToken(FCMtokenModel model) {
+    public ResponseModel getToken(@RequestBody FCMtokenModel model) {
     	ResponseModel res = sv.getToken(model);
     	return res;
     }
 	
 	@RequestMapping("/token/createToken")
-    public ResponseModel createToken(FCMtokenModel model) {
+    public ResponseModel createToken(@RequestBody FCMtokenModel model) {
     	ResponseModel res = sv.createToken(model);
     	return res;
     }
