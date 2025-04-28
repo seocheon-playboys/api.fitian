@@ -12,12 +12,18 @@
     <select id="getAllMember" resultType="MemberModel">
         select *
         from fitian.Member
-        where 1 = 1 and
-        <if test='rank != null  and(rank neq "".toString())'>
-			rank=#{rank} and
- 		</if>
- 		boxCode = #{boxCode}
+        where 	boxCode = #{boxCode}
         and useYN = 'Y'
+        <if test="rank != null and rank != ''">
+			<choose>
+				<when test="rank == 'managerOrOwner'">
+					AND (rank = 'manager' OR rank = 'owner')
+				</when>
+				<otherwise>
+					AND rank = #{rank}
+				</otherwise>
+			</choose>
+		</if>
     </select>
     
     <insert id="joinMember">

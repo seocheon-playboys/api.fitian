@@ -26,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PushService {
 	
 	private final FCMtokenMapper tokenMapper;
-	private static final int CHUNK = 20;
 
 	public void notifyUser(MemberModel member, PushModel pushModel) throws Exception {
 		List<String> tokens = fetchTokens(member);
@@ -36,11 +35,8 @@ public class PushService {
 			return;
 		}
 		
-		if(tokens.size() == 1) {
-			sendSingle(tokens.get(0), pushModel);
-			return;
-		} else {
-			sendMulticast(tokens, pushModel);
+		for (String token : tokens) {
+			sendSingle(token, pushModel);
 		}
 	}
 	
@@ -55,35 +51,13 @@ public class PushService {
 				.build();
 		try {
 			String id = FirebaseMessaging.getInstance().send(msg);
-			System.out.println("FCM sent : {} "+id);
+			log.debug("Sent push to {}: {}", token, id);
 		} catch (FirebaseMessagingException ex) {
+			log.error("Failed to send to {}: {}", token, ex.getMessage());
 			handleFailure(token, ex);
 		}
 	}
 	
-	private void sendMulticast(List<String> tokens, PushModel pushModel) throws Exception {
-		for ( int i = 0; i < tokens.size(); i += CHUNK ) {
-			List<String> slice = tokens.subList(i, Math.min(i + CHUNK, tokens.size()));
-			
-			MulticastMessage mm = MulticastMessage.builder()
-					.addAllTokens(slice)
-					.setNotification(Notification.builder()
-							.setTitle(pushModel.getTitle())
-							.setBody(pushModel.getBody())
-							.build())
-					.putData("click_action", "FLUTTER_NOTIFICATION_CLICK")
-					.build();
-			
-			BatchResponse resp = FirebaseMessaging.getInstance().sendMulticast(mm);
-			
-			int idx = 0;
-			for ( SendResponse r : resp.getResponses()) {
-				if(!r.isSuccessful()) {
-					handleFailure(slice.get(idx), r.getException());
-				}
-			}
-		}
-	}
 
 	private void handleFailure(String token, FirebaseMessagingException ex) {
 		MessagingErrorCode code = ex.getMessagingErrorCode();
