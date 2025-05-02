@@ -9,6 +9,12 @@
         where uid = #{uid}
     </select>
     
+    <select id="findByUid" resultType="MemberModel">
+        select *
+        from fitian.Member
+        where uid = #{uid}
+    </select>
+    
     <select id="getAllMember" resultType="MemberModel">
         select *
         from fitian.Member

@@ -2,9 +2,11 @@ package com.seocheon.fitian.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.seocheon.fitian.model.CommonModel;
 import com.seocheon.fitian.model.ResponseModel;
 import com.seocheon.fitian.service.CommonService;
 
@@ -16,8 +18,8 @@ public class CommonController {
 	private CommonService sv;
 	
 	@RequestMapping("/common/getPolicy")
-    public ResponseModel getMember() {
-    	ResponseModel res = sv.getPolicy();
+    public ResponseModel getMember(@RequestBody CommonModel model) {
+    	ResponseModel res = sv.getPolicy(model);
     	return res;
     }
 }

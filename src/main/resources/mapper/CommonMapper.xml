@@ -6,6 +6,21 @@
     <select id="getPolicy" resultType="CommonModel">
         select *
         from fitian.Agreement
+        where title = #{title}
     </select>
+    
+    <insert id="createRefreshToken">
+		insert into fitian.Refresh_token(uid, token)
+		values (#{uid},#{token})
+		on duplicate key update token = #{token}, updated_at = CURRENT_TIMESTAMP
+	</insert>
+	
+	<select id="getRefreshToken" resultType="string">
+		select token from fitian.Refresh_token where uid = #{uid}
+	</select>
+	
+	<delete id="deleteRefreshToken">
+		delete from fitian.Refresh_token where uid = #{uid}
+	</delete>
     
 </mapper>

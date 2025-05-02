@@ -2,6 +2,8 @@ package com.seocheon.fitian.model;
 
 import java.util.List;
 
+import com.seocheon.fitian.auth.dto.JwtTokenPair;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,5 +25,5 @@ public class ResponseModel {
 	private List<FCMtokenModel> FCMtokenModelList;
 	private String[] BoxCodeList;
 	private String message;
-
+	private JwtTokenPair jwtTokenPair;
 }

@@ -1,9 +1,9 @@
 package com.seocheon.fitian.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.seocheon.fitian.model.MemberModel;
 
@@ -18,7 +18,11 @@ public interface MemberMapper {
 	
 	MemberModel getMember(MemberModel member);
 	
+	MemberModel findByUid(@Param("uid") String uid);
+	
 	void joinMember(MemberModel member);
+	
+	void insertMember(MemberModel member);
 	
 	void updateMember(MemberModel member);
 	
