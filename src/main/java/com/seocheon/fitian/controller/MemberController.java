@@ -2,6 +2,7 @@ package com.seocheon.fitian.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +52,14 @@ public class MemberController {
     		@CurrentUser CustomUserDetails userDetails) {
 		
     	return sv.updateMember(model);
+    }
+	
+	@AllowedRanks({"owner","manager"})
+	@GetMapping("/member/me")
+    public String getMyInfo(
+    		@CurrentUser CustomUserDetails userDetails) {
+		
+    	return "현재 로그인한 uid: "+userDetails.getMember().getUid();
     }
 	
 	@RequestMapping("/member/deleteMember")

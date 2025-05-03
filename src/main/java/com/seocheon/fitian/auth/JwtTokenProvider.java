@@ -4,30 +4,31 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.seocheon.fitian.auth.dto.JwtTokenPair;
 import com.seocheon.fitian.model.MemberModel;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class JwtTokenProvider {
 
 	@Value("${jwt.secret}")
 	private String SECRET_KEY;
-	private Key key;
 	private static final long ACCESS_EXPIRE_TIME_MS = 1000 * 60 * 60 * 1;
 	private static final long REFRESH_EXPIRE_TIME_MS = 1000 * 60 * 60 * 24;
 	
-	@PostConstruct
-	public void init() {
-		this.key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+	
+	private Key getSigningKey() {
+		return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 	}
 	
 	public String createToken(MemberModel member) {
@@ -40,7 +41,7 @@ public class JwtTokenProvider {
 				.claim("boxCode", member.getBoxCode())
 				.setIssuedAt(now)
 				.setExpiration(expiry)
-				.signWith(key, SignatureAlgorithm.HS256)
+				.signWith(getSigningKey(), SignatureAlgorithm.HS256)
 				.compact();
 	}
 	
@@ -53,14 +54,14 @@ public class JwtTokenProvider {
 				.claim("boxCode", member.getBoxCode())
 				.setIssuedAt(now)
 				.setExpiration(new Date(now.getTime()+ACCESS_EXPIRE_TIME_MS))
-				.signWith(key, SignatureAlgorithm.HS256)
+				.signWith(getSigningKey(), SignatureAlgorithm.HS256)
 				.compact();
 		
 		String refreshToken = Jwts.builder()
 				.setSubject(member.getUid())
 				.setIssuedAt(now)
 				.setExpiration(new Date(now.getTime()+REFRESH_EXPIRE_TIME_MS))
-				.signWith(key, SignatureAlgorithm.HS256)
+				.signWith(getSigningKey(), SignatureAlgorithm.HS256)
 				.compact();
 		
 		return new JwtTokenPair(accessToken, refreshToken);
@@ -68,16 +69,19 @@ public class JwtTokenProvider {
 	
 	public boolean validate(String token) {
 		try {
-			Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token);
+			Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
 			return true;
-		}catch(Exception e) {
-			return false;
+		}catch(ExpiredJwtException  e) {
+			log.warn("AccessToken expired: {}", e.getMessage());
+		}catch (JwtException | IllegalArgumentException e) {
+			log.warn("Invalid JWT token: {}", e.getMessage());
 		}
+		return false;
 	}
 	
 	public String getUid(String token) {
-		return Jwts.parserBuilder().setSigningKey(key).build()
-				.parseClaimsJwt(token)
+		return Jwts.parserBuilder().setSigningKey(getSigningKey()).build()
+				.parseClaimsJws(token)
 				.getBody()
 				.getSubject();
 	}
