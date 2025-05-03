@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.seocheon.fitian.auth.annotation.AllowedRanks;
+import com.seocheon.fitian.auth.annotation.CurrentUser;
+import com.seocheon.fitian.auth.security.CustomUserDetails;
 import com.seocheon.fitian.model.MemberModel;
 import com.seocheon.fitian.model.ResponseModel;
 import com.seocheon.fitian.service.MemberService;
@@ -39,6 +42,15 @@ public class MemberController {
     public ResponseModel updateMember(@RequestBody MemberModel model) {
     	ResponseModel res = sv.updateMember(model);
     	return res;
+    }
+	
+	@AllowedRanks({"owner","manager"})
+	@RequestMapping("/member/updateMember2")
+    public ResponseModel updateMember2(
+    		@RequestBody MemberModel model,
+    		@CurrentUser CustomUserDetails userDetails) {
+		
+    	return sv.updateMember(model);
     }
 	
 	@RequestMapping("/member/deleteMember")

@@ -10,6 +10,8 @@ import com.seocheon.fitian.model.MemberModel;
 
 public class CustomUserDetails implements UserDetails {
 
+	private static final long serialVersionUID = 1L;
+	
 	private final MemberModel member;
 	
 	public CustomUserDetails(MemberModel member) {
