@@ -35,6 +35,11 @@ public class MemberService {
 		return res;
 	}
 	
+	public MemberModel findByUid(String uid) {
+		MemberModel member = mapper.findByUid(uid);
+		return member;
+	}
+	
 	public ResponseModel getAllMember(MemberModel model) {
 		ResponseModel res = new ResponseModel();
 		List<MemberModel> members = mapper.getAllMember(model);
