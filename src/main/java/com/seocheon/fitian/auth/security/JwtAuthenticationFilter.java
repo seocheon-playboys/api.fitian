@@ -9,6 +9,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.seocheon.fitian.auth.JwtTokenProvider;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,15 +31,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		
 		String token = resolveToken(request);
 		
-		if(token != null && jwtTokenProvider.validate(token)) {
-			String uid = jwtTokenProvider.getUid(token);
-			UserDetails userDetails = customUserDetailsService.loadUserByUsername(uid);
-			UsernamePasswordAuthenticationToken authenticaion = 
-					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-			
-			SecurityContextHolder.getContext().setAuthentication(authenticaion);
+		try {
+			if(token != null && jwtTokenProvider.validate(token)) {
+				String uid = jwtTokenProvider.getUid(token);
+				UserDetails userDetails = customUserDetailsService.loadUserByUsername(uid);
+				UsernamePasswordAuthenticationToken authenticaion = 
+						new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+				
+				SecurityContextHolder.getContext().setAuthentication(authenticaion);
+			}
+			filterChain.doFilter(request, response);
+		} catch (ExpiredJwtException e) {
+			handleJwtException(response,"AccessToken이 만료되었습니다.", HttpServletResponse.SC_UNAUTHORIZED);
+		} catch (JwtException | IllegalArgumentException e) {
+			handleJwtException(response,"유효하지 않은 토큰입니다.", HttpServletResponse.SC_UNAUTHORIZED);
 		}
-		filterChain.doFilter(request, response);
 	}
 	
 	private String resolveToken(HttpServletRequest request) {
@@ -46,5 +54,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			return bearer.substring(7);
 		}
 		return null;
+	}
+	
+	private void handleJwtException(HttpServletResponse response, String message, int statusCode) throws IOException {
+	    response.setStatus(statusCode);
+	    response.setContentType("application/json;charset=UTF-8");
+	    response.getWriter().write(String.format("{\"message\": \"%s\"}", message));
 	}
 }

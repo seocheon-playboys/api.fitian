@@ -1,5 +1,7 @@
 package com.seocheon.fitian.auth;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import com.seocheon.fitian.auth.dto.JwtTokenPair;
 import com.seocheon.fitian.mapper.MemberMapper;
 import com.seocheon.fitian.model.MemberModel;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -45,31 +49,44 @@ public class AuthController {
     }
 	
 	@PostMapping("/refresh")
-	public ResponseEntity<JwtToken> refreshAccessToken(
+	public ResponseEntity<?> refreshAccessToken(
 			@RequestHeader("Authorization") String refreshHeader
 			) {
 		
 		String refreshToken = refreshHeader.replace("Bearer ", "");
 		
-		if(!jwtTokenProvider.validate(refreshToken)) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		try {
+			
+			if(!jwtTokenProvider.validate(refreshToken)) {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+						.body(Map.of("message","유효하지 않은 RefreshToken입니다."));
+			}
+			
+			String uid = jwtTokenProvider.getUid(refreshToken);
+			
+			String savedToken = refreshTokenService.findByUid(uid);
+			if(savedToken == null || !savedToken.equals(refreshToken)) {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+						.body(Map.of("message","저장된 RefreshToken과 일치하지 않습니다."));
+			}
+			
+			MemberModel member = memberMapper.findByUid(uid);
+			if(member == null) {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+						.body(Map.of("message","사용자를 찾을 수 없습니다."));
+			}
+			
+			String newAccessToken = jwtTokenProvider.createToken(member);
+			
+			return ResponseEntity.ok(new JwtToken(newAccessToken));
+			
+		} catch (ExpiredJwtException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body(Map.of("message","RefreshToken이 만료되었습니다. 다시 로그인해주세요."));
+		} catch (JwtException | IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body(Map.of("message","유효하지 않은 RefreshToken입니다."));
 		}
-		
-		String uid = jwtTokenProvider.getUid(refreshToken);
-		
-		String savedToken = refreshTokenService.findByUid(uid);
-		if(savedToken == null || !savedToken.equals(refreshToken)) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		MemberModel member = memberMapper.findByUid(uid);
-		if(member == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		String newAccessToken = jwtTokenProvider.createToken(member);
-		
-		return ResponseEntity.ok(new JwtToken(newAccessToken));
 	}
 	
 	@PostMapping("/logout")
