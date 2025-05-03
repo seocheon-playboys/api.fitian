@@ -33,7 +33,7 @@ dependencies {
     // DB & MyBatis
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
 
     // Security & JWT
     implementation 'org.springframework.boot:spring-boot-starter-security'
