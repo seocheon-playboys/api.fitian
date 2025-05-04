@@ -18,7 +18,7 @@ public class CommonController {
 	@Autowired
 	private CommonService sv;
 	
-	@GetMapping("/")
+	@GetMapping("/check")
 	public String home() {
 		return "Server is now working";
 	}
