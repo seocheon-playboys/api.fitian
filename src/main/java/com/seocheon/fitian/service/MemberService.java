@@ -10,6 +10,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import com.seocheon.fitian.auth.security.CustomUserDetails;
 import com.seocheon.fitian.dto.MemberResponseDto;
 import com.seocheon.fitian.dto.MembersResponseDto;
+import com.seocheon.fitian.dto.UpdateSelfRequest;
 import com.seocheon.fitian.mapper.MemberMapper;
 import com.seocheon.fitian.model.MemberModel;
 import com.seocheon.fitian.model.PushModel;
@@ -32,12 +33,25 @@ public class MemberService {
 	}
 	
 	@Transactional
-	public MemberResponseDto updateMyInfo(MemberModel member, CustomUserDetails userDetails) {
+	public MemberResponseDto updateMyInfo(UpdateSelfRequest request, CustomUserDetails userDetails) {
 		
-		String uid = userDetails.getUsername();
-		member.setUid(uid);
+		MemberModel member = userDetails.getMember();
 		
-		if(!member.getBoxCode().equals(userDetails.getMember().getBoxCode())) {
+		if (request.getName() != null && !request.getName().isBlank()) {
+	        member.setName(request.getName());
+	    }
+	    if (request.getEmail() != null && !request.getEmail().isBlank()) {
+	        member.setEmail(request.getEmail());
+	    }
+	    if (request.getBoxName() != null && !request.getBoxName().isBlank()) {
+	        member.setBoxName(request.getBoxName());
+	    }
+	    if (request.getBoxCode() != null && !request.getBoxCode().isBlank()) {
+	        member.setBoxCode(request.getBoxCode());
+	    }
+		
+		
+		if(request.getBoxCode() != null && !request.getBoxCode().equals(userDetails.getMember().getBoxCode())) {
 			TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
 	            @Override
 	            public void afterCommit() {
@@ -48,7 +62,7 @@ public class MemberService {
 		
 		memberMapper.updateMember(member);
 		
-		MemberModel updated = memberMapper.findByUid(uid);
+		MemberModel updated = memberMapper.findByUid(userDetails.getUsername());
 		
 		return MemberResponseDto.from(updated);
 	}
