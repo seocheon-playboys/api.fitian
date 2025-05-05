@@ -26,7 +26,7 @@ public interface MemberMapper {
 	
 	void updateMember(MemberModel member);
 	
-	void deleteMember(MemberModel member);
+	int deleteMember(String uid);
 	
 	int existMember(MemberModel member);
 	

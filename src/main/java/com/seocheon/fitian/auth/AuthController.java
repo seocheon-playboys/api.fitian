@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.seocheon.fitian.auth.dto.JwtToken;
 import com.seocheon.fitian.auth.dto.JwtTokenPair;
+import com.seocheon.fitian.auth.dto.LoginResponseDto;
 import com.seocheon.fitian.mapper.MemberMapper;
+import com.seocheon.fitian.model.ApiResponse;
 import com.seocheon.fitian.model.MemberModel;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -34,18 +36,22 @@ public class AuthController {
 	private final MemberMapper memberMapper;
 	
 	@PostMapping("/login")
-    public ResponseEntity<JwtTokenPair> loginWithSocial(
+    public ResponseEntity<ApiResponse<LoginResponseDto>> loginWithSocial(
     		@RequestHeader("Authorization") String socialTokenHeader,
     		@RequestParam("Provider") String provider ){
 		
 		String token = socialTokenHeader.replace("Bearer ", "");
 		
 		MemberModel member = oAuthService.findOrCreateUserBySocialToken(token, provider);
+		boolean isNewUser = member.getRank() == null;
+		
 		JwtTokenPair pair = jwtTokenProvider.createTokenPair(member);
 		
 		refreshTokenService.create(member.getUid(), pair.getRefreshToken());
 		
-    	return ResponseEntity.ok(pair);
+		LoginResponseDto responseDto = new LoginResponseDto(pair, member, isNewUser);
+		
+    	return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
 	
 	@PostMapping("/refresh")

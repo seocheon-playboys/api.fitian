@@ -4,16 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MessagingErrorCode;
-import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
-import com.google.firebase.messaging.SendResponse;
 import com.seocheon.fitian.mapper.FCMtokenMapper;
-import com.seocheon.fitian.model.FCMtokenModel;
 import com.seocheon.fitian.model.MemberModel;
 import com.seocheon.fitian.model.PushModel;
 
