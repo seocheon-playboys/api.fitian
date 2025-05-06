@@ -28,7 +28,7 @@ public class OAuthService {
 		MemberModel member = new MemberModel();
 		member.setUid(uid);
 		
-		MemberModel existing = memberMapper.getMember(member);
+		MemberModel existing = memberMapper.findByUid(member.getUid());
 		if(existing != null) return existing;
 		
 		member.setName(userInfo.getNickname() != null ? userInfo.getNickname() : "");

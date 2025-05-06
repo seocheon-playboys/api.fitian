@@ -16,19 +16,14 @@ public interface MemberMapper {
      */
 	List<MemberModel> getAllMember(MemberModel member);
 	
-	MemberModel getMember(MemberModel member);
-	
 	MemberModel findByUid(@Param("uid") String uid);
 	
 	void joinMember(MemberModel member);
 	
-	void insertMember(MemberModel member);
+	//void insertMember(MemberModel member);
 	
 	void updateMember(MemberModel member);
 	
 	int deleteMember(String uid);
 	
-	int existMember(MemberModel member);
-	
-	String getTest(String test);
 }

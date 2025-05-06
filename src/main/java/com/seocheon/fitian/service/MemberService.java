@@ -90,15 +90,6 @@ public class MemberService {
 		return MemberResponseDto.from(updated);
 	}
 	
-	public ResponseModel getMember(MemberModel model) {
-		ResponseModel res = new ResponseModel();
-		MemberModel member = memberMapper.getMember(model);
-		
-		res.setMemberModel(member);
-		
-		return res;
-	}
-	
 	public MembersResponseDto getAllMember(MemberModel model) {
 		List<MemberModel> members = memberMapper.getAllMember(model);
 		return new MembersResponseDto(members);
