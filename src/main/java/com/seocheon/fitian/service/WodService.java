@@ -2,6 +2,7 @@ package com.seocheon.fitian.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.seocheon.fitian.mapper.WodMapper;
 import com.seocheon.fitian.model.ResponseModel;
@@ -26,6 +27,7 @@ public class WodService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel createWod(WodModel model) {
 		ResponseModel res = new ResponseModel();
 		
@@ -44,6 +46,7 @@ public class WodService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel updateWod(WodModel model) {
 		ResponseModel res = new ResponseModel();
 		
@@ -54,6 +57,7 @@ public class WodService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel deleteWod(WodModel model) {
 		ResponseModel res = new ResponseModel();
 		

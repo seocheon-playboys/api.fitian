@@ -67,6 +67,7 @@ public class MemberService {
 		return MemberResponseDto.from(updated);
 	}
 	
+	@Transactional
 	public MemberResponseDto updateMember(MemberModel member) {
 		
 		memberMapper.updateMember(member);
@@ -76,6 +77,7 @@ public class MemberService {
 		return MemberResponseDto.from(updated);
 	}
 	
+	@Transactional
 	public MemberResponseDto changeOwner(MemberModel member, CustomUserDetails userDetails) {
 		
 		member.setRank("owner");
@@ -95,6 +97,7 @@ public class MemberService {
 		return new MembersResponseDto(members);
 	}
 	
+	@Transactional
 	public void deactivate(String uid) {
 		int updatedRows = memberMapper.deleteMember(uid);
 		if(updatedRows == 0) {

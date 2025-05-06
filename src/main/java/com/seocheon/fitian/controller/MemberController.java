@@ -114,7 +114,7 @@ public class MemberController {
 	@Operation(summary = "특정 회원 정보 반환", description ="member/owner/manager 가 회원의 uid로 그 회원정보를 가져옵니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"member","owner","manager"})
-	@PutMapping("/getMember")
+	@GetMapping("/getMember")
     public ResponseEntity<ApiResponse<MemberResponseDto>> getMember(
     		@Parameter(description="정보 반환받고 싶은 회원의 uid", required = true)
     		@RequestParam("uid") String uid,
@@ -131,7 +131,7 @@ public class MemberController {
 	@Operation(summary = "전체 멤버 반환", description ="owner/manager 가 boxCode로 해당 박스의 전체 회원 정보를 가져옵니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@PutMapping("/getAllMember")
+	@GetMapping("/getAllMember")
 	public ResponseEntity<ApiResponse<MembersResponseDto>> getAllMember(
     		@CurrentUser CustomUserDetails userDetails) {
     	

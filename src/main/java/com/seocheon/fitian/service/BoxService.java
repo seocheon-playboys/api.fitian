@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.seocheon.fitian.dto.BoxSummaryDto;
+import com.seocheon.fitian.dto.BoxesResponseDto;
 import com.seocheon.fitian.mapper.BoxMapper;
 import com.seocheon.fitian.model.BoxModel;
 import com.seocheon.fitian.model.ResponseModel;
@@ -19,26 +22,19 @@ public class BoxService {
 		this.mapper = mapper;
 	}
 	
-	public ResponseModel getBox(BoxModel model) {
-		ResponseModel res = new ResponseModel();
+	public BoxModel getBoxByCodeOrName(String boxCode) {
 		
-		BoxModel box = mapper.getBox(model);
+		BoxModel box = mapper.getBoxByCodeOrName(boxCode);
 		
-		res.setBoxModel(box);
-		
-		return res;
+		return box;
 	}
 	
-	public ResponseModel getBoxList(BoxModel model) {
-		ResponseModel res = new ResponseModel();
+	public List<BoxSummaryDto> getBoxList() {
 		
-		List<BoxModel> boxList = mapper.getBoxList();
-		
-		res.setBoxModelList(boxList);
-		
-		return res;
+		return mapper.getBoxList();
 	}
 	
+	@Transactional
 	public ResponseModel createBox(BoxModel model) {
 		ResponseModel res = new ResponseModel();
 		
@@ -49,6 +45,7 @@ public class BoxService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel updateBox(BoxModel model) {
 		ResponseModel res = new ResponseModel();
 		
@@ -103,6 +100,7 @@ public class BoxService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel deleteBox(BoxModel model) {
 		ResponseModel res = new ResponseModel();
 		

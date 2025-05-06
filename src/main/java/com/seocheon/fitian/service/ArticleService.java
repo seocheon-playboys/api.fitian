@@ -3,6 +3,7 @@ package com.seocheon.fitian.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.seocheon.fitian.mapper.ArticleMapper;
 import com.seocheon.fitian.model.ArticleModel;
@@ -29,7 +30,7 @@ public class ArticleService {
 		return res;
 	}
 	
-public ResponseModel getArticleimgUrls(ArticleModel model) {
+	public ResponseModel getArticleimgUrls(ArticleModel model) {
 		
 		ResponseModel res = new ResponseModel();
 		
@@ -51,6 +52,7 @@ public ResponseModel getArticleimgUrls(ArticleModel model) {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel createArticle(ArticleModel model) {
 		
 		ResponseModel res = new ResponseModel();
@@ -64,6 +66,7 @@ public ResponseModel getArticleimgUrls(ArticleModel model) {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel updateArticle(ArticleModel model) {
 		
 		ResponseModel res = new ResponseModel();
@@ -92,6 +95,7 @@ public ResponseModel getArticleimgUrls(ArticleModel model) {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel deleteArticle(ArticleModel model) {
 		
 		ResponseModel res = new ResponseModel();
@@ -110,6 +114,7 @@ public ResponseModel getArticleimgUrls(ArticleModel model) {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel createArticleWithImage(ArticleModel model) {
 		
 		ResponseModel res = new ResponseModel();

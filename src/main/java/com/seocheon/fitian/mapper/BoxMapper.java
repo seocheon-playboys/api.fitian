@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.seocheon.fitian.dto.BoxSummaryDto;
 import com.seocheon.fitian.model.BoxModel;
 
 @Mapper
 public interface BoxMapper {
 
-	BoxModel getBox(BoxModel Box);
+	BoxModel getBoxByCodeOrName(String boxCode);
 	
 	void createBox(BoxModel Box);
 	
@@ -19,7 +20,7 @@ public interface BoxMapper {
 	
 	int searchBoxCode(BoxModel Box);
 	
-	List<BoxModel> getBoxList();
+	List<BoxSummaryDto> getBoxList();
 	
 	List<BoxModel> getAllBoxCode();
 	

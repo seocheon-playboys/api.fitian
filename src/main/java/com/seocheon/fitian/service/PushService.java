@@ -3,6 +3,7 @@ package com.seocheon.fitian.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -54,7 +55,7 @@ public class PushService {
 		}
 	}
 	
-
+	@Transactional
 	private void handleFailure(String token, FirebaseMessagingException ex) {
 		MessagingErrorCode code = ex.getMessagingErrorCode();
 		

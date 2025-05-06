@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.seocheon.fitian.mapper.RecordMapper;
 import com.seocheon.fitian.mapper.WodMapper;
@@ -52,6 +53,7 @@ public class RecordService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel createRecord(RecordModel model) {
 		
 		/*
@@ -76,6 +78,7 @@ public class RecordService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel updateRecord(RecordModel model) {
 		ResponseModel res = new ResponseModel();
 		
@@ -86,6 +89,7 @@ public class RecordService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel deleteRecord(RecordModel model) {
 		ResponseModel res = new ResponseModel();
 		
@@ -99,6 +103,7 @@ public class RecordService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel deleteAllRecord(RecordModel model) {
 		ResponseModel res = new ResponseModel();
 		

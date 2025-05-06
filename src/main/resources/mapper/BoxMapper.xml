@@ -3,7 +3,7 @@
 		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.seocheon.fitian.mapper.BoxMapper">
-    <select id="getBox" resultType="BoxModel">
+    <select id="getBoxByCodeOrName" resultType="BoxModel">
         select *
         from fitian.Box
         where 1=1
@@ -15,7 +15,7 @@
  		</if>
     </select>
     
-    <select id="getBoxList" resultType="BoxModel">
+    <select id="getBoxList" resultType="com.seocheon.fitian.dto.BoxSummaryDto">
         select boxCode,boxName,boxAddress
         from fitian.Box
     </select>

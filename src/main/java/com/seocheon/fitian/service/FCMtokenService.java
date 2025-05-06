@@ -2,6 +2,7 @@ package com.seocheon.fitian.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.seocheon.fitian.mapper.FCMtokenMapper;
 import com.seocheon.fitian.model.FCMtokenModel;
@@ -24,12 +25,14 @@ public class FCMtokenService {
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel createToken(FCMtokenModel model) {
 		ResponseModel res = new ResponseModel();
 		mapper.createToken(model);
 		return res;
 	}
 	
+	@Transactional
 	public ResponseModel deleteToken() {
 		ResponseModel res = new ResponseModel();
 		
