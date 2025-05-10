@@ -5,15 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.seocheon.fitian.auth.aop.RankAuthorizationAspect.AccessDeniedException;
+import com.seocheon.fitian.auth.aop.RankAuthorizationAspect.CustomAccessDeniedException;
 import com.seocheon.fitian.model.ApiResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
 	//접근 제한
-	@ExceptionHandler(AccessDeniedException.class)
-	public ResponseEntity<ApiResponse<Void>> handleAccessDenied(AccessDeniedException ex) {
+	@ExceptionHandler(CustomAccessDeniedException .class)
+	public ResponseEntity<ApiResponse<Void>> handleAccessDenied(CustomAccessDeniedException  ex) {
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse.error(ex.getMessage()));
 	}
 	

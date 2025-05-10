@@ -30,11 +30,12 @@ public class RankAuthorizationAspect {
 			}
 		}
 		
-		throw new AccessDeniedException("접근 권한이 없습니다. (필요 권한 : "+String.join(",", allowedRanks.value())+")");
+		throw new CustomAccessDeniedException ("접근 권한이 없습니다. (필요 권한 : "+String.join(",", allowedRanks.value())+")");
 	}
 	
-	public static class AccessDeniedException extends RuntimeException {
-		public AccessDeniedException(String message) {
+	public static class CustomAccessDeniedException  extends RuntimeException {
+		private static final long serialVersionUID = 1L;
+		public CustomAccessDeniedException (String message) {
 			super(message);
 		}
 	}

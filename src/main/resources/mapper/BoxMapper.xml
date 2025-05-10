@@ -3,16 +3,10 @@
 		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.seocheon.fitian.mapper.BoxMapper">
-    <select id="getBoxByCodeOrName" resultType="BoxModel">
+	<select id="getBoxByCode" resultType="BoxModel">
         select *
         from fitian.Box
-        where 1=1
-        <if test='boxName != null  and(boxName neq "".toString())'>
-			and boxName = #{boxName}
- 		</if>
-        <if test='boxCode != null  and(boxCode neq "".toString())'>
-			and boxCode = #{boxCode}
- 		</if>
+        where boxCode = #{boxCode}
     </select>
     
     <select id="getBoxList" resultType="com.seocheon.fitian.dto.BoxSummaryDto">
@@ -25,7 +19,7 @@
     	value (#{boxName},#{boxCode},#{boxContact},#{boxAddress},#{boxScript},#{boxInsta},#{placeId})
     </insert>
     
-    <update id="updateBox">
+    <update id="updateBox" parameterType="String">
     	update fitian.Box
     	SET 
     	<if test='boxContact != null  and(boxContact neq "".toString())'>
@@ -55,18 +49,6 @@
     	SET useYN = "N"
     	where boxCode = #{boxCode}
     </update>
-
-    <select id="searchBoxCode" resultType="int">
-        select count(*)
-        from fitian.Box
-        where 1=1
-        and boxCode = #{boxCode}
-    </select>
-    
-    <select id="getAllBoxCode" resultType="BoxModel">
-        select BoxCode
-        from fitian.Box
-    </select>
     
     <select id="getBoxImages" resultType="BoxModel">
         select boxFeeUrl, boxTimeTableUrl

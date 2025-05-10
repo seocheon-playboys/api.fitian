@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.seocheon.fitian.dto.BoxSummaryDto;
-import com.seocheon.fitian.dto.BoxesResponseDto;
+import com.seocheon.fitian.dto.UpdateBoxRequest;
 import com.seocheon.fitian.mapper.BoxMapper;
 import com.seocheon.fitian.model.BoxModel;
 import com.seocheon.fitian.model.ResponseModel;
@@ -22,11 +22,9 @@ public class BoxService {
 		this.mapper = mapper;
 	}
 	
-	public BoxModel getBoxByCodeOrName(String boxCode) {
+	public BoxModel getBoxByCode(String boxCode) {
 		
-		BoxModel box = mapper.getBoxByCodeOrName(boxCode);
-		
-		return box;
+		return mapper.getBoxByCode(boxCode);
 	}
 	
 	public List<BoxSummaryDto> getBoxList() {
@@ -35,60 +33,47 @@ public class BoxService {
 	}
 	
 	@Transactional
-	public ResponseModel createBox(BoxModel model) {
-		ResponseModel res = new ResponseModel();
+	public BoxModel createBox(BoxModel model) {
 		
 		mapper.createBox(model);
+		BoxModel box = mapper.getBoxByCode(model.getBoxCode());
 		
-		res.setMessage("박스를 생성했습니다.");
-		
-		return res;
+		return box;
 	}
 	
 	@Transactional
-	public ResponseModel updateBox(BoxModel model) {
-		ResponseModel res = new ResponseModel();
+	public BoxModel updateBox(UpdateBoxRequest request, String boxCode) {
 		
-		mapper.updateBox(model);
+		BoxModel box = mapper.getBoxByCode(boxCode);
 		
-		res.setMessage("박스 정보를 수정했습니다.");
+		if (request.getBoxContact() != null && !request.getBoxContact().isBlank()) {
+	        box.setBoxContact(request.getBoxContact());
+	    }
+		if (request.getBoxAddress() != null && !request.getBoxAddress().isBlank()) {
+	        box.setBoxAddress(request.getBoxAddress());
+	    }
+		if (request.getBoxScript() != null && !request.getBoxScript().isBlank()) {
+	        box.setBoxScript(request.getBoxScript());
+	    }
+		if (request.getBoxInsta() != null && !request.getBoxInsta().isBlank()) {
+	        box.setBoxInsta(request.getBoxInsta());
+	    }
+		if (request.getBoxFeeUrl() != null && !request.getBoxFeeUrl().isBlank()) {
+	        box.setBoxFeeUrl(request.getBoxFeeUrl());
+	    }
+		if (request.getBoxTimeTableUrl() != null && !request.getBoxTimeTableUrl().isBlank()) {
+	        box.setBoxTimeTableUrl(request.getBoxTimeTableUrl());
+	    }
 		
-		return res;
-	}
-	
-	public ResponseModel searchBoxCode(BoxModel model) {
-		ResponseModel res = new ResponseModel();
+		int updatedRows = mapper.updateBox(box);
 		
-		mapper.searchBoxCode(model);
-		
-		int result = mapper.searchBoxCode(model);
-		
-		System.out.println(result);
-		
-		if(result==1) {
-			res.setMessage("이미 존재하는 박스코드입니다.");
-		} else {
-			res.setMessage("사용 가능한 박스코드입니다.");
+		if(updatedRows == 0) {
+			throw new IllegalStateException("업데이트에 실패했습니다.");
 		}
 		
-		return res;
+		return box;
 	}
 	
-	public ResponseModel getAllBoxCode() {
-		ResponseModel res = new ResponseModel();
-		
-		List<BoxModel> boxList = mapper.getAllBoxCode();
-		
-		String[] BoxCodeArr = new String[boxList.size()];
-		
-		for(int i=0; i<boxList.size(); i++) {
-			BoxCodeArr[i] = boxList.get(i).getBoxCode();
-		}
-		
-		res.setBoxCodeList(BoxCodeArr);
-		
-		return res;
-	}
 	
 	public ResponseModel getBoxImages(BoxModel model) {
 		ResponseModel res = new ResponseModel();

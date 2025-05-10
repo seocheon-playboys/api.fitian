@@ -14,7 +14,6 @@ import com.seocheon.fitian.dto.UpdateSelfRequest;
 import com.seocheon.fitian.mapper.MemberMapper;
 import com.seocheon.fitian.model.MemberModel;
 import com.seocheon.fitian.model.PushModel;
-import com.seocheon.fitian.model.ResponseModel;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
