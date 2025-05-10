@@ -18,43 +18,32 @@ public class WodService {
 		this.mapper = mapper;
 	}
 	
-	public ResponseModel getWod(WodModel model) {
-		ResponseModel res = new ResponseModel();
-		WodModel member = mapper.getWod(model);
+	public WodModel getWod(WodModel model) {
+
+		WodModel wod = mapper.getWod(model);
 		
-		res.setWodModel(member);
-		
-		return res;
+		return wod;
 	}
 	
 	@Transactional
-	public ResponseModel createWod(WodModel model) {
-		ResponseModel res = new ResponseModel();
+	public WodModel createWod(WodModel model) {
 		
 		WodModel existWod = mapper.getWod(model);
 		if(existWod == null) {
-			
 			mapper.createWod(model);
-			res.setMessage("와드를 생성했습니다.");
-			
-		} else {
-			
-			res.setMessage("해당 날짜에 와드가 존재합니다.");
-			
 		}
-		
-		return res;
+		WodModel wod = mapper.getWod(model);
+		return wod;
 	}
 	
 	@Transactional
-	public ResponseModel updateWod(WodModel model) {
-		ResponseModel res = new ResponseModel();
+	public WodModel updateWod(WodModel model) {
 		
 		mapper.updateWod(model);
 		
-		res.setMessage("와드를 수정했습니다.");
+		WodModel wod = mapper.getWod(model);
 		
-		return res;
+		return wod;
 	}
 	
 	@Transactional

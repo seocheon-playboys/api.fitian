@@ -94,7 +94,7 @@ public class BoxController {
 	@Operation(summary = "박스 정보 이미지 등록", description = "owner 또는 manager가 박스 정보 이미지를 등록합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@PutMapping(value = "/addBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/addBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<BoxResponseDto>> addBoxInfoImage(
     		@RequestPart(value = "boxCode") String boxCode,
             @RequestPart(value = "boxFeeImage", required = false) MultipartFile boxFeeImage,

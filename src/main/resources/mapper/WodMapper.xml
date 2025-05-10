@@ -31,6 +31,7 @@
  		wodDate=#{wodDate}
     	where boxCode = #{boxCode}
         and wodDate = #{wodDate}
+        and useYN = "Y"
     </update>
     
     <update id="deleteWod">

@@ -1,5 +1,14 @@
 package com.seocheon.fitian.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@Schema(description = "와드 정보 DTO")
 public class WodModel {
 
 	private int wodNo;
@@ -8,41 +17,4 @@ public class WodModel {
 	private String wodType;
 	private String wodTitle;
 	private String boxCode;
-	
-	public int getWodNo() {
-		return wodNo;
-	}
-	public void setWodNo(int wodNo) {
-		this.wodNo = wodNo;
-	}
-	public String getWodDate() {
-		return wodDate;
-	}
-	public void setWodDate(String wodDate) {
-		this.wodDate = wodDate;
-	}
-	public String getWodScript() {
-		return wodScript;
-	}
-	public void setWodScript(String wodScript) {
-		this.wodScript = wodScript;
-	}
-	public String getWodType() {
-		return wodType;
-	}
-	public void setWodType(String wodType) {
-		this.wodType = wodType;
-	}
-	public String getWodTitle() {
-		return wodTitle;
-	}
-	public void setWodTitle(String wodTitle) {
-		this.wodTitle = wodTitle;
-	}
-	public String getBoxCode() {
-		return boxCode;
-	}
-	public void setBoxCode(String boxCode) {
-		this.boxCode = boxCode;
-	}
 }
