@@ -7,20 +7,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.seocheon.fitian.auth.annotation.AllowedRanks;
 import com.seocheon.fitian.auth.annotation.CurrentUser;
 import com.seocheon.fitian.auth.security.CustomUserDetails;
 import com.seocheon.fitian.dto.BoxResponseDto;
 import com.seocheon.fitian.dto.BoxSummaryDto;
-import com.seocheon.fitian.dto.UpdateBoxInfoImageRequest;
 import com.seocheon.fitian.dto.UpdateBoxRequest;
 import com.seocheon.fitian.model.ApiResponse;
 import com.seocheon.fitian.model.BoxModel;
@@ -96,17 +96,19 @@ public class BoxController {
 	@AllowedRanks({"owner","manager"})
 	@PutMapping(value = "/addBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<BoxResponseDto>> addBoxInfoImage(
-    		@ModelAttribute  UpdateBoxInfoImageRequest request,
+    		@RequestPart(value = "boxCode") String boxCode,
+            @RequestPart(value = "boxFeeImage", required = false) MultipartFile boxFeeImage,
+            @RequestPart(value = "boxTimeTableImage", required = false) MultipartFile boxTimeTableImage,
     		@CurrentUser CustomUserDetails userDetails) {
 
 		UpdateBoxRequest boxReq = new UpdateBoxRequest();
 		
     	try {
-    		if(request.getBoxFeeImage() != null && !request.getBoxFeeImage().isEmpty()) {
-    			boxReq.setBoxFeeUrl(s3Service.uploadFile(request.getBoxFeeImage()));
+    		if(boxFeeImage != null && !boxFeeImage.isEmpty()) {
+    			boxReq.setBoxFeeUrl(s3Service.uploadFile(boxFeeImage));
     		} 
-    		if(request.getBoxTimeTableImage() != null && !request.getBoxTimeTableImage().isEmpty()) {
-    			boxReq.setBoxTimeTableUrl(s3Service.uploadFile(request.getBoxTimeTableImage()));
+    		if(boxTimeTableImage != null && !boxTimeTableImage.isEmpty()) {
+    			boxReq.setBoxTimeTableUrl(s3Service.uploadFile(boxTimeTableImage));
     		} 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(ApiResponse.failure("이미지 업로드에 실패했습니다."));
@@ -146,20 +148,22 @@ public class BoxController {
 	@AllowedRanks({"owner","manager"})
 	@PutMapping(value = "/updateBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<BoxResponseDto>> updateBoxInfoImage(
-    		@ModelAttribute UpdateBoxInfoImageRequest request,
+    		@RequestPart(value = "boxCode") String boxCode,
+            @RequestPart(value = "boxFeeImage", required = false) MultipartFile boxFeeImage,
+            @RequestPart(value = "boxTimeTableImage", required = false) MultipartFile boxTimeTableImage,
     		@CurrentUser CustomUserDetails userDetails) {
 
 		BoxModel box = boxService.getBoxByCode(userDetails.getMember().getBoxCode());
 		UpdateBoxRequest boxReq = new UpdateBoxRequest();
 		
     	try {
-    		if(request.getBoxFeeImage() != null && !request.getBoxFeeImage().isEmpty()) {
+    		if(boxFeeImage != null && !boxFeeImage.isEmpty()) {
     			s3Service.deleteFile(box.getBoxFeeUrl());
-    			boxReq.setBoxFeeUrl(s3Service.uploadFile(request.getBoxFeeImage()));
+    			boxReq.setBoxFeeUrl(s3Service.uploadFile(boxFeeImage));
     		} 
-    		if(request.getBoxTimeTableImage() != null && !request.getBoxTimeTableImage().isEmpty()) {
+    		if(boxTimeTableImage != null && !boxTimeTableImage.isEmpty()) {
     			s3Service.deleteFile(box.getBoxTimeTableUrl());
-    			boxReq.setBoxTimeTableUrl(s3Service.uploadFile(request.getBoxTimeTableImage()));
+    			boxReq.setBoxTimeTableUrl(s3Service.uploadFile(boxTimeTableImage));
     		} 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(ApiResponse.failure("이미지 업로드에 실패했습니다."));
