@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,7 +96,7 @@ public class BoxController {
 	@AllowedRanks({"owner","manager"})
 	@PutMapping(value = "/addBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<BoxResponseDto>> addBoxInfoImage(
-    		@RequestBody UpdateBoxInfoImageRequest request,
+    		@ModelAttribute  UpdateBoxInfoImageRequest request,
     		@CurrentUser CustomUserDetails userDetails) {
 
 		UpdateBoxRequest boxReq = new UpdateBoxRequest();
@@ -145,7 +146,7 @@ public class BoxController {
 	@AllowedRanks({"owner","manager"})
 	@PutMapping(value = "/updateBoxInfoImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<BoxResponseDto>> updateBoxInfoImage(
-    		@RequestBody UpdateBoxInfoImageRequest request,
+    		@ModelAttribute UpdateBoxInfoImageRequest request,
     		@CurrentUser CustomUserDetails userDetails) {
 
 		BoxModel box = boxService.getBoxByCode(userDetails.getMember().getBoxCode());

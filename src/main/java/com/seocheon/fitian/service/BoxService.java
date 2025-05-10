@@ -74,17 +74,6 @@ public class BoxService {
 		return box;
 	}
 	
-	
-	public ResponseModel getBoxImages(BoxModel model) {
-		ResponseModel res = new ResponseModel();
-		
-		BoxModel box = mapper.getBoxImages(model);
-		
-		res.setBoxModel(box);
-		
-		return res;
-	}
-	
 	@Transactional
 	public ResponseModel deleteBox(BoxModel model) {
 		ResponseModel res = new ResponseModel();
