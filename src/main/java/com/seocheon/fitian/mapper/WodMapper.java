@@ -1,6 +1,7 @@
 package com.seocheon.fitian.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.seocheon.fitian.model.WodModel;
 
@@ -8,6 +9,8 @@ import com.seocheon.fitian.model.WodModel;
 public interface WodMapper {
 
 	WodModel getWod(WodModel wod);
+	
+	WodModel getWodByNo(@Param("wodNo") int wodNo);
 	
 	void createWod(WodModel wod);
 	

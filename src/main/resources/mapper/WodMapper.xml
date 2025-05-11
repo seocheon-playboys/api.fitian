@@ -11,6 +11,13 @@
         and useYN = "Y"
     </select>
     
+    <select id="getWodByNo" resultType="WodModel">
+        select *
+        from fitian.Wod
+        where wodNo = #{wodNo}
+        and useYN = "Y"
+    </select>
+    
     <insert id="createWod">
     	insert into fitian.Wod (boxCode, wodDate, wodScript, wodType, useYN, wodTitle) 
     	value (#{boxCode},#{wodDate},#{wodScript},#{wodType}, "Y", #{wodTitle})

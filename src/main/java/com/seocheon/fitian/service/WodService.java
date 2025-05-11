@@ -25,6 +25,13 @@ public class WodService {
 		return wod;
 	}
 	
+	public WodModel getWodByNo(int wodNo) {
+
+		WodModel wod = mapper.getWodByNo(wodNo);
+		
+		return wod;
+	}
+	
 	@Transactional
 	public WodModel createWod(WodModel model) {
 		

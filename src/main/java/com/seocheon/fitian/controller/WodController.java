@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name="Box API", description="박스 관련 기능 API")
+@Tag(name="Wod API", description="와드 관련 기능 API")
 @RestController
 @RequestMapping("/wod")
 @SecurityRequirement(name="bearerAuth")
