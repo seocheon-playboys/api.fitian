@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.seocheon.fitian.mapper.ArticleMapper">
     <select id="getArticle" resultType="ArticleModel">
@@ -27,9 +27,11 @@
     </select>
     
     <insert id="createArticle">
-    	insert into fitian.Article (uid, articleTitle, articleScript, category, boxCode) 
-    	value (#{uid},#{articleTitle},#{articleScript},#{category},#{boxCode})
-    </insert>
+    INSERT INTO fitian.Article
+        (uid, articleTitle, articleScript, category, boxCode)
+    VALUES
+        (#{uid}, #{articleTitle}, #{articleScript}, #{category}, #{boxCode})
+	</insert>
     
     <insert id="createArticleImg">
     	insert into fitian.ArticleImage (articleNo, articleImgUrl) 

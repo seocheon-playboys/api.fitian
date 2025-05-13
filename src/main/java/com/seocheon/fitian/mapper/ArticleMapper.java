@@ -3,19 +3,22 @@ package com.seocheon.fitian.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import com.seocheon.fitian.dto.ArticleListRequest;
+import com.seocheon.fitian.dto.ArticleRequest;
 import com.seocheon.fitian.model.ArticleModel;
 
 @Mapper
 public interface ArticleMapper {
 
-	ArticleModel getArticle(ArticleModel model);
+	ArticleModel getArticle(@Param("articleNo") int articleNo);
 	
-	List<String> getArticleImg(ArticleModel model);
+	List<String> getArticleImg(@Param("articleNo") int articleNo);
 	
-	List<ArticleModel> getArticleList(ArticleModel model);
+	List<ArticleModel> getArticleList(ArticleListRequest request);
 	
-	void createArticle(ArticleModel model);	
+	void createArticle(ArticleRequest request);	
 	void createArticleImg(ArticleModel model);
 	int getLastId();
 	

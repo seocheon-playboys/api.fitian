@@ -1,10 +1,14 @@
 package com.seocheon.fitian.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.seocheon.fitian.dto.ArticleListRequest;
+import com.seocheon.fitian.dto.ArticleRequest;
+import com.seocheon.fitian.dto.ArticleSummaryDto;
 import com.seocheon.fitian.mapper.ArticleMapper;
 import com.seocheon.fitian.model.ArticleModel;
 import com.seocheon.fitian.model.ResponseModel;
@@ -17,53 +21,42 @@ public class ArticleService {
 		this.mapper = mapper;
 	}
 	
-	public ResponseModel getArticle(ArticleModel model) {
+	public ArticleModel getArticle(int articleNo) {
 		
-		ResponseModel res = new ResponseModel();
+		ArticleModel article = mapper.getArticle(articleNo);
 		
-		ArticleModel article = mapper.getArticle(model);
+		article.setArticleImgUrls(mapper.getArticleImg(articleNo));
 		
-		article.setArticleImgUrls(mapper.getArticleImg(model));
-		
-		res.setArticleModel(article);
-		
-		return res;
+		return article;
 	}
 	
 	public ResponseModel getArticleimgUrls(ArticleModel model) {
 		
 		ResponseModel res = new ResponseModel();
 		
-		model.setArticleImgUrls(mapper.getArticleImg(model));
+		model.setArticleImgUrls(mapper.getArticleImg(model.getArticleNo()));
 		
 		res.setArticleModel(model);
 		
 		return res;
 	}
 
-	public ResponseModel getArticleList(ArticleModel model) {
+	public List<ArticleSummaryDto> getArticleList(ArticleListRequest request) {
 		
-		ResponseModel res = new ResponseModel();
+		List<ArticleModel> articleModelList = mapper.getArticleList(request);
 		
-		List<ArticleModel> articleList = mapper.getArticleList(model);
+		List<ArticleSummaryDto> articleList = articleModelList.stream()
+				.map(ArticleSummaryDto::from)
+				.collect(Collectors.toList());
 		
-		res.setArticleModelList(articleList);
-		
-		return res;
+		return articleList;
 	}
 	
 	@Transactional
-	public ResponseModel createArticle(ArticleModel model) {
+	public void createArticle(ArticleRequest request) {
 		
-		ResponseModel res = new ResponseModel();
+		mapper.createArticle(request);
 		
-		try {
-			mapper.createArticle(model);
-			res.setMessage("글이 등록되었습니다.");
-		} catch(Exception e) {
-			res.setMessage("글 등록에 실패했습니다.");
-		}
-		return res;
 	}
 	
 	@Transactional
@@ -96,45 +89,29 @@ public class ArticleService {
 	}
 	
 	@Transactional
-	public ResponseModel deleteArticle(ArticleModel model) {
-		
-		ResponseModel res = new ResponseModel();
-		
-		try {
-			if(mapper.existsById(model)) {	
-				mapper.deleteArticle(model);
-				mapper.deleteArticleImg(model);
-				res.setMessage("글이 삭제되었습니다.");
-			} else {
-				res.setMessage("글 삭제에 실패했습니다.");
-			}
-		} catch(Exception e) {
-			res.setMessage("글 삭제에 실패했습니다.");
+	public void deleteArticle(ArticleModel model) {
+		if(mapper.existsById(model)) {	
+			mapper.deleteArticle(model);
+			mapper.deleteArticleImg(model);
 		}
-		return res;
 	}
 	
 	@Transactional
-	public ResponseModel createArticleWithImage(ArticleModel model) {
+	public void createArticleWithImage(ArticleRequest request) {
 		
-		ResponseModel res = new ResponseModel();
+		//글만 등록
+		mapper.createArticle(request);
 		
-		try {
-			//글만 등록
-			mapper.createArticle(model);
-			//등록된 글의 id 가져오기
-			model.setArticleNo(mapper.getLastId());
-			List<String> ImageUrls = model.getArticleImgUrls();
-			for(int i = 0; i<ImageUrls.size(); i++) {
-				model.setArticleImgUrl(ImageUrls.get(i));
-				//글의 id와 url을 db에 등록
-				mapper.createArticleImg(model);
-			}
-			res.setMessage("글이 등록되었습니다.");
-		} catch(Exception e) {
-			res.setMessage("글 등록에 실패했습니다.");
+		ArticleModel model = new ArticleModel();
+		//등록된 글의 id 가져오기
+		model.setArticleNo(mapper.getLastId());
+		List<String> ImageUrls = request.getArticleImgUrls();
+		for(int i = 0; i<ImageUrls.size(); i++) {
+			model.setArticleImgUrl(ImageUrls.get(i));
+			//글의 id와 url을 db에 등록
+			mapper.createArticleImg(model);
 		}
-		return res;
+
 	}
 	
 }
