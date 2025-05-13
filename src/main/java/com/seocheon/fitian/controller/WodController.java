@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.seocheon.fitian.auth.annotation.AllowedRanks;
@@ -36,8 +37,14 @@ public class WodController {
 			security = {} )
 	@GetMapping("/getWod")
     public ResponseEntity<ApiResponse<WodModel>> getWod(
-    		@RequestBody WodModel model) {
-    	WodModel wod = sv.getWod(model);
+    		@RequestParam("wodDate") String wodDate,
+    		@RequestParam("boxCode") String boxCode) {
+		
+		WodModel request = new WodModel();
+		
+		request.setBoxCode(boxCode);
+		request.setWodDate(wodDate);
+    	WodModel wod = sv.getWod(request);
     	return ResponseEntity.ok(ApiResponse.success(wod));
     }
 	

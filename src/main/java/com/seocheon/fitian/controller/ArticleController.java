@@ -70,7 +70,7 @@ public class ArticleController {
 	@Operation(summary = "아티클 리스트 조회", description = "boxCode 와 Category로 아티클 목록을 반환합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"guest","member","owner","manager"})
-	@GetMapping("/getArticleList")
+	@PostMapping("/getArticleList")
     public ResponseEntity<ApiResponse<List<ArticleSummaryDto>>> getArticleList(
     		@RequestBody ArticleListRequest request,
     		@CurrentUser CustomUserDetails userDetails) {

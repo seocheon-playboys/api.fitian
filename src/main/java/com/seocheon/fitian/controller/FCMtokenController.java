@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +37,7 @@ public class FCMtokenController {
 	@Operation(summary = "FCM 토큰 가져오기", description = "해당 유저의 FCM 토큰을 조회합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"guest","member","owner","manager"})
-	@GetMapping("/getToken")
+	@PostMapping("/getToken")
     public ResponseEntity<ApiResponse<FCMtokenModel>> getToken(
     		@RequestBody FCMtokenModel model,
     		@CurrentUser CustomUserDetails userDetails) {
