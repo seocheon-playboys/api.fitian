@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,7 +69,7 @@ public class RecordController {
 	@Operation(summary = "레코드 생성", description = "owner 또는 manager가 레코드를 생성합니다",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@RequestMapping("/createRecord")
+	@PostMapping("/createRecord")
     public ResponseEntity<ApiResponse<Void>> createRecord(
     		@RequestBody RecordModel model,
     		@CurrentUser CustomUserDetails userDetails) {
@@ -96,7 +98,7 @@ public class RecordController {
 	@Operation(summary = "레코드 수정", description = "owner 또는 manager가 레코드를 수정합니다",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@RequestMapping("/updateRecord")
+	@PutMapping("/updateRecord")
     public ResponseEntity<ApiResponse<RecordResponseDto>> updateRecord(
     		@RequestBody RecordModel model,
     		@CurrentUser CustomUserDetails userDetails) {
@@ -108,7 +110,7 @@ public class RecordController {
 	@Operation(summary = "레코드 삭제", description = "owner 또는 manager가 해당 레코드를 삭제합니다",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@RequestMapping("/deleteRecord")
+	@PutMapping("/deleteRecord")
     public ResponseEntity<ApiResponse<Void>> deleteRecord(
     		@Parameter(description="레코드 넘버", required = true)
     		@RequestParam(value = "recordNo", required = true) int recordNo,
@@ -135,7 +137,7 @@ public class RecordController {
 	@Operation(summary = "레코드 전체 삭제", description = "owner 또는 manager가 해당 와드의 레코드를 전체 삭제합니다",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@RequestMapping("/deleteAllRecord")
+	@PutMapping("/deleteAllRecord")
     public ResponseEntity<ApiResponse<Void>> deleteAllRecord(
     		@Parameter(description="와드 넘버", required = true)
     		@RequestParam(value = "wodNo", required = true) int wodNo,

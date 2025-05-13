@@ -18,18 +18,13 @@ public class FCMtokenService {
 		this.mapper = mapper;
 	}
 	
-	public ResponseModel getToken(FCMtokenModel model) {
-		ResponseModel res = new ResponseModel();
-		res.setFCMtokenModel(mapper.getToken(model));
-		res.setMessage("토큰저장");
-		return res;
+	public FCMtokenModel getToken(FCMtokenModel model) {
+		return mapper.getToken(model);
 	}
 	
 	@Transactional
-	public ResponseModel createToken(FCMtokenModel model) {
-		ResponseModel res = new ResponseModel();
+	public void createToken(FCMtokenModel model) {
 		mapper.createToken(model);
-		return res;
 	}
 	
 	@Transactional
