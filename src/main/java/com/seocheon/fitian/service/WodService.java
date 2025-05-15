@@ -4,19 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.seocheon.fitian.mapper.MemberMapper;
+import com.seocheon.fitian.mapper.RecordMapper;
 import com.seocheon.fitian.mapper.WodMapper;
 import com.seocheon.fitian.model.ResponseModel;
 import com.seocheon.fitian.model.WodModel;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor 
 public class WodService {
 
 	private final WodMapper mapper;
-	
-	@Autowired
-	public WodService(WodMapper mapper) {
-		this.mapper = mapper;
-	}
+	private final RecordMapper recordMapper;
 	
 	public WodModel getWod(WodModel model) {
 
@@ -58,7 +59,7 @@ public class WodService {
 		ResponseModel res = new ResponseModel();
 		
 		mapper.deleteWod(model);
-		
+		recordMapper.deleteAllRecord(model.getWodNo());
 		res.setMessage("와드를 삭제했습니다.");
 		
 		return res;

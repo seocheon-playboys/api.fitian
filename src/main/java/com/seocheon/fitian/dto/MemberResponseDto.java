@@ -9,6 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberResponseDto {
 
+	private String uid;
 	private String name;
 	private String nickname;
 	private String boxName;
@@ -21,6 +22,7 @@ public class MemberResponseDto {
 	
 	public static MemberResponseDto from(MemberModel m) {
 		return new MemberResponseDto(
+					m.getUid(),
 					m.getName(),
 					m.getNickname(),
 		            m.getBoxName(),
