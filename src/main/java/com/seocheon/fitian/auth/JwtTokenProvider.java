@@ -23,8 +23,8 @@ public class JwtTokenProvider {
 
 	@Value("${jwt.secret}")
 	private String SECRET_KEY;
-	private static final long ACCESS_EXPIRE_TIME_MS = 1000 * 60 * 60 * 24;
-	private static final long REFRESH_EXPIRE_TIME_MS = 1000 * 60 * 60 * 24 * 30 * 6;
+	private static final long ACCESS_EXPIRE_TIME_MS = 1000L * 60 * 60 * 24;
+	private static final long REFRESH_EXPIRE_TIME_MS = 1000L * 60 * 60 * 24 * 30 * 6;
 	
 	
 	private Key getSigningKey() {

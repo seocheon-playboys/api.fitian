@@ -16,6 +16,7 @@ public class OAuthService {
 
 	private final KakaoApiClient kakaoApiClient;
 	private final AppleApiClient appleApiClient;
+	private final GoogleApiClient googleApiClient;
 	private final MemberMapper memberMapper;
 	
 	
@@ -44,6 +45,7 @@ public class OAuthService {
 		return switch (provider.toLowerCase()) {
 			case "kakao" -> kakaoApiClient.getUserInfo(token);
 			case "apple" -> appleApiClient.getUserInfo(token);
+			case "google" -> googleApiClient.getUserInfo(token);
 			default -> throw new IllegalArgumentException("지원하지 않는 방식 : "+provider);
 		};
 	}
