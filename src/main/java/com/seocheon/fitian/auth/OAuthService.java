@@ -34,7 +34,6 @@ public class OAuthService {
 		
 		member.setName(userInfo.getNickname() != null ? userInfo.getNickname() : "");
 		member.setEmail(userInfo.getEmail());
-		member.setRank("guest");
 		member.setJoinDate(LocalDateTime.now().toString());
 		
 		memberMapper.joinMember(member);
