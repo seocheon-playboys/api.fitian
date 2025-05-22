@@ -59,6 +59,10 @@ public class MemberService {
 	        });
 		}
 		
+		if(userDetails.getMember().getRank() == null) {
+			member.setRank("guest");
+		}
+		
 		memberMapper.updateMember(member);
 		
 		MemberModel updated = memberMapper.findByUid(userDetails.getUsername());

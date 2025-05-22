@@ -70,12 +70,12 @@ public class BoxController {
 	//박스 생성
 	@Operation(summary = "박스 생성", description = "가입한 회원이 새로운 박스를 생성합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
-	@AllowedRanks({"guest","member","owner","manager"})
+	@AllowedRanks({"guest"})
 	@PostMapping("/createBox")
     public ResponseEntity<ApiResponse<BoxResponseDto>> createBox(
     		@RequestBody BoxModel model,
     		@CurrentUser CustomUserDetails userDetails) {
-    	BoxModel box = boxService.createBox(model);
+    	BoxModel box = boxService.createBox(model, userDetails);
     	return ResponseEntity.ok(ApiResponse.success(BoxResponseDto.from(box), box.getBoxName()+" 박스가 생성되었습니다."));
     }
 	

@@ -2,25 +2,26 @@ package com.seocheon.fitian.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.seocheon.fitian.auth.security.CustomUserDetails;
 import com.seocheon.fitian.dto.BoxSummaryDto;
 import com.seocheon.fitian.dto.UpdateBoxRequest;
 import com.seocheon.fitian.mapper.BoxMapper;
+import com.seocheon.fitian.mapper.MemberMapper;
 import com.seocheon.fitian.model.BoxModel;
+import com.seocheon.fitian.model.MemberModel;
 import com.seocheon.fitian.model.ResponseModel;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class BoxService {
 
 	private final BoxMapper mapper;
-	
-	@Autowired
-	public BoxService(BoxMapper mapper) {
-		this.mapper = mapper;
-	}
+	private final MemberMapper memberMapper;
 	
 	public BoxModel getBoxByCode(String boxCode) {
 		
@@ -33,9 +34,14 @@ public class BoxService {
 	}
 	
 	@Transactional
-	public BoxModel createBox(BoxModel model) {
+	public BoxModel createBox(BoxModel model, CustomUserDetails userDetails) {
 		
 		mapper.createBox(model);
+		
+		MemberModel owner = userDetails.getMember();
+		owner.setRank("owner");
+		memberMapper.updateMember(owner);
+		
 		BoxModel box = mapper.getBoxByCode(model.getBoxCode());
 		
 		return box;
