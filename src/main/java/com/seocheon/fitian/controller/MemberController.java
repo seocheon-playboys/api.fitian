@@ -50,9 +50,8 @@ public class MemberController {
 	
 	//본인 정보 바꾸기
 	@Operation(summary = "본인 정보 수정", description = "로그인한 회원이 자신의 name, email, 등록 박스 등을 수정합니다.",
-			security = @SecurityRequirement(name = "bearerAuth"))
+			security = {})
 	@PutMapping("/me")
-	@AllowedRanks({"guest","member","owner","manager"})
 	public ResponseEntity<ApiResponse<MemberResponseDto>> updateMyInfo(
 			@RequestBody UpdateSelfRequest req,
 			@CurrentUser CustomUserDetails userDetails) {
