@@ -22,4 +22,7 @@ public class UpdateSelfRequest {
 	
 	@Schema(description = "가입 추가 정보 입력시 박스 코드")
 	private String boxCode;
+	
+	@Schema(description = "가입 추가 정보 입력시 성별")
+	private String gender;
 }

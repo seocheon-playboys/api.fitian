@@ -61,6 +61,10 @@ public class MemberService {
 		
 		if(userDetails.getMember().getRank() == null) {
 			member.setRank("guest");
+			
+			if (request.getGender() != null && !request.getGender().isBlank()) {
+		        member.setGender(request.getGender());
+		    }
 		}
 		
 		memberMapper.updateMember(member);
