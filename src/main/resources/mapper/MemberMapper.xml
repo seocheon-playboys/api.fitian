@@ -53,6 +53,9 @@
  		<if test='boxCode != null  and(boxCode neq "".toString())'>
 			boxCode=#{boxCode},
  		</if>
+ 		<if test='gender != null  and(gender neq "".toString())'>
+			gender=#{gender},
+ 		</if>
  		useYN="Y", uid=#{uid}
     	where uid = #{uid}
     </update>

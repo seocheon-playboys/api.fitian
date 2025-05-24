@@ -19,9 +19,9 @@ public class CommonService {
 		this.mapper = mapper;
 	}
 	
-	public ResponseModel getPolicy(CommonModel model) {
+	public ResponseModel getPolicy(String title) {
 		ResponseModel res = new ResponseModel();
-		List<CommonModel> contents = mapper.getPolicy(model);
+		List<CommonModel> contents = mapper.getPolicy(title);
 		
 		res.setCommonModelList(contents);
 		

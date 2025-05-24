@@ -10,7 +10,7 @@ import com.seocheon.fitian.model.CommonModel;
 @Mapper
 public interface CommonMapper {
 
-	List<CommonModel> getPolicy(CommonModel model);
+	List<CommonModel> getPolicy(@Param("title") String title);
 	
 	void createRefreshToken(@Param("uid") String uid, @Param("token") String token);
 	
