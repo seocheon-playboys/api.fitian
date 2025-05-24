@@ -26,5 +26,33 @@
 		delete from fitian.Fcm_token
 		where token = #{token}
 	</delete>
+	
+	<insert id="upsert">
+		INSERT INTO fitian.Fcm_token(uid, device_id, token)
+      	VALUES (#{uid},#{device_id},#{token})
+     	ON DUPLICATE KEY UPDATE 
+     		token = VALUES(token),
+     		is_active = 1,
+     		update_at = CURRENT_TIMESTAMP
+	</insert>
+	
+	<update id = "deactivate" parameterType="String">
+		UPDATE fitian.Fcm_token
+		SET is_active = 0
+		WHERE token = #{token}
+	</update>
+    
+    <select id="findByUid" resultType="FCMtokenModel">
+		SELECT uid, device_id, token, update_at
+		FROM fitian.Fcm_token 
+		WHERE uid = #{uid}
+			AND is_active = 1
+	</select>
+	
+	<delete id="deleteInactiveOlderThan" parameterType="int">
+		DELETE FROM fitian.Fcm_token
+		WHERE is_active = 0
+			AND update_at &lt; DATE_SUB(NOW(), INTERVAL #{days} DAY)
+	</delete>
     
 </mapper>

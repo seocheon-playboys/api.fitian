@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MessagingErrorCode;
+import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.SendResponse;
 import com.seocheon.fitian.mapper.FCMtokenMapper;
 import com.seocheon.fitian.model.MemberModel;
 import com.seocheon.fitian.model.PushModel;
@@ -32,28 +35,59 @@ public class PushService {
 			return;
 		}
 		
-		for (String token : tokens) {
-			sendSingle(token, pushModel);
-		}
-	}
-	
-	private void sendSingle(String token, PushModel pushModel) {
-		Message msg = Message.builder()
-				.setToken(token)
+//		for (String token : tokens) {
+//			sendSingle(token, pushModel);
+//		}
+		
+		MulticastMessage message = MulticastMessage.builder()
+				.addAllTokens(tokens)
 				.setNotification(Notification.builder()
 						.setTitle(pushModel.getTitle())
 						.setBody(pushModel.getBody())
 						.build())
-				.putData("click_action", "FLUTTER_NOTIFICATION_CLICK")
+				.putData("click_action","FLUTTER_NOTIFICATION_CLICK")
 				.build();
+		
 		try {
-			String id = FirebaseMessaging.getInstance().send(msg);
-			log.debug("Sent push to {}: {}", token, id);
-		} catch (FirebaseMessagingException ex) {
-			log.error("Failed to send to {}: {}", token, ex.getMessage());
-			handleFailure(token, ex);
+			BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
+			log.debug("Sent multicast to {} tokens : success = {}, failure = {}",
+					tokens.size(),response.getSuccessCount(),response.getFailureCount());
+			
+			for(int i = 0; i < response.getResponses().size(); i++) {
+				SendResponse resp = response.getResponses().get(i);
+				if(!resp.isSuccessful()) {
+					String token = tokens.get(i);
+					deleteToken(token);
+					log.warn("Deleted FCM token {} due to error {}", token, resp.getException().getMessage());
+				}
+			}
+		} catch (Exception ex) {
+			log.error("Failed to send multicast FCM message", ex);
 		}
 	}
+	
+	@Transactional
+	void deleteToken(String token) {
+		tokenMapper.deleteToken(token);
+	}
+	
+//	private void sendSingle(String token, PushModel pushModel) {
+//		Message msg = Message.builder()
+//				.setToken(token)
+//				.setNotification(Notification.builder()
+//						.setTitle(pushModel.getTitle())
+//						.setBody(pushModel.getBody())
+//						.build())
+//				.putData("click_action", "FLUTTER_NOTIFICATION_CLICK")
+//				.build();
+//		try {
+//			String id = FirebaseMessaging.getInstance().send(msg);
+//			log.debug("Sent push to {}: {}", token, id);
+//		} catch (FirebaseMessagingException ex) {
+//			log.error("Failed to send to {}: {}", token, ex.getMessage());
+//			handleFailure(token, ex);
+//		}
+//	}
 	
 	@Transactional
 	private void handleFailure(String token, FirebaseMessagingException ex) {

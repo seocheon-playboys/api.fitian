@@ -14,4 +14,9 @@ public interface FCMtokenMapper {
 	List<String> getTokens(MemberModel model);
 	void createToken(FCMtokenModel model);
 	void deleteToken(String token);
+	
+	int upsert(FCMtokenModel model);
+	int deactivate(String token);
+	List<FCMtokenModel> findByUid(String uid);
+	int deleteInactiveOlderThan(int days);
 }
