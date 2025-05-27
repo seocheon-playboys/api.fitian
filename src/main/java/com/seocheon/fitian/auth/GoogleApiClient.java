@@ -30,7 +30,7 @@ public class GoogleApiClient {
 		
 		GoogleUserResponse body = response.getBody();
 		
-		String id = body.getUid();
+		String id = body.getSub();
 		String nickname = body.getName();
 		String email = body.getEmail();
 		

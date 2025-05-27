@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class GoogleUserResponse {
-	private String uid;
+	private String sub;
 	private String name;
 	private String email;
 }
