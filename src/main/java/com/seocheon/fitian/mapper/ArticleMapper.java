@@ -14,6 +14,8 @@ public interface ArticleMapper {
 
 	ArticleModel getArticle(@Param("articleNo") int articleNo);
 	
+	ArticleModel getIntroduction(@Param("boxCode") String boxCode);
+	
 	List<String> getArticleImg(@Param("articleNo") int articleNo);
 	
 	List<ArticleModel> getArticleList(ArticleListRequest request);

@@ -30,6 +30,13 @@ public class ArticleService {
 		return article;
 	}
 	
+	public ArticleModel getIntroduction(String boxCode) {
+		
+		ArticleModel article = mapper.getIntroduction(boxCode);
+		
+		return article;
+	}
+	
 	public ResponseModel getArticleimgUrls(ArticleModel model) {
 		
 		ResponseModel res = new ResponseModel();

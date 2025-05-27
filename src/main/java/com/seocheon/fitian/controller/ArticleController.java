@@ -66,6 +66,22 @@ public class ArticleController {
     	return ResponseEntity.ok(ApiResponse.success(ArticleResponseDto.from(article)));
     }
 	
+	//아티클 조희
+		@Operation(summary = "박스 소개글 반환", description ="박스 소개글을 반환합니다.",
+				security = @SecurityRequirement(name = "bearerAuth"))
+		@AllowedRanks({"guest","member","owner","manager"})
+		@GetMapping("/getIntroduction")
+	    public ResponseEntity<ApiResponse<ArticleResponseDto>> getIntroduction(
+	    		@CurrentUser CustomUserDetails userDetails) {
+			
+			ArticleModel article = articleService.getIntroduction(userDetails.getMember().getBoxCode());
+			
+			if(!article.getBoxCode().equals(userDetails.getMember().getBoxCode())) {
+				return ResponseEntity.badRequest().body(ApiResponse.failure("다른 박스의 소개글은 볼 수 없습니다."));
+			}
+	    	return ResponseEntity.ok(ApiResponse.success(ArticleResponseDto.from(article)));
+	    }
+	
 	//아티클 리스트 조회
 	@Operation(summary = "아티클 리스트 조회", description = "boxCode 와 Category로 아티클 목록을 반환합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))

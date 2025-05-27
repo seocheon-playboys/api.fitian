@@ -10,6 +10,13 @@
         where a.articleNo = #{articleNo}
     </select>
     
+    <select id="getIntroduction" resultType="ArticleModel">
+        select *
+        from fitian.Article
+        where boxCode = #{boxCode}
+        and category = 'Introduction'
+    </select>
+    
     <select id="getArticleImg">
         select articleImgUrl
         from fitian.ArticleImage
