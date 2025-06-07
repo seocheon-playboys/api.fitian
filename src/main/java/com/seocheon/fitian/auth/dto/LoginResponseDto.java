@@ -10,6 +10,7 @@ import lombok.Getter;
 public class LoginResponseDto {
 
 	private JwtTokenPair jwtTokenPair;
+	private String FirebaseCustomToken;
 	private MemberModel member;
 	private boolean isNewMember;
 }

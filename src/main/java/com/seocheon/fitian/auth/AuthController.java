@@ -1,5 +1,6 @@
 package com.seocheon.fitian.auth;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.seocheon.fitian.auth.dto.JwtToken;
 import com.seocheon.fitian.auth.dto.JwtTokenPair;
 import com.seocheon.fitian.auth.dto.LoginResponseDto;
@@ -22,11 +25,13 @@ import com.seocheon.fitian.model.MemberModel;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8088")
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
 	@Autowired
@@ -49,9 +54,22 @@ public class AuthController {
 		
 		refreshTokenService.create(member.getUid(), pair.getRefreshToken());
 		
-		LoginResponseDto responseDto = new LoginResponseDto(pair, member, isNewUser);
-		
-    	return ResponseEntity.ok(ApiResponse.success(responseDto));
+		try {
+			
+			Map<String, Object> claims = new HashMap<>();
+			claims.put("boxId",member.getBoxCode());
+			claims.put("rank",member.getRank());
+			String firebaseCustomToken = FirebaseAuth.getInstance().createCustomToken(member.getUid(), claims);
+			LoginResponseDto responseDto = new LoginResponseDto(pair, firebaseCustomToken, member, isNewUser);
+			
+			return ResponseEntity.ok(ApiResponse.success(responseDto));
+		} catch (FirebaseAuthException e) {
+			
+			log.error("Firebase Custom token create failed", e);
+			
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error("Firebase 연동 실패: " + e.getMessage()));
+			
+		}
     }
 	
 	@PostMapping("/refresh")
