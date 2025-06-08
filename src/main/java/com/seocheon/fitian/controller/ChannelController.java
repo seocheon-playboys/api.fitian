@@ -16,6 +16,7 @@ import com.seocheon.fitian.auth.annotation.AllowedRanks;
 import com.seocheon.fitian.auth.annotation.CurrentUser;
 import com.seocheon.fitian.auth.security.CustomUserDetails;
 import com.seocheon.fitian.dto.channel.ChannelCreateRequestDto;
+import com.seocheon.fitian.dto.channel.ChannelInviteRequestDto;
 import com.seocheon.fitian.dto.channel.ChannelListResponseDto;
 import com.seocheon.fitian.dto.channel.ChannelParticipantResponseDto;
 import com.seocheon.fitian.dto.channel.ChannelResponseDto;
@@ -71,6 +72,21 @@ public class ChannelController {
 		List<ChannelParticipantResponseDto> result = channelService.getChannelParticipants(boxCode, channelId);
 		
 		return ResponseEntity.ok(ApiResponse.success(result));
+	}
+	
+	@Operation(summary = "채널 참여자 초대", description = "기존 채널에 새로운 참여자를 초대합니다.")
+	@AllowedRanks({"owner", "manager"})
+	@PostMapping("/{channelId}/participants")
+	public ResponseEntity<ApiResponse<Void>> inviteParticipants(
+			@PathVariable String channelId,
+			@RequestBody ChannelInviteRequestDto request,
+			@CurrentUser CustomUserDetails userDetails) {
+		String boxCode = userDetails.getMember().getBoxCode();
+		String inviterUid = userDetails.getUsername();
+		
+		channelService.inviteParticipants(boxCode, channelId, request.getMemberUids(), inviterUid);
+		
+		return ResponseEntity.ok(ApiResponse.success(null, "채널에 참여자가 초대되었습니다."));
 	}
 	
 	@Operation(summary = "채널 참여자 제거", description = "자기 자신은 퇴장, 관리자(owner/manager)는 다른 사람을 제거할 수 있습니다.")
