@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.seocheon.fitian.mapper.ChannelParticipantMapper">
+    
+    <insert id="insertParticipant">
+		insert into fitian.Channel_participant (boxCode, channelId, uid)
+		values (#{boxCode}, #{channelId}, #{uid})
+	</insert>
+	
+	<select id="selectUidsByBoxAndChannel" parameterType="map" resultType="ChannelParticipantResponseDto">
+		select m.uid, m.name, m.rank from fitian.Channel c
+		join fitian.Member m on c.uid = m.uid
+		where c.boxCode = #{boxCode} and c.channelId = #{channelId}
+	</select>
+	
+	<select id="selectExistingUids" resultType="String">
+		select uid from fitian.Channel_participant
+		where boxCode = #{boxCode} and channelId = #{channelId}
+	</select>
+	
+	<delete id="deleteParticipant" parameterType="map">
+		delete from fitian.Channel_participant
+		where boxCode = #{boxCode} and channelId = #{channelId} and uid = #{uid}
+	</delete>
+	
+	<select id="isParticipant" resultType="boolean">
+		select exists ( 
+				select 1 from fitian.Channel_participant 
+				where boxCode = #{boxCode} and channelId = #{channelId} and uid = #{uid} )
+	</select>
+    
+</mapper>

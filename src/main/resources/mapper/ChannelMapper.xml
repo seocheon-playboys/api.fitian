@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.seocheon.fitian.mapper.ChannelMapper">
+    
+    <insert id="insertChannel">
+		insert into fitian.Channel (boxCode, channelId, channelName, type, createdBy, createdAt)
+		values (#{boxCode}, #{channelId}, #{channelName}, #{type}, #{createdBy}, #{createdAt})
+	</insert>
+	
+	<select id="selectChannelById" parameterType="map" resultType="ChannelModel">
+		select * from fitian.Channel
+		where boxCode = #{boxCode}
+		and channelId = #{channelId}
+	</select>
+	
+	<select id="selectChannelsByBoxCode" parameterType="String" resultType="ChannelModel">
+		select channelId, channelName, type from fitian.Channel
+		where boxCode = #{boxCode}
+	</select>
+    
+</mapper>
