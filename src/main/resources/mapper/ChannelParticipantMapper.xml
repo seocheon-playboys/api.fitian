@@ -11,7 +11,7 @@
 	
 	<select id="selectUidsByBoxAndChannel" parameterType="map" resultType="com.seocheon.fitian.dto.channel.ChannelParticipantResponseDto">
 		select m.uid, m.name, m.rank from fitian.Channel c
-		join fitian.Member m on c.uid = m.uid
+		join fitian.Member m on c.createdBy = m.uid
 		where c.boxCode = #{boxCode} and c.channelId = #{channelId}
 	</select>
 	
