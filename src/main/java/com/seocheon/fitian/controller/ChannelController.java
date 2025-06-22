@@ -127,4 +127,18 @@ public class ChannelController {
 		
 		return ResponseEntity.ok(ApiResponse.success(null,"입장 가능합니다."));
 	}
+	
+	@Operation(summary = "채널 삭제", description = "오너 또는 매니저가 채널을 삭제합니다.")
+	@AllowedRanks({"owner", "manager", "member"})
+	@DeleteMapping("/{channelId}/delete")
+	public ResponseEntity<ApiResponse<Void>> deleteChannel(
+			@PathVariable String channelId,
+			@CurrentUser CustomUserDetails userDetails) {
+		
+		String boxCode = userDetails.getMember().getBoxCode();
+		
+		channelService.deleteChannel(boxCode, channelId);
+		
+		return ResponseEntity.ok(ApiResponse.success(null,"채널이 삭제되었습니다."));
+	}
 }

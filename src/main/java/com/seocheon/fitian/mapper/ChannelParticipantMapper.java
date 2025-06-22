@@ -20,4 +20,6 @@ public interface ChannelParticipantMapper {
 	void deleteParticipant(@Param("boxCode") String boxCode, @Param("channelId") String channelId, @Param("uid") String uid);
 	
 	boolean isParticipant(@Param("boxCode") String boxCode, @Param("channelId") String channelId, @Param("uid") String uid);
+	
+	void deleteAllParticipant(@Param("boxCode") String boxCode, @Param("channelId") String channelId);
 }

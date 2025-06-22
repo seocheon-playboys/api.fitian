@@ -10,8 +10,8 @@
 	</insert>
 	
 	<select id="selectUidsByBoxAndChannel" parameterType="map" resultType="com.seocheon.fitian.dto.channel.ChannelParticipantResponseDto">
-		select m.uid, m.name, m.rank from fitian.Channel c
-		join fitian.Member m on c.createdBy = m.uid
+		select m.uid, m.name, m.rank from fitian.Channel_participant c
+		join fitian.Member m on c.uid = m.uid
 		where c.boxCode = #{boxCode} and c.channelId = #{channelId}
 	</select>
 	
@@ -30,5 +30,10 @@
 				select 1 from fitian.Channel_participant 
 				where boxCode = #{boxCode} and channelId = #{channelId} and uid = #{uid} )
 	</select>
+	
+	<delete id="deleteAllParticipant" parameterMap="map">
+		delete from fitian.Channel_participant
+		where boxCode = #{boxCode} and channelId = #{channelId}
+	</delete>
     
 </mapper>

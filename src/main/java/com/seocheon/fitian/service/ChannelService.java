@@ -138,4 +138,16 @@ public class ChannelService {
 	public boolean canEnterChannel(String boxCode, String channelId, String uid) {
 		return participantMapper.isParticipant(boxCode, channelId, uid);
 	}
+	
+	public void deleteChannel(String boxCode, String channelId) {
+		firestore.collection("boxes")
+			.document(boxCode)
+			.collection("channels")
+			.document(channelId)
+			.delete();
+		
+		channelMapper.deleteChannel(boxCode, channelId);
+		participantMapper.deleteAllParticipant(boxCode, channelId);
+		
+	}
 }

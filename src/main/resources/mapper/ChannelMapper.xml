@@ -19,5 +19,11 @@
 		select channelId, channelName, type from fitian.Channel
 		where boxCode = #{boxCode}
 	</select>
+	
+	<delete id="deleteChannel" parameterType="map">
+		delete from fitian.Channel
+		where boxCode = #{boxCode}
+		and channelId = #{channelId}
+	</delete>
     
 </mapper>
