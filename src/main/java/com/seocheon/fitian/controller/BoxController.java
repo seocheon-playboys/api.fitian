@@ -80,7 +80,7 @@ public class BoxController {
     		@RequestBody BoxModel model,
     		@CurrentUser CustomUserDetails userDetails) {
     	BoxModel box = boxService.createBox(model, userDetails);
-    	
+    	System.out.println("박스생성완");
     	ChannelCreateRequestDto req = new ChannelCreateRequestDto();
 
     	List<String> members = List.of(userDetails.getUsername());    	
@@ -89,6 +89,13 @@ public class BoxController {
     	req.setChannelName("general");
     	req.setType("public");
     	req.setMemberUids(members);
+    	
+    	System.out.println("boxCode = "+req.getBoxCode());
+    	System.out.println("channelID = "+req.getChannelId());
+    	System.out.println("channel name = "+req.getChannelName());
+    	System.out.println("type = "+req.getType());
+    	System.out.println("uid = "+req.getMemberUids().get(0));
+    	
     	channelService.createChannel(req,userDetails.getMember());
     	
     	return ResponseEntity.ok(ApiResponse.success(BoxResponseDto.from(box), box.getBoxName()+" 박스가 생성되었습니다."));
