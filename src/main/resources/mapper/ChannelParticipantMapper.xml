@@ -31,7 +31,7 @@
 				where boxCode = #{boxCode} and channelId = #{channelId} and uid = #{uid} )
 	</select>
 	
-	<delete id="deleteAllParticipant" parameterMap="map">
+	<delete id="deleteAllParticipant" parameterType="map">
 		delete from fitian.Channel_participant
 		where boxCode = #{boxCode} and channelId = #{channelId}
 	</delete>

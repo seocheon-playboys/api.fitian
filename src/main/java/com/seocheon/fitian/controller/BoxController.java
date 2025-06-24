@@ -1,5 +1,6 @@
 package com.seocheon.fitian.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,11 @@ import com.seocheon.fitian.auth.security.CustomUserDetails;
 import com.seocheon.fitian.dto.BoxResponseDto;
 import com.seocheon.fitian.dto.BoxSummaryDto;
 import com.seocheon.fitian.dto.UpdateBoxRequest;
+import com.seocheon.fitian.dto.channel.ChannelCreateRequestDto;
 import com.seocheon.fitian.model.ApiResponse;
 import com.seocheon.fitian.model.BoxModel;
 import com.seocheon.fitian.service.BoxService;
+import com.seocheon.fitian.service.ChannelService;
 import com.seocheon.fitian.service.S3Service;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +44,7 @@ public class BoxController {
 
 	@Autowired
 	private BoxService boxService;
+	private ChannelService channelService;
 	
 	@Autowired
 	private S3Service s3Service;
@@ -76,6 +80,17 @@ public class BoxController {
     		@RequestBody BoxModel model,
     		@CurrentUser CustomUserDetails userDetails) {
     	BoxModel box = boxService.createBox(model, userDetails);
+    	
+    	ChannelCreateRequestDto req = new ChannelCreateRequestDto();
+
+    	List<String> members = List.of(userDetails.getUsername());    	
+    	req.setBoxCode(model.getBoxCode());
+    	req.setChannelId(req.getBoxCode()+"_general");
+    	req.setChannelName("general");
+    	req.setType("public");
+    	req.setMemberUids(members);
+    	channelService.createChannel(req,userDetails.getMember());
+    	
     	return ResponseEntity.ok(ApiResponse.success(BoxResponseDto.from(box), box.getBoxName()+" 박스가 생성되었습니다."));
     }
 	
