@@ -91,7 +91,7 @@ public class ChannelController {
 	
 	@Operation(summary = "채널 참여자 제거", description = "자기 자신은 퇴장, 관리자(owner/manager)는 다른 사람을 제거할 수 있습니다.")
 	@AllowedRanks({"owner", "manager", "member"})
-	@DeleteMapping("/{channelId}/participants/{uid}")
+	@DeleteMapping("/{channelId}/participants/{targetUid}")
 	public ResponseEntity<ApiResponse<Void>> deleteParticipant(
 			@PathVariable String channelId,
 			@PathVariable String targetUid,
