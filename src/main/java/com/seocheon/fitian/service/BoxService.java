@@ -15,7 +15,9 @@ import com.seocheon.fitian.model.MemberModel;
 import com.seocheon.fitian.model.ResponseModel;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoxService {
@@ -35,7 +37,7 @@ public class BoxService {
 	
 	@Transactional
 	public BoxModel createBox(BoxModel model, CustomUserDetails userDetails) {
-		
+
 		mapper.createBox(model);
 		
 		MemberModel owner = userDetails.getMember();
