@@ -80,7 +80,11 @@ public class BoxController {
     public ResponseEntity<ApiResponse<BoxResponseDto>> createBox(
     		@RequestBody BoxModel model,
     		@CurrentUser CustomUserDetails userDetails) {
-    	BoxModel box = boxService.createBox(model, userDetails);
+    	
+		log.info("박스생성시작");
+    	System.out.println("박스생성시작");
+		
+		BoxModel box = boxService.createBox(model, userDetails);
     	log.info("박스생성완료");
     	System.out.println("박스생성완료");
     	ChannelCreateRequestDto req = new ChannelCreateRequestDto();
