@@ -1,6 +1,5 @@
 package com.seocheon.fitian.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name="Box API", description="박스 관련 기능 API")
 @RestController
 @RequestMapping("/box")
@@ -80,7 +81,7 @@ public class BoxController {
     		@RequestBody BoxModel model,
     		@CurrentUser CustomUserDetails userDetails) {
     	BoxModel box = boxService.createBox(model, userDetails);
-    	System.out.println("박스생성완");
+    	log.info("박스생성완료");
     	ChannelCreateRequestDto req = new ChannelCreateRequestDto();
 
     	List<String> members = List.of(userDetails.getUsername());    	
@@ -90,11 +91,11 @@ public class BoxController {
     	req.setType("public");
     	req.setMemberUids(members);
     	
-    	System.out.println("boxCode = "+req.getBoxCode());
-    	System.out.println("channelID = "+req.getChannelId());
-    	System.out.println("channel name = "+req.getChannelName());
-    	System.out.println("type = "+req.getType());
-    	System.out.println("uid = "+req.getMemberUids().get(0));
+    	log.info("boxCode = {}",req.getBoxCode());
+    	log.info("channelId = {}",req.getChannelId());
+    	log.info("ChannelName = {}",req.getChannelName());
+    	log.info("Type = {}",req.getType());
+    	log.info("uid = {}",req.getMemberUids().get(0));
     	
     	channelService.createChannel(req,userDetails.getMember());
     	
