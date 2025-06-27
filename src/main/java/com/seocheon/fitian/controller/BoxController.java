@@ -81,31 +81,37 @@ public class BoxController {
     		@RequestBody BoxModel model,
     		@CurrentUser CustomUserDetails userDetails) {
     	
-		log.info("박스생성시작");
-    	System.out.println("박스생성시작");
-		
-		BoxModel box = boxService.createBox(model, userDetails);
-    	log.info("박스생성완료");
-    	System.out.println("박스생성완료");
-    	ChannelCreateRequestDto req = new ChannelCreateRequestDto();
+		try {
+			log.info("박스생성시작");
+	    	System.out.println("박스생성시작");
+			
+			BoxModel box = boxService.createBox(model, userDetails);
+	    	log.info("박스생성완료");
+	    	System.out.println("박스생성완료");
+	    	ChannelCreateRequestDto req = new ChannelCreateRequestDto();
 
-    	List<String> members = List.of(userDetails.getUsername());    	
-    	req.setBoxCode(model.getBoxCode());
-    	req.setChannelId(req.getBoxCode()+"_general");
-    	req.setChannelName("general");
-    	req.setType("public");
-    	req.setMemberUids(members);
-    	
-    	log.info("boxCode = {}",req.getBoxCode());
-    	log.info("channelId = {}",req.getChannelId());
-    	log.info("ChannelName = {}",req.getChannelName());
-    	log.info("Type = {}",req.getType());
-    	log.info("uid = {}",req.getMemberUids().get(0));
-    	System.out.println("boxcode : "+req.getBoxCode()+" channelId : "+req.getChannelId()+" channelName : "+req.getChannelName()+" uid : "+req.getMemberUids().get(0));
-    	
-    	channelService.createChannel(req,userDetails.getMember());
-    	
-    	return ResponseEntity.ok(ApiResponse.success(BoxResponseDto.from(box), box.getBoxName()+" 박스가 생성되었습니다."));
+	    	List<String> members = List.of(userDetails.getUsername());    	
+	    	req.setBoxCode(model.getBoxCode());
+	    	req.setChannelId(req.getBoxCode()+"_general");
+	    	req.setChannelName("general");
+	    	req.setType("public");
+	    	req.setMemberUids(members);
+	    	
+	    	log.info("boxCode = {}",req.getBoxCode());
+	    	log.info("channelId = {}",req.getChannelId());
+	    	log.info("ChannelName = {}",req.getChannelName());
+	    	log.info("Type = {}",req.getType());
+	    	log.info("uid = {}",req.getMemberUids().get(0));
+	    	System.out.println("boxcode : "+req.getBoxCode()+" channelId : "+req.getChannelId()+" channelName : "+req.getChannelName()+" uid : "+req.getMemberUids().get(0));
+	    	
+	    	channelService.createChannel(req,userDetails.getMember());
+	    	
+	    	return ResponseEntity.ok(ApiResponse.success(BoxResponseDto.from(box), box.getBoxName()+" 박스가 생성되었습니다."));
+		} catch (Exception e) {
+			System.out.println("❌ 예외 발생: " + e.getMessage());
+	        e.printStackTrace();
+	        return ResponseEntity.status(500).build();
+		}
     }
 	
 	//박스 정보 수정
