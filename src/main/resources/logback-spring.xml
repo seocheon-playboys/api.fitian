@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 콘솔 출력 Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-3level %logger{5} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일 출력 Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/app.log</file> <!-- 원하는 경로로 수정 가능 -->
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- log4jdbc 관련 설정 -->
+    <logger name="jdbc" level="OFF"/>
+    <logger name="jdbc.sqlonly" level="OFF"/>
+    <logger name="jdbc.sqltiming" level="DEBUG"/>
+    <logger name="jdbc.audit" level="OFF"/>
+    <logger name="jdbc.resultset" level="OFF"/>
+    <logger name="jdbc.resultsettable" level="DEBUG"/>
+    <logger name="jdbc.connection" level="OFF"/>
+
+    <!-- BoxController 로그가 포함될 패키지 로거 (선택사항) -->
+    <logger name="com.seocheon.fitian.controller" level="DEBUG"/>
+
+    <!-- 기본 로그 레벨 설정 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>

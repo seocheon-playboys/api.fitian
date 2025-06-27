@@ -82,6 +82,7 @@ public class BoxController {
     		@CurrentUser CustomUserDetails userDetails) {
     	BoxModel box = boxService.createBox(model, userDetails);
     	log.info("박스생성완료");
+    	System.out.println("박스생성완료");
     	ChannelCreateRequestDto req = new ChannelCreateRequestDto();
 
     	List<String> members = List.of(userDetails.getUsername());    	
@@ -96,6 +97,7 @@ public class BoxController {
     	log.info("ChannelName = {}",req.getChannelName());
     	log.info("Type = {}",req.getType());
     	log.info("uid = {}",req.getMemberUids().get(0));
+    	System.out.println("boxcode : "+req.getBoxCode()+" channelId : "+req.getChannelId()+" channelName : "+req.getChannelName()+" uid : "+req.getMemberUids().get(0));
     	
     	channelService.createChannel(req,userDetails.getMember());
     	
