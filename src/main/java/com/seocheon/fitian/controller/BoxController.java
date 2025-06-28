@@ -94,6 +94,7 @@ public class BoxController {
     	req.setType("public");
     	req.setMemberUids(members);
     	
+    	log.info("Channel DTO = {}",req);
     	channelService.createChannel(req,userDetails.getMember());
     	
     	return ResponseEntity.ok(ApiResponse.success(BoxResponseDto.from(box), box.getBoxName()+" 박스가 생성되었습니다."));
