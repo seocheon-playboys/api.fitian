@@ -1,5 +1,7 @@
 package com.seocheon.fitian.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,8 +19,10 @@ import com.seocheon.fitian.dto.MemberResponseDto;
 import com.seocheon.fitian.dto.MembersResponseDto;
 import com.seocheon.fitian.dto.RankUpdateRequest;
 import com.seocheon.fitian.dto.UpdateSelfRequest;
+import com.seocheon.fitian.dto.channel.ChannelListResponseDto;
 import com.seocheon.fitian.model.ApiResponse;
 import com.seocheon.fitian.model.MemberModel;
+import com.seocheon.fitian.service.ChannelService;
 import com.seocheon.fitian.service.MemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,6 +39,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private ChannelService channelService;
 	
 	//본인 정보 가져오기
 	@Operation(summary = "현재 로그인한 사용자 정보", description = "accessToken 기반으로 로그인한 회원의 정보를 반환합니다.",
@@ -74,11 +81,27 @@ public class MemberController {
     		@CurrentUser CustomUserDetails userDetails) {
 		
 		MemberModel member = memberService.findByUid(update.getUid());
+		String oldRank = member.getRank();
+		String newRank = update.getRank();
 		
+		if(oldRank.equals("guset")) {
+			List<ChannelListResponseDto> channelList = channelService.getChannelListByType(member.getBoxCode(), "notice");
+			for(ChannelListResponseDto dto : channelList) {
+				channelService.inviteParticipant(member.getBoxCode(), dto.getChannelId(), member.getUid(), userDetails.getUsername());
+			}
+		} else if (newRank.equals("guest")) {
+			List<ChannelListResponseDto> channelList = channelService.getChannelList(member.getBoxCode(), member.getUid());
+			for(ChannelListResponseDto dto : channelList) {
+				channelService.deleteParticipant(member.getBoxCode(), dto.getChannelId(), member.getUid());
+			}
+		}
+		
+		//타겟 회원이 owner 일시 못바꿈
 		if(member.getRank().equals("owner")) {
 			return ResponseEntity.badRequest().body(ApiResponse.failure("바꿀 수 없는 회원입니다."));
 		}
 		
+		//본인과 다른 박스코드의 회원은 못바꿈
 		if(!member.getBoxCode().equals(userDetails.getMember().getBoxCode())) {
 			return ResponseEntity.badRequest().body(ApiResponse.failure("다른 박스의 회원 정보는 변경할 수 없습니다."));
 		}

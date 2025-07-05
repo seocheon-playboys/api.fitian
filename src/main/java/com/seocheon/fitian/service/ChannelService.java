@@ -77,9 +77,19 @@ public class ChannelService {
 				.build();
 	}
 	
-	public List<ChannelListResponseDto> getChannelList(String boxCode) {
-		List<ChannelModel> models = channelMapper.selectChannelsByBoxCode(boxCode);
-		
+	public List<ChannelListResponseDto> getChannelList(String boxCode, String uid) {
+		List<ChannelModel> models = channelMapper.selectChannelsByUid(boxCode, uid);		
+		return models.stream()
+				.map(m -> ChannelListResponseDto.builder()
+						.channelId(m.getChannelId())
+						.channelName(m.getChannelName())
+						.type(m.getType())
+						.build())
+				.toList();
+	}
+	
+	public List<ChannelListResponseDto> getChannelListByType(String boxCode, String type) {
+		List<ChannelModel> models = channelMapper.selectChannelsByType(boxCode, type);		
 		return models.stream()
 				.map(m -> ChannelListResponseDto.builder()
 						.channelId(m.getChannelId())
@@ -92,6 +102,31 @@ public class ChannelService {
 	public List<ChannelParticipantResponseDto> getChannelParticipants(String boxCode, String channelId) {
 		
 		return participantMapper.selectUidsByBoxAndChannel(boxCode, channelId);
+	}
+	
+	@Transactional
+	public void inviteParticipant(String boxCode, String channelId, String uid, String inviterUid) {
+		List<String> existing = participantMapper.selectExistingUids(boxCode, channelId);
+		
+		if(existing.contains(uid)) {
+			return;
+		}
+		
+		ChannelParticipantModel p = new ChannelParticipantModel();
+		p.setBoxCode(boxCode);
+		p.setChannelId(channelId);
+		p.setUid(uid);
+		participantMapper.insertParticipant(p);
+		
+		try {
+			firestore.collection("boxes")
+					.document(boxCode)
+					.collection("channels")
+					.document(channelId)
+					.update("memberUids", com.google.cloud.firestore.FieldValue.arrayUnion(uid));
+		} catch (Exception e) {
+			throw new RuntimeException("Firestore 참여자 추가 실패", e);
+		}
 	}
 	
 	@Transactional

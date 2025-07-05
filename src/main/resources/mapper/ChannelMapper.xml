@@ -20,6 +20,17 @@
 		where boxCode = #{boxCode}
 	</select>
 	
+	<select id="selectChannelsByType" parameterType="String" resultType="ChannelModel">
+		select channelId, channelName, type from fitian.Channel
+		where boxCode = #{boxCode} and type = #{type}
+	</select>
+	
+	<select id="selectChannelsByUid" parameterType="String" resultType="ChannelModel">
+		select c.channelId, c.channelName, c.type from fitian.Channel c 
+		inner join fitian.Channel_participant cp  on c.channelId = cp.channelId 
+		where c.boxCode = #{boxCode} and cp.uid = #{uid}
+	</select>
+	
 	<delete id="deleteChannel" parameterType="map">
 		delete from fitian.Channel
 		where boxCode = #{boxCode}

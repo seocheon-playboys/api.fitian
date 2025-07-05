@@ -16,5 +16,9 @@ public interface ChannelMapper {
 	
 	List<ChannelModel> selectChannelsByBoxCode(@Param("boxCode") String boxCode);
 	
+	List<ChannelModel> selectChannelsByUid(@Param("boxCode") String boxCode, @Param("uid") String uid);
+	
+	List<ChannelModel> selectChannelsByType(@Param("boxCode") String boxCode, @Param("type") String type);
+	
 	void deleteChannel(@Param("boxCode") String boxCode, @Param("channelId") String channelId);
 }

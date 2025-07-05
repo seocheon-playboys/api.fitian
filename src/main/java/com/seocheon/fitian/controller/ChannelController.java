@@ -56,7 +56,8 @@ public class ChannelController {
 			@CurrentUser CustomUserDetails userDetails) {
 		
 		String boxCode = userDetails.getMember().getBoxCode();
-		List<ChannelListResponseDto> result = channelService.getChannelList(boxCode);
+		String uid = userDetails.getUsername();
+		List<ChannelListResponseDto> result = channelService.getChannelList(boxCode, uid);
 		
 		return ResponseEntity.ok(ApiResponse.success(result));
 	}
