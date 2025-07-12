@@ -85,7 +85,7 @@ public class MemberController {
 		String newRank = update.getRank();
 		
 		if(oldRank.equals("guest")) {
-			List<ChannelListResponseDto> channelList = channelService.getChannelListByType(member.getBoxCode(), "notice");
+			List<ChannelListResponseDto> channelList = channelService.getChannelListByType(member.getBoxCode(), "public");
 			for(ChannelListResponseDto dto : channelList) {
 				channelService.inviteParticipant(member.getBoxCode(), dto.getChannelId(), member.getUid(), userDetails.getUsername());
 			}
