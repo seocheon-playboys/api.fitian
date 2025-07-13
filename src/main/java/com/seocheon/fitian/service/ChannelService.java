@@ -15,6 +15,7 @@ import com.seocheon.fitian.dto.channel.ChannelParticipantResponseDto;
 import com.seocheon.fitian.dto.channel.ChannelResponseDto;
 import com.seocheon.fitian.mapper.ChannelMapper;
 import com.seocheon.fitian.mapper.ChannelParticipantMapper;
+import com.seocheon.fitian.mapper.MemberMapper;
 import com.seocheon.fitian.model.ChannelModel;
 import com.seocheon.fitian.model.ChannelParticipantModel;
 import com.seocheon.fitian.model.MemberModel;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChannelService {
 
+	private final MemberMapper memberMapper;
 	private final ChannelMapper channelMapper;
 	private final ChannelParticipantMapper participantMapper;
 	private final Firestore firestore;
@@ -41,6 +43,15 @@ public class ChannelService {
 		model.setType(req.getType());
 		model.setCreatedBy(creator.getUid());
 		model.setCreatedAt(LocalDateTime.now());
+
+		if(req.getType().equals("public") || req.getType().equals("notice")) {//채널 타입이 public, notice 일 경우 해당 박스의 모든 멤버.
+			List<MemberModel> memberList = memberMapper.getAllMember(creator); //creator가 manager,owner 일때만 작동
+			for(MemberModel m : memberList) {
+				req.getMemberUids().add(m.getUid());
+			}
+		} else { // public, notice 일 경우 참여자 목록에 채널 생성자 uid 추가
+			req.getMemberUids().add(creator.getUid());
+		}
 		
 		channelMapper.insertChannel(model);
 		

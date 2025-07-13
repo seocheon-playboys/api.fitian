@@ -85,8 +85,14 @@ public class MemberController {
 		String newRank = update.getRank();
 		
 		if(oldRank.equals("guest")) {
-			List<ChannelListResponseDto> channelList = channelService.getChannelListByType(member.getBoxCode(), "public");
-			for(ChannelListResponseDto dto : channelList) {
+			//public인 채널에 전부 참여자로 추가
+			List<ChannelListResponseDto> channelListPublic = channelService.getChannelListByType(member.getBoxCode(), "public");
+			for(ChannelListResponseDto dto : channelListPublic) {
+				channelService.inviteParticipant(member.getBoxCode(), dto.getChannelId(), member.getUid(), userDetails.getUsername());
+			}
+			//notice인 채널에 전부 참여자로 추가
+			List<ChannelListResponseDto> channelListNotice = channelService.getChannelListByType(member.getBoxCode(), "notive");
+			for(ChannelListResponseDto dto : channelListNotice) {
 				channelService.inviteParticipant(member.getBoxCode(), dto.getChannelId(), member.getUid(), userDetails.getUsername());
 			}
 		} else if (newRank.equals("guest")) {
