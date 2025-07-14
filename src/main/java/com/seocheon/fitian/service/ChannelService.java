@@ -45,6 +45,7 @@ public class ChannelService {
 		model.setCreatedAt(LocalDateTime.now());
 
 		if(req.getType().equals("public") || req.getType().equals("notice")) {//채널 타입이 public, notice 일 경우 해당 박스의 모든 멤버.
+			creator.setRank(null);			
 			List<MemberModel> memberList = memberMapper.getAllMember(creator); //creator가 manager,owner 일때만 작동
 			for(MemberModel m : memberList) {
 				req.getMemberUids().add(m.getUid());
