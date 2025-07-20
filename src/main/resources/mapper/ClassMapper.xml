@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.seocheon.fitian.mapper.ClassMapper">
+    
+    <select id="findByClassDates" resultType="ClassModel">
+        select *
+        from fitian.Class
+        where boxCode = #{boxCode} 
+        and classDate between #{startDate} and #{endDate}
+    </select>
+    
+    <insert id="createClass">
+    	insert into fitian.Class (boxCode, classDate, startTime, endTime, classMemberCapacity, classTitle, classMemo) 
+    	value (#{boxCode},#{classDate},#{startTime},#{endTime},#{classMemberCapacity},#{classTitle},#{classMemo})
+    </insert>
+   
+</mapper>
