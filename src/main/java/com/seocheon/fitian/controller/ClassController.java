@@ -80,7 +80,7 @@ public class ClassController {
 	@Operation(summary = "수업 참여자 반환", description = "해당수업의 참여자 리스트를 반환합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager","member"})
-	@PostMapping("/joinClass")
+	@PostMapping("/getClassParticipant")
 	public ResponseEntity<ApiResponse<Void>> getMembersByClassNo(
 			@CurrentUser CustomUserDetails userDetails,
 			@RequestBody ClassParticipantModel model) {
