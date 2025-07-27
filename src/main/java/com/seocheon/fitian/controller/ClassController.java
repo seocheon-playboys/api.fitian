@@ -14,6 +14,7 @@ import com.seocheon.fitian.auth.security.CustomUserDetails;
 import com.seocheon.fitian.dto.classes.SearchClassDTO;
 import com.seocheon.fitian.model.ApiResponse;
 import com.seocheon.fitian.model.ClassModel;
+import com.seocheon.fitian.model.ClassParticipantModel;
 import com.seocheon.fitian.service.ClassService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,4 +62,61 @@ public class ClassController {
 		return ResponseEntity.ok(ApiResponse.success(classService.getClasses(dto),"수업이 작성되었습니다."));
 	}
 	
+	//수업 참여하기
+	@Operation(summary = "수업 참여하기", description = "해당박스의 회원이 지정한 날짜의 수업에 참여합니다",
+			security = @SecurityRequirement(name = "bearerAuth"))
+	@AllowedRanks({"owner","manager","member"})
+	@PostMapping("/joinClass")
+	public ResponseEntity<ApiResponse<Void>> joinClass(
+			@CurrentUser CustomUserDetails userDetails,
+			@RequestBody ClassParticipantModel model) {
+		
+		String boxCode = userDetails.getMember().getBoxCode();
+		classService.joinClass(boxCode, model);
+		return ResponseEntity.ok(ApiResponse.success(null,"수업이 작성되었습니다."));
+	}
+	
+	//수업 참여자 반환
+	@Operation(summary = "수업 참여자 반환", description = "해당수업의 참여자 리스트를 반환합니다.",
+			security = @SecurityRequirement(name = "bearerAuth"))
+	@AllowedRanks({"owner","manager","member"})
+	@PostMapping("/joinClass")
+	public ResponseEntity<ApiResponse<Void>> getMembersByClassNo(
+			@CurrentUser CustomUserDetails userDetails,
+			@RequestBody ClassParticipantModel model) {
+		
+		String boxCode = userDetails.getMember().getBoxCode();
+		classService.joinClass(boxCode, model);
+		return ResponseEntity.ok(ApiResponse.success(null,"수업이 작성되었습니다."));
+	}
+	
+	//수업 수정하기
+	@Operation(summary = "수업 수정하기", description = "owner,manager 유저가 수업을 수정합니다.",
+			security = @SecurityRequirement(name = "bearerAuth"))
+	@AllowedRanks({"owner","manager"})
+	@PostMapping("/class/update")
+	public ResponseEntity<ApiResponse<Void>> updateClass(
+			@CurrentUser CustomUserDetails userDetails,
+			@RequestBody ClassModel model) {
+		
+		String boxCode = userDetails.getMember().getBoxCode();
+		classService.updateClass(boxCode, model);
+		
+		return ResponseEntity.ok(ApiResponse.success(null,"수업이 수정되었습니다."));
+	}
+	
+	//수업 삭제하기
+	@Operation(summary = "수업 삭제하기", description = "owner,manager 유저가 수업을 삭제합니다.",
+			security = @SecurityRequirement(name = "bearerAuth"))
+	@AllowedRanks({"owner","manager"})
+	@PostMapping("/class/delete")
+	public ResponseEntity<ApiResponse<Void>> deleteClass(
+			@CurrentUser CustomUserDetails userDetails,
+			@RequestBody ClassModel model) {
+		
+		String boxCode = userDetails.getMember().getBoxCode();
+		classService.deleteClass(boxCode, model);
+		
+		return ResponseEntity.ok(ApiResponse.success(null,"수업이 삭제되었습니다."));
+	}
 }

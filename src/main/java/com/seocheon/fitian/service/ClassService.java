@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.seocheon.fitian.dto.classes.SearchClassDTO;
 import com.seocheon.fitian.mapper.ClassMapper;
 import com.seocheon.fitian.model.ClassModel;
+import com.seocheon.fitian.model.ClassParticipantModel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -90,5 +91,21 @@ public class ClassService {
         }
 		
 	}
+	
+	public void joinClass(String boxCode, ClassParticipantModel model) {
+		if(!classMapper.findByClassNo(model.getClassNo()).getBoxCode().equals(boxCode)) {
+			throw new IllegalArgumentException("다른 박스의 클래스는 신청할 수 없습니다.");
+		}
+		classMapper.joinClass(model);
+	}
+	
+	public void updateClass(String boxCode, ClassModel model) {
+		model.setBoxCode(boxCode);
+		classMapper.updateClass(model);
+	}
 
+	public void deleteClass(String boxCode, ClassModel model) {
+		model.setBoxCode(boxCode);
+		classMapper.deleteClass(model);
+	}
 }

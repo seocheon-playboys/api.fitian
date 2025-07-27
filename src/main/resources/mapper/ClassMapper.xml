@@ -11,9 +11,55 @@
         and classDate between #{startDate} and #{endDate}
     </select>
     
+    <select id="findByClassNo" resultType="ClassModel">
+        select *
+        from fitian.Class
+        where classNo = #{classNo}
+    </select>
+    
     <insert id="createClass">
     	insert into fitian.Class (boxCode, classDate, startTime, endTime, classMemberCapacity, classTitle, classMemo) 
     	value (#{boxCode},#{classDate},#{startTime},#{endTime},#{classMemberCapacity},#{classTitle},#{classMemo})
     </insert>
+    
+    <select id="getMembersByClassNo" resultType="ClassParticipantModel">
+        select *
+        from fitian.Class_participant
+        where classNo = #{classNo}
+    </select>
+    
+    <insert id="joinClass">
+    	insert into fitian.Class_participant (classNo, uid) 
+    	value (#{classNo},#{uid})
+    </insert>
+    
+    <update id="updateClass" parameterType="String">
+    	update fitian.Class
+    	SET 
+    	<if test='classDate != null  and(classDate neq "".toString())'>
+			classDate=#{classDate},
+ 		</if>
+ 		<if test='startTime != null  and(startTime neq "".toString())'>
+			startTime=#{startTime},
+ 		</if>
+ 		<if test='endTime != null  and(endTime neq "".toString())'>
+			endTime=#{endTime},
+ 		</if>
+ 		<if test='classMemberCapacity != null  and(classMemberCapacity neq "".toString())'>
+			classMemberCapacity=#{classMemberCapacity},
+ 		</if>
+ 		<if test='classTitle != null  and(classTitle neq "".toString())'>
+			classTitle=#{classTitle},
+ 		</if>
+ 		<if test='classMemo != null  and(classMemo neq "".toString())'>
+			classMemo=#{classMemo},
+ 		</if>
+ 		boxCode=#{boxCode}
+    	where classNo = #{classNo}
+    </update>
    
+   <delete id="deleteClass">
+	   delete from fitian.Class
+	   where classNo = #{classNo}
+   </delete>
 </mapper>
