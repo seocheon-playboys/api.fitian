@@ -36,7 +36,7 @@ public class ClassController {
 	@Operation(summary = "수업 작성하기", description = "owner,manager 유저가 수업을 생성합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@PostMapping("/class")
+	@PostMapping("/create")
 	public ResponseEntity<ApiResponse<Void>> createClass(
 			@CurrentUser CustomUserDetails userDetails,
 			@RequestBody List<ClassModel> requestList) {
@@ -94,7 +94,7 @@ public class ClassController {
 	@Operation(summary = "수업 수정하기", description = "owner,manager 유저가 수업을 수정합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@PostMapping("/class/update")
+	@PostMapping("/update")
 	public ResponseEntity<ApiResponse<Void>> updateClass(
 			@CurrentUser CustomUserDetails userDetails,
 			@RequestBody ClassModel model) {
@@ -109,7 +109,7 @@ public class ClassController {
 	@Operation(summary = "수업 삭제하기", description = "owner,manager 유저가 수업을 삭제합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@PostMapping("/class/delete")
+	@PostMapping("/delete")
 	public ResponseEntity<ApiResponse<Void>> deleteClass(
 			@CurrentUser CustomUserDetails userDetails,
 			@RequestBody ClassModel model) {
