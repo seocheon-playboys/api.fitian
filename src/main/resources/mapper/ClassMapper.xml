@@ -9,6 +9,7 @@
         from fitian.Class
         where boxCode = #{boxCode} 
         and classDate between #{startDate} and #{endDate}
+        order by classDate, startTime 
     </select>
     
     <select id="findByClassNo" resultType="ClassModel">
