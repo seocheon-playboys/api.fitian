@@ -34,7 +34,7 @@
     	value (#{classNo},#{uid})
     </insert>
     
-    <update id="updateClass">
+    <update id="updateClass" parameterType="ClassModel">
     	update fitian.Class
     	SET 
     	<if test='classDate != null  and(classDate neq "".toString())'>
