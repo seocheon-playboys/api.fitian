@@ -100,7 +100,6 @@ public class ClassController {
 			@RequestBody ClassModel model) {
 		
 		String boxCode = userDetails.getMember().getBoxCode();
-		System.out.println(model.getClassMemo()+" "+model.getStartTime()+" "+model.getEndTime());
 		classService.updateClass(boxCode, model);
 		
 		return ResponseEntity.ok(ApiResponse.success(null,"수업이 수정되었습니다."));
