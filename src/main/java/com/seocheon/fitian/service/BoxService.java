@@ -42,6 +42,7 @@ public class BoxService {
 		
 		MemberModel owner = userDetails.getMember();
 		owner.setRank("owner");
+		owner.setBoxCode(model.getBoxCode());
 		memberMapper.updateMember(owner);
 		
 		BoxModel box = mapper.getBoxByCode(model.getBoxCode());
