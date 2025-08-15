@@ -47,9 +47,6 @@ public class BoxController {
 	private BoxService boxService;
 	
 	@Autowired
-	private ChannelService channelService;
-	
-	@Autowired
 	private S3Service s3Service;
 	
 	//박스 정보 가져오기
@@ -84,18 +81,6 @@ public class BoxController {
     		@CurrentUser CustomUserDetails userDetails) {
 		
 		BoxModel box = boxService.createBox(model, userDetails);
-
-    	ChannelCreateRequestDto req = new ChannelCreateRequestDto();
-
-    	List<String> members = List.of(userDetails.getUsername());    	
-    	req.setBoxCode(model.getBoxCode());
-    	req.setChannelId(req.getBoxCode()+"_general");
-    	req.setChannelName("general");
-    	req.setType("public");
-    	req.setMemberUids(members);
-    	
-    	log.info("Channel DTO = {}",req);
-    	channelService.createChannel(req,userDetails.getMember());
     	
     	return ResponseEntity.ok(ApiResponse.success(BoxResponseDto.from(box), box.getBoxName()+" 박스가 생성되었습니다."));
     }

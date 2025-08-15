@@ -2,12 +2,14 @@ package com.seocheon.fitian.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.seocheon.fitian.auth.security.CustomUserDetails;
 import com.seocheon.fitian.dto.BoxSummaryDto;
 import com.seocheon.fitian.dto.UpdateBoxRequest;
+import com.seocheon.fitian.dto.channel.ChannelCreateRequestDto;
 import com.seocheon.fitian.mapper.BoxMapper;
 import com.seocheon.fitian.mapper.MemberMapper;
 import com.seocheon.fitian.model.BoxModel;
@@ -24,6 +26,7 @@ public class BoxService {
 
 	private final BoxMapper mapper;
 	private final MemberMapper memberMapper;
+	private ChannelService channelService;
 	
 	public BoxModel getBoxByCode(String boxCode) {
 		
@@ -46,6 +49,18 @@ public class BoxService {
 		memberMapper.updateMember(owner);
 		
 		BoxModel box = mapper.getBoxByCode(model.getBoxCode());
+		
+		ChannelCreateRequestDto req = new ChannelCreateRequestDto();
+
+    	List<String> members = List.of(userDetails.getUsername());    	
+    	req.setBoxCode(model.getBoxCode());
+    	req.setChannelId(req.getBoxCode()+"_general");
+    	req.setChannelName("general");
+    	req.setType("public");
+    	req.setMemberUids(members);
+    	
+    	log.info("Channel DTO = {}",req);
+    	channelService.createChannel(req,owner);
 		
 		return box;
 	}
