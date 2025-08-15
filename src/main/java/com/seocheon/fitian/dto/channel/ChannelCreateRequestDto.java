@@ -3,9 +3,11 @@ package com.seocheon.fitian.dto.channel;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 @Schema(description = "채널 개설 요청 DTO")
 public class ChannelCreateRequestDto {
 	
