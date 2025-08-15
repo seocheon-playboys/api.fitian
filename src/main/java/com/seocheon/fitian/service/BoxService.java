@@ -26,7 +26,7 @@ public class BoxService {
 
 	private final BoxMapper mapper;
 	private final MemberMapper memberMapper;
-	private ChannelService channelService;
+	private final ChannelService channelService;
 	
 	public BoxModel getBoxByCode(String boxCode) {
 		
