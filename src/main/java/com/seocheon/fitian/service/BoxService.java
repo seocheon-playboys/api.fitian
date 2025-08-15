@@ -50,17 +50,22 @@ public class BoxService {
 		
 		BoxModel box = mapper.getBoxByCode(model.getBoxCode());
 		
-		ChannelCreateRequestDto req = new ChannelCreateRequestDto();
+		try {
+			ChannelCreateRequestDto req = new ChannelCreateRequestDto();
 
-    	List<String> members = List.of(userDetails.getUsername());    	
-    	req.setBoxCode(model.getBoxCode());
-    	req.setChannelId(req.getBoxCode()+"_general");
-    	req.setChannelName("general");
-    	req.setType("public");
-    	req.setMemberUids(members);
-    	
-    	log.info("Channel DTO = {}",req);
-    	channelService.createChannel(req,owner);
+	    	List<String> members = List.of(userDetails.getUsername());    	
+	    	req.setBoxCode(model.getBoxCode());
+	    	req.setChannelId(req.getBoxCode()+"_general");
+	    	req.setChannelName("general");
+	    	req.setType("public");
+	    	req.setMemberUids(members);
+	    	
+	    	log.info("Channel DTO = {}",req);
+	    	channelService.createChannel(req,owner);
+		} catch (Exception e) {
+			System.out.println("error = "+e);
+		}
+		
 		
 		return box;
 	}
