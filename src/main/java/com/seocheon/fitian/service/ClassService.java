@@ -92,11 +92,34 @@ public class ClassService {
 		
 	}
 	
+	public List<ClassParticipantModel> findMembersByClassNo(int classNo) {
+		return classMapper.findMembersByClassNo(classNo);
+	}
+	
 	public void joinClass(String boxCode, ClassParticipantModel model) {
 		if(!classMapper.findByClassNo(model.getClassNo()).getBoxCode().equals(boxCode)) {
 			throw new IllegalArgumentException("다른 박스의 클래스는 신청할 수 없습니다.");
 		}
+		
+		if(classMapper.findByClassNoAndUid(model)) {
+	        throw new IllegalStateException("이미 참여한 수업입니다.");
+	    }
 		classMapper.joinClass(model);
+	}
+	
+	public void cancelClass(String boxCode, ClassParticipantModel model) {
+	    // 1. 클래스가 해당 박스에 소속된 것인지 검증
+	    if(!classMapper.findByClassNo(model.getClassNo()).getBoxCode().equals(boxCode)) {
+	        throw new IllegalArgumentException("다른 박스의 클래스는 취소할 수 없습니다.");
+	    }
+
+	    // 2. 참여내역이 없는 경우 예외 처리
+	    if(!classMapper.findByClassNoAndUid(model)) {
+	        throw new IllegalStateException("참여하지 않은 수업은 취소할 수 없습니다.");
+	    }
+
+	    // 3. 실제 취소(삭제) 처리
+	    classMapper.cancelClass(model);
 	}
 	
 	public void updateClass(String boxCode, ClassModel model) {

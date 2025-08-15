@@ -73,21 +73,33 @@ public class ClassController {
 		
 		String boxCode = userDetails.getMember().getBoxCode();
 		classService.joinClass(boxCode, model);
-		return ResponseEntity.ok(ApiResponse.success(null,"수업이 작성되었습니다."));
+		return ResponseEntity.ok(ApiResponse.success(null,"수업에 참여되었습니다."));
+	}
+	
+	//수업 취소하기
+	@Operation(summary = "수업 취소하기", description = "해당박스의 회원이 지정한 날짜의 참여신청 수업을 취소합니다",
+			security = @SecurityRequirement(name = "bearerAuth"))
+	@AllowedRanks({"owner","manager","member"})
+	@PostMapping("/cancelClass")
+	public ResponseEntity<ApiResponse<Void>> cancelClass(
+			@CurrentUser CustomUserDetails userDetails,
+			@RequestBody ClassParticipantModel model) {
+		
+		String boxCode = userDetails.getMember().getBoxCode();
+		classService.cancelClass(boxCode, model);
+		return ResponseEntity.ok(ApiResponse.success(null,"수업이 취소되었습니다."));
 	}
 	
 	//수업 참여자 반환
 	@Operation(summary = "수업 참여자 반환", description = "해당수업의 참여자 리스트를 반환합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
-	@AllowedRanks({"owner","manager","member"})
+	@AllowedRanks({"owner","manager"})
 	@PostMapping("/getClassParticipant")
-	public ResponseEntity<ApiResponse<Void>> getMembersByClassNo(
+	public ResponseEntity<ApiResponse<List<ClassParticipantModel>>> getMembersByClassNo(
 			@CurrentUser CustomUserDetails userDetails,
-			@RequestBody ClassParticipantModel model) {
-		
-		String boxCode = userDetails.getMember().getBoxCode();
-		classService.joinClass(boxCode, model);
-		return ResponseEntity.ok(ApiResponse.success(null,"수업이 작성되었습니다."));
+			@RequestBody ClassModel model) {
+		int classNo = model.getClassNo();
+		return ResponseEntity.ok(ApiResponse.success(classService.findMembersByClassNo(classNo),"수업참여자 정보를 반환합니다."));
 	}
 	
 	//수업 수정하기

@@ -5,16 +5,25 @@
 <mapper namespace="com.seocheon.fitian.mapper.ClassMapper">
     
     <select id="findByClassDates" resultType="ClassModel">
-        select *
-        from fitian.Class
+        select *,count(cp.uid) as participantCount
+        from fitian.Class c
+        left join fitian.Class_participant cp on c.classNo = cp.classNo
         where boxCode = #{boxCode} 
         and classDate between #{startDate} and #{endDate}
+        group by c.classNo
         order by classDate, startTime 
     </select>
     
     <select id="findByClassNo" resultType="ClassModel">
         select *
         from fitian.Class
+        where classNo = #{classNo}
+    </select>
+    
+    <select id="findMembersByClassNo" resultType="ClassParticipantModel">
+        select cp.uid, m.name
+        from fitian.Class_participant cp
+        inner join fitian.Member m on cp.uid = m.uid
         where classNo = #{classNo}
     </select>
     
@@ -58,9 +67,21 @@
  		boxCode=#{boxCode}
     	where classNo = #{classNo}
     </update>
+    
+    <select id="findByClassNoAndUid" resultType="boolean">
+		SELECT COUNT(*) > 0
+		FROM fitian.Class_participant
+		WHERE classNo = #{classNo} AND uid = #{uid}
+	</select>
    
    <delete id="deleteClass">
 	   delete from fitian.Class
 	   where classNo = #{classNo}
    </delete>
+   
+   <delete id="cancleClass">
+	   delete from Class_participant
+	   where classNo = #{classNo} and uid = #{uid}
+   </delete>
+   
 </mapper>

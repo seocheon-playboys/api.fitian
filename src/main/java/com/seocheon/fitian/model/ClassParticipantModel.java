@@ -10,4 +10,5 @@ public class ClassParticipantModel {
 	private int class_participantNo;
 	private int classNo;
 	private String uid;
+	private String name;
 }

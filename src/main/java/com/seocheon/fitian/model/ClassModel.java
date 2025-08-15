@@ -23,4 +23,5 @@ public class ClassModel {
 	private int classMemberCapacity;
 	private String classTitle;
 	private String classMemo;
+	private int participantCount;
 }

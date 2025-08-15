@@ -22,10 +22,16 @@ public interface ClassMapper {
 	
 	void joinClass(ClassParticipantModel model);
 	
+	void cancelClass(ClassParticipantModel model);
+	
 	List<ClassParticipantModel> getMembersByClassNo(int classNo);
+	
+	List<ClassParticipantModel> findMembersByClassNo(int classNo);
 	
 	void updateClass(ClassModel model);
 	
 	void deleteClass(ClassModel model);
+	
+	boolean findByClassNoAndUid(ClassParticipantModel model);
 	
 }
