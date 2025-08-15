@@ -1,6 +1,7 @@
 package com.seocheon.fitian.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,9 @@ import com.seocheon.fitian.model.ChannelParticipantModel;
 import com.seocheon.fitian.model.MemberModel;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChannelService {
@@ -35,7 +38,7 @@ public class ChannelService {
 		if(channelMapper.selectChannelById(req.getBoxCode(), req.getChannelId()) != null) {
 			throw new IllegalArgumentException("이미 존재하는 채널 ID 입니다.");
 		}
-		
+
 		ChannelModel model = new ChannelModel();
 		model.setBoxCode(req.getBoxCode());
 		model.setChannelId(req.getChannelId());
@@ -43,19 +46,23 @@ public class ChannelService {
 		model.setType(req.getType());
 		model.setCreatedBy(creator.getUid());
 		model.setCreatedAt(LocalDateTime.now());
-
+		
+		List<String> memberUids = new ArrayList<>();
+		
 		if(req.getType().equals("public") || req.getType().equals("notice")) {//채널 타입이 public, notice 일 경우 해당 박스의 모든 멤버.
 			creator.setRank(null);			
 			List<MemberModel> memberList = memberMapper.getAllMember(creator); //creator가 manager,owner 일때만 작동
 			for(MemberModel m : memberList) {
-				req.getMemberUids().add(m.getUid());
+				memberUids.add(m.getUid());
 			}
-		} else { // public, notice 일 경우 참여자 목록에 채널 생성자 uid 추가
-			req.getMemberUids().add(creator.getUid());
+			req.setMemberUids(memberUids);
+		} else { // public, notice 아닐 경우 참여자 목록에 채널 생성자 uid 추가
+			memberUids.add(creator.getUid());
+			req.setMemberUids(memberUids);
 		}
 		
 		channelMapper.insertChannel(model);
-		
+	
 		for(String uid : req.getMemberUids()) {
 			ChannelParticipantModel p = new ChannelParticipantModel();
 			p.setBoxCode(req.getBoxCode());

@@ -4,7 +4,7 @@
 
 <mapper namespace="com.seocheon.fitian.mapper.ChannelMapper">
     
-    <insert id="insertChannel">
+    <insert id="insertChannel" parameterType="com.seocheon.fitian.mapper.ChannelMapper">
 		insert into fitian.Channel (boxCode, channelId, channelName, type, createdBy, createdAt)
 		values (#{boxCode}, #{channelId}, #{channelName}, #{type}, #{createdBy}, #{createdAt})
 	</insert>
