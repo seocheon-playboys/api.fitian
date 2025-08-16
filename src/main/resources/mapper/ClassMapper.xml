@@ -79,7 +79,7 @@
 	   where classNo = #{classNo}
    </delete>
    
-   <delete id="cancleClass">
+   <delete id="cancelClass">
 	   delete from fitian.Class_participant
 	   where classNo = #{classNo} and uid = #{uid}
    </delete>
