@@ -3,6 +3,7 @@ package com.seocheon.fitian.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.ExecutorType;
@@ -70,8 +71,18 @@ public class ClassService {
 		
 	}
 	
-	public List<ClassModel> getClasses(SearchClassDTO dto) {
-		return classMapper.findByClassDates(dto);
+	public List<ClassModel> getClasses(SearchClassDTO dto, String uid) {
+		List<ClassModel> classes = classMapper.findByClassDates(dto);
+		
+		for(ClassModel c : classes) {
+			ClassParticipantModel model = new ClassParticipantModel();
+			model.setClassNo(c.getClassNo());
+			model.setUid(uid);
+			boolean participated = classMapper.findByClassNoAndUid(model);
+			c.setParticipated(participated);
+		}
+		
+		return classes;
 	}
 	
 	private void batchQuery(List<ClassModel> requestList) {

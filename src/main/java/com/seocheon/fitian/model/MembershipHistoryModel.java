@@ -15,6 +15,7 @@ public class MembershipHistoryModel {
 	private int historyNo;
     private int membershipNo;
     private String actionType;
+    private int period;
     private String prevValue;
     private String newValue;
     private String performedBy;

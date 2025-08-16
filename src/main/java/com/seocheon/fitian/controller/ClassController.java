@@ -59,7 +59,7 @@ public class ClassController {
 		String boxCode = userDetails.getMember().getBoxCode();
 		dto.setBoxCode(boxCode);
 		
-		return ResponseEntity.ok(ApiResponse.success(classService.getClasses(dto),"수업이 작성되었습니다."));
+		return ResponseEntity.ok(ApiResponse.success(classService.getClasses(dto, userDetails.getUsername()),"수업이 작성되었습니다."));
 	}
 	
 	//수업 참여하기

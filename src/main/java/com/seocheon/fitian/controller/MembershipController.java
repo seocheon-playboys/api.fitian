@@ -3,6 +3,7 @@ package com.seocheon.fitian.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,10 +53,10 @@ public class MembershipController {
 	@Operation(summary = "회원권 조회하기", description = "owner,manager 유저가 회원권을 조회합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@PostMapping("/getMembership")
+	@GetMapping("/getMembership")
 	public ResponseEntity<ApiResponse<MembershipModel>> getMembership(
 			@CurrentUser CustomUserDetails userDetails,
-			@RequestBody String uid) {
+			@RequestParam("uid") String uid) {
 		
 		String boxCode = userDetails.getMember().getBoxCode();
 		
@@ -100,10 +101,10 @@ public class MembershipController {
 	@Operation(summary = "회원권 로그보기", description = "owner,manager 유저가 회원권 로그를 조회합니다.",
 			security = @SecurityRequirement(name = "bearerAuth"))
 	@AllowedRanks({"owner","manager"})
-	@PostMapping("/viewMembershipHistory")
+	@GetMapping("/viewMembershipHistory")
 	public ResponseEntity<ApiResponse<List<MembershipHistoryModel>>> viewMembershipHistory(
 			@CurrentUser CustomUserDetails userDetails,
-			@RequestParam("MembershipNo") int membershipNo) {
+			@RequestParam("membershipNo") int membershipNo) {
 		
 		return ResponseEntity.ok(ApiResponse.success(membershipService.viewMembershipHistory(membershipNo),"회원권 로그가 조회되었습니다."));
 	}
