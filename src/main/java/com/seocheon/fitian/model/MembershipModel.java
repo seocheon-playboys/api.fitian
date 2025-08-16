@@ -1,41 +1,29 @@
 package com.seocheon.fitian.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MembershipModel {
 
+	private int membershipNo;
 	private String uid;
-	private String box;
-	private String startDate;
-	private String endDate;
-	private String rank;
-	
-	public String getUid() {
-		return uid;
-	}
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-	public String getBox() {
-		return box;
-	}
-	public void setBox(String box) {
-		this.box = box;
-	}
-	public String getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
-	public String getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-	public String getRank() {
-		return rank;
-	}
-	public void setRank(String rank) {
-		this.rank = rank;
-	}
+	private String boxCode;
+	private String membershipName;
+	private LocalDate startDate;
+	private LocalDate expirationDate;
+	private String status;
+	private String memo;
+	private LocalDateTime createdAt;
+	private int period;
 }

@@ -80,7 +80,7 @@
    </delete>
    
    <delete id="cancleClass">
-	   delete from Class_participant
+	   delete from fitian.Class_participant
 	   where classNo = #{classNo} and uid = #{uid}
    </delete>
    

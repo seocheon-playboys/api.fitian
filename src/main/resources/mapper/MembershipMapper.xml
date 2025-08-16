@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.seocheon.fitian.mapper.MembershipModel">
+    
+    <select id="findByUid" resultType="MembershipModel">
+        select *
+        from fitian.Membership
+        where uid = #{uid} and boxCode = #{boxCode}
+    </select>
+    
+    <insert id="createMembership">
+    	insert into fitian.Membership (uid, boxCode, membershipName, startDate, expirationDate, status, memo) 
+    	value (#{uid},#{boxCode},#{membershipName},#{startDate},#{expirationDate},#{status},#{memo})
+    </insert>
+    
+    <update id="updateMembership">
+		update fitian.Membership
+		<set>
+			<if test='expirationDate != null  and(expirationDate neq "".toString())'>
+				expirationDate=#{expirationDate},
+ 			</if>
+ 			<if test='status != null  and(status neq "".toString())'>
+				status=#{status},
+ 			</if>
+ 			<if test='memo != null  and(memo neq "".toString())'>
+				memo=#{memo},
+ 			</if>
+		</set>
+ 		where membershipNo = {membershipNo}
+	</update>
+    
+    <update id="deleteMembership">
+		update fitian.Membership SET status="expire"
+		where membershipNo = #{membershipNo}
+	</update>
+   
+</mapper>
