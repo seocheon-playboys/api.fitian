@@ -39,7 +39,6 @@ public class MembershipService {
             MembershipHistoryModel history = MembershipHistoryModel.builder()
                     .membershipNo(now.getMembershipNo())
                     .actionType("CREATE")
-                    .period(model.getPeriod())
                     .prevValue(null)
                     .newValue(newValue)
                     .performedBy(performedBy)
@@ -55,9 +54,7 @@ public class MembershipService {
 	@Transactional
 	public void updateMembership(MembershipModel model, String performedBy) {
 		MembershipModel prev = membershipMapper.findByUid(model.getBoxCode(), model.getUid());
-		
 		membershipMapper.updateMembership(model);
-		
 		try {
 			String prevValue = objectMapper.writeValueAsString(prev);
             String newValue = objectMapper.writeValueAsString(model);
@@ -65,11 +62,10 @@ public class MembershipService {
             MembershipHistoryModel history = MembershipHistoryModel.builder()
                     .membershipNo(model.getMembershipNo())
                     .actionType("UPDATE")
-                    .period(model.getPeriod())
                     .prevValue(prevValue)
                     .newValue(newValue)
                     .performedBy(performedBy)
-                    .memo(null) // 필요시 입력
+                    .memo(model.getMemo()) // 필요시 입력
                     .period(model.getPeriod())
                     .build();
             membershipHistoryMapper.createHistory(history);

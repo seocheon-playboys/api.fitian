@@ -75,7 +75,7 @@ public class MembershipController {
 		String boxCode = userDetails.getMember().getBoxCode();
 		if(!boxCode.equals(request.getBoxCode())) return ResponseEntity.badRequest().body(ApiResponse.failure("boxCode를 확인해주세요"));
 		
-		membershipService.updateMembership(request, userDetails.getMember().getNickname());
+		membershipService.updateMembership(request, userDetails.getMember().getName());
 		
 		return ResponseEntity.ok(ApiResponse.success(null,"회원권이 갱신되었습니다."));
 	}
@@ -92,7 +92,7 @@ public class MembershipController {
 		String boxCode = userDetails.getMember().getBoxCode();
 		if(!boxCode.equals(request.getBoxCode())) return ResponseEntity.badRequest().body(ApiResponse.failure("boxCode를 확인해주세요"));
 		
-		membershipService.deleteMembership(request, userDetails.getMember().getNickname());
+		membershipService.deleteMembership(request, userDetails.getMember().getName());
 		
 		return ResponseEntity.ok(ApiResponse.success(null,"회원권이 삭제되었습니다."));
 	}

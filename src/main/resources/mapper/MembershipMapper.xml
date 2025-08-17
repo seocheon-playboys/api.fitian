@@ -18,7 +18,7 @@
     <update id="updateMembership">
 		update fitian.Membership
 		<set>
-			<if test='expirationDate != null  and(expirationDate neq "".toString())'>
+			<if test='expirationDate != null'>
 				expirationDate=#{expirationDate},
  			</if>
  			<if test='status != null  and(status neq "".toString())'>
@@ -28,11 +28,11 @@
 				memo=#{memo},
  			</if>
 		</set>
- 		where membershipNo = {membershipNo}
+ 		where membershipNo = #{membershipNo}
 	</update>
     
     <update id="deleteMembership">
-		update fitian.Membership SET status="expire"
+		update fitian.Membership SET status="DELETE"
 		where membershipNo = #{membershipNo}
 	</update>
    

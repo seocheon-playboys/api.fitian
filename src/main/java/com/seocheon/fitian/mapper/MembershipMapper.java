@@ -12,7 +12,7 @@ public interface MembershipMapper {
 	
 	void createMembership(MembershipModel model);
 	
-	void updateMembership(MembershipModel model);
+	int updateMembership(MembershipModel model);
 	
 	void deleteMembership (MembershipModel model);
 	
