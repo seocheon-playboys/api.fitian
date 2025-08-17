@@ -44,7 +44,7 @@ public class MembershipController {
 		String boxCode = userDetails.getMember().getBoxCode();
 		if(!boxCode.equals(request.getBoxCode())) return ResponseEntity.badRequest().body(ApiResponse.failure("boxCode를 확인해주세요"));
 		
-		membershipService.createMembership(request, userDetails.getMember().getNickname());
+		membershipService.createMembership(request, userDetails.getMember().getName());
 		
 		return ResponseEntity.ok(ApiResponse.success(null,"회원권이 생성되었습니다."));
 	}

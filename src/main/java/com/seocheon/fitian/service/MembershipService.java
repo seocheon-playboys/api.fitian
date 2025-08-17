@@ -22,7 +22,7 @@ public class MembershipService {
 	
 	private final MembershipMapper membershipMapper;
 	private final MembershipHistoryMapper membershipHistoryMapper;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 	
 	public MembershipModel getMembership(String boxCode, String uid) {
 		return membershipMapper.findByUid(boxCode, uid);
@@ -32,18 +32,19 @@ public class MembershipService {
 	public void createMembership(MembershipModel model, String performedBy) {
 		
 		membershipMapper.createMembership(model);
-		
 		try {
+			MembershipModel now = membershipMapper.findByUid(model.getBoxCode(), model.getUid());
             String newValue = objectMapper.writeValueAsString(model);
             
             MembershipHistoryModel history = MembershipHistoryModel.builder()
-                    .membershipNo(model.getMembershipNo())
+                    .membershipNo(now.getMembershipNo())
                     .actionType("CREATE")
                     .period(model.getPeriod())
                     .prevValue(null)
                     .newValue(newValue)
                     .performedBy(performedBy)
                     .memo(null) // 필요시 입력
+                    .period(model.getPeriod())
                     .build();
             membershipHistoryMapper.createHistory(history);
 		}catch (JsonProcessingException e) {
@@ -69,6 +70,7 @@ public class MembershipService {
                     .newValue(newValue)
                     .performedBy(performedBy)
                     .memo(null) // 필요시 입력
+                    .period(model.getPeriod())
                     .build();
             membershipHistoryMapper.createHistory(history);
 		}catch (JsonProcessingException e) {
@@ -92,6 +94,7 @@ public class MembershipService {
                     .newValue(null)
                     .performedBy(performedBy)
                     .memo(null) // 필요시 입력
+                    .period(0)
                     .build();
             membershipHistoryMapper.createHistory(history);
 		}catch (JsonProcessingException e) {
