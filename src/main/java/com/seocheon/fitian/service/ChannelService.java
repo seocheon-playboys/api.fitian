@@ -56,9 +56,6 @@ public class ChannelService {
 				memberUids.add(m.getUid());
 			}
 			req.setMemberUids(memberUids);
-		} else { // public, notice 아닐 경우 참여자 목록에 채널 생성자 uid 추가
-			memberUids.add(creator.getUid());
-			req.setMemberUids(memberUids);
 		}
 		
 		channelMapper.insertChannel(model);
@@ -68,6 +65,7 @@ public class ChannelService {
 			p.setBoxCode(req.getBoxCode());
 			p.setChannelId(req.getChannelId());
 			p.setUid(uid);
+			System.out.println("$$$$$    "+uid);
 			participantMapper.insertParticipant(p);
 		}
 		
