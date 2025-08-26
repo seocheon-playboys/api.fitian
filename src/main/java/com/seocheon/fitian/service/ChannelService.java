@@ -47,6 +47,8 @@ public class ChannelService {
 		model.setCreatedBy(creator.getUid());
 		model.setCreatedAt(LocalDateTime.now());
 		
+		channelMapper.insertChannel(model);
+		
 		List<String> memberUids = new ArrayList<>();
 		
 		if(req.getType().equals("public") || req.getType().equals("notice")) {//채널 타입이 public, notice 일 경우 해당 박스의 모든 멤버.
@@ -56,16 +58,20 @@ public class ChannelService {
 				memberUids.add(m.getUid());
 			}
 			req.setMemberUids(memberUids);
+		} else {
+			ChannelParticipantModel p = new ChannelParticipantModel();
+			p.setBoxCode(req.getBoxCode());
+			p.setChannelId(req.getChannelId());
+			p.setUid(creator.getUid());
+			participantMapper.insertParticipant(p);
 		}
 		
-		channelMapper.insertChannel(model);
 	
 		for(String uid : req.getMemberUids()) {
 			ChannelParticipantModel p = new ChannelParticipantModel();
 			p.setBoxCode(req.getBoxCode());
 			p.setChannelId(req.getChannelId());
 			p.setUid(uid);
-			System.out.println("$$$$$    "+uid);
 			participantMapper.insertParticipant(p);
 		}
 		
