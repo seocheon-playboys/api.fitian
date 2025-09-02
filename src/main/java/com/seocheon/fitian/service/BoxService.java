@@ -55,7 +55,7 @@ public class BoxService {
 		List<String> channelNames = List.of("General", "Notice");
 		
 		for(String channelName : channelNames) {
-			String type = channelName.equals("Notice") ? "notice" : "public";
+			String type = channelName.equals("Notice") ? "notice" : "general";
 			ChannelCreateRequestDto req = ChannelCreateRequestDto.builder()
 					.boxCode(boxCode)
 					.channelId(boxCode+"_"+channelName)

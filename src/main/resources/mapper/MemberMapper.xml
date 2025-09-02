@@ -11,17 +11,17 @@
     </select>
     
     <select id="getAllMember" resultType="MemberModel">
-        select *
-        from fitian.Member
-        where 	boxCode = #{boxCode}
-        and useYN = 'Y'
+        select m.*, m2.membershipNo, m2.expirationDate
+        from fitian.`Member` m left join fitian.Membership m2 on m.uid = m2.uid
+        where 	m.boxCode = #{boxCode}
+        and m.useYN = 'Y'
         <if test="rank != null and rank != ''">
 			<choose>
 				<when test="rank == 'managerOrOwner'">
-					AND (rank = 'manager' OR rank = 'owner')
+					AND (m.rank = 'manager' OR m.rank = 'owner')
 				</when>
 				<otherwise>
-					AND rank = #{rank}
+					AND m.rank = #{rank}
 				</otherwise>
 			</choose>
 		</if>

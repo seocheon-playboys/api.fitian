@@ -51,7 +51,7 @@ public class ChannelService {
 		
 		List<String> memberUids = new ArrayList<>();
 		
-		if(req.getType().equals("public") || req.getType().equals("notice")) {//채널 타입이 public, notice 일 경우 해당 박스의 모든 멤버.
+		if(!req.getType().equals("group")) {//채널 타입이 public, notice 일 경우 해당 박스의 모든 멤버.
 			creator.setRank(null);			
 			List<MemberModel> memberList = memberMapper.getAllMember(creator); //creator가 manager,owner 일때만 작동
 			for(MemberModel m : memberList) {
@@ -79,7 +79,13 @@ public class ChannelService {
 			Map<String, Object> data = new HashMap<>();
 			data.put("channelName", req.getChannelName());
 			data.put("type", req.getType());
-			data.put("memberUids", req.getMemberUids());
+			if(req.getType().equals("group")) {
+				memberUids.add(creator.getUid());
+				memberUids.addAll(req.getMemberUids());
+				data.put("memberUids", memberUids);
+			} else {
+				data.put("memberUids", req.getMemberUids());
+			}
 			data.put("createdBy",creator.getUid());
 			data.put("createdAt",com.google.cloud.Timestamp.now());
 			
