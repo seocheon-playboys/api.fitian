@@ -9,6 +9,12 @@
         where uid = #{uid}
         and device_id = #{device_id}
     </select>
+
+	<select id="getTokenByDeviceId" resultType="FCMtokenModel">
+		select *
+		from fitian.Fcm_token
+		where device_id = #{device_id}
+	</select>
     
     <select id="getTokens" resultType="String">
         select token

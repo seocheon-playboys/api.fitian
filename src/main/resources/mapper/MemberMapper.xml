@@ -11,7 +11,7 @@
     </select>
     
     <select id="getAllMember" resultType="MemberModel">
-        select m.*, m2.membershipNo, m2.expirationDate
+        select m.*, m2.membershipNo, m2.expirationDate, m2.status
         from fitian.`Member` m left join fitian.Membership m2 on m.uid = m2.uid
         where 	m.boxCode = #{boxCode}
         and m.useYN = 'Y'
