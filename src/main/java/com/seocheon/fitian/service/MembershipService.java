@@ -2,6 +2,8 @@ package com.seocheon.fitian.service;
 
 import java.util.List;
 
+import com.seocheon.fitian.mapper.MemberMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor 
 public class MembershipService {
-	
+
+	private final MemberMapper memberMapper;
 	private final MembershipMapper membershipMapper;
 	private final MembershipHistoryMapper membershipHistoryMapper;
     private final ObjectMapper objectMapper;
@@ -100,6 +103,14 @@ public class MembershipService {
 	
 	public List<MembershipHistoryModel> viewMembershipHistory(int membershipNo) {
 		return membershipHistoryMapper.findByUid(membershipNo);
+	}
+
+	@Scheduled(cron = "0 0 0 * * *")
+	public void checkExpirationDate() {
+		int updated = membershipMapper.expireMemberships();
+		if (updated > 0) {
+			log.info("Pruned {} expire Memberships", updated);
+		}
 	}
 
 }

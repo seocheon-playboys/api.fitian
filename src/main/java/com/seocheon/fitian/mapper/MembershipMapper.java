@@ -15,5 +15,7 @@ public interface MembershipMapper {
 	int updateMembership(MembershipModel model);
 	
 	void deleteMembership (MembershipModel model);
+
+	int expireMemberships();
 	
 }

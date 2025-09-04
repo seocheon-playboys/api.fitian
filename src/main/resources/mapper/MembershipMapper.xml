@@ -35,5 +35,11 @@
 		update fitian.Membership SET status="DELETE"
 		where membershipNo = #{membershipNo}
 	</update>
-   
+
+	<update id="expireMemberships" parameterType="int">
+		update fitian.Membership
+		set status = 'EXPIRED'
+		where expirationDate &lt; NOW()
+		and (status is null or status &lt;&gt; 'DELETE')
+	</update>
 </mapper>

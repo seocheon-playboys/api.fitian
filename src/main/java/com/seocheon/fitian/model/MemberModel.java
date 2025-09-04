@@ -27,4 +27,5 @@ public class MemberModel {
 	private List<MembershipModel> membershipList;
 	private int membershipNo;
 	private LocalDate expirationDate;
+	private String status;
 }
