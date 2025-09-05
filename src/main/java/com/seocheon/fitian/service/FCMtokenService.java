@@ -39,7 +39,7 @@ public class FCMtokenService {
 	public void upsertToken(String uid, FCMtokenCreateRequest req) {
 		FCMtokenModel checkToken = mapper.getTokenByDeviceId(req);
 
-		if(!checkToken.getUid().equals(uid)) { //같은 deviceID에 다른 uid일 경우 기존 토큰 삭제
+		if(checkToken!=null&&!checkToken.getUid().equals(uid)) { //같은 deviceID에 다른 uid일 경우 기존 토큰 삭제
 			mapper.deleteToken(checkToken.getToken());
 		}
 
