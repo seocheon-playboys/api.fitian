@@ -2,13 +2,13 @@ package com.seocheon.fitian.model;
 
 import java.util.List;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FCMtokenModel {
 
 	private String uid;
