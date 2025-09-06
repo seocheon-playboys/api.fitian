@@ -46,6 +46,10 @@ dependencies {
     implementation platform('io.awspring.cloud:spring-cloud-aws-dependencies:3.0.2')
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.669'
 
+    //Google API Client
+    implementation 'com.google.api-client:google-api-client:1.35.0' // GoogleIdTokenVerifier
+    implementation 'com.google.http-client:google-http-client-gson:1.39.2' // JSON 파싱
+
     // Firebase Admin
     implementation 'com.google.firebase:firebase-admin:9.1.1'
 

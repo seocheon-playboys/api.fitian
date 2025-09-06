@@ -23,9 +23,9 @@ public class OAuthService {
 	public MemberModel findOrCreateUserBySocialToken(String token, String provider) {
 	
 		OAuthUserInfo userInfo = getUserInfoFromProvider(token, provider);
-		
+
 		String uid = userInfo.getId();
-		
+
 		MemberModel member = new MemberModel();
 		member.setUid(uid);
 		
