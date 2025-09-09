@@ -8,6 +8,7 @@
         select *
         from fitian.Membership
         where uid = #{uid} and boxCode = #{boxCode}
+		and status not in ('DELETE', 'EXPIRED')
     </select>
     
     <insert id="createMembership">
