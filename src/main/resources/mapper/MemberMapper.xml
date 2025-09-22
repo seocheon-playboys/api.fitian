@@ -14,6 +14,7 @@
         select m.*, m2.membershipNo, m2.expirationDate, m2.status
         from fitian.`Member` m left join fitian.Membership m2 on m.uid = m2.uid
         where 	m.boxCode = #{boxCode}
+		AND (m2.status IS NULL OR m2.status &lt;&gt; 'DELETE')
         and m.useYN = 'Y'
         <if test="rank != null and rank != ''">
 			<choose>
