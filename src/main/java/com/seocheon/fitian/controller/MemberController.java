@@ -179,7 +179,7 @@ public class MemberController {
     public ResponseEntity<ApiResponse<Void>> deactivate(
     		@CurrentUser CustomUserDetails userDetails) {
 		
-		memberService.deactivate(userDetails.getUsername());
+		memberService.deactivate(userDetails);
     	return ResponseEntity.ok(ApiResponse.success(null, "정상적으로 탈퇴되었습니다."));
     }
 	

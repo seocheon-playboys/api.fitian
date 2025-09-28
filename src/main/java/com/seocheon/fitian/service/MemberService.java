@@ -2,6 +2,10 @@ package com.seocheon.fitian.service;
 
 import java.util.List;
 
+import com.seocheon.fitian.mapper.ChannelMapper;
+import com.seocheon.fitian.mapper.CommonMapper;
+import com.seocheon.fitian.mapper.FCMtokenMapper;
+import com.seocheon.fitian.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
@@ -12,8 +16,6 @@ import com.seocheon.fitian.dto.MemberResponseDto;
 import com.seocheon.fitian.dto.MembersResponseDto;
 import com.seocheon.fitian.dto.UpdateSelfRequest;
 import com.seocheon.fitian.mapper.MemberMapper;
-import com.seocheon.fitian.model.MemberModel;
-import com.seocheon.fitian.model.PushModel;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,11 @@ public class MemberService {
 	
 	private final MemberMapper memberMapper;
 	private final PushService pushService;
+	private final ChannelMapper channelMapper;
+	private final ChannelService channelService;
+	private final MembershipService membershipService;
+	private final FCMtokenMapper fcMtokenMapper;
+	private final CommonMapper commonMapper;
 	
 	public MemberModel findByUid(String uid) {
 		MemberModel member = memberMapper.findByUid(uid);
@@ -105,7 +112,27 @@ public class MemberService {
 	}
 	
 	@Transactional
-	public void deactivate(String uid) {
+	public void deactivate(CustomUserDetails userDetails) {
+
+		String boxCode = userDetails.getMember().getBoxCode();
+		String uid = userDetails.getUsername();
+
+		//참여 채널에서 나가기
+		List<ChannelModel> models = channelMapper.selectChannelsByUid(boxCode, uid);
+		for(ChannelModel model : models) {
+			channelService.deleteParticipant(boxCode, model.getChannelId(), uid);
+		}
+
+		//멤버십 삭제하기
+		MembershipModel membership = membershipService.getMembership(boxCode, uid);
+		membershipService.deleteMembership(membership, uid);
+
+		//FCM 토큰 삭제하기
+		fcMtokenMapper.deleteToken(uid);
+
+		//refresh 토큰 삭제하기
+		commonMapper.deleteRefreshToken(uid);
+
 		int updatedRows = memberMapper.deleteMember(uid);
 		if(updatedRows == 0) {
 			throw new IllegalStateException("탈퇴 처리에 실패했습니다.");

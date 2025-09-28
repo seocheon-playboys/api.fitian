@@ -15,7 +15,7 @@ public interface FCMtokenMapper {
 	FCMtokenModel getTokenByDeviceId(FCMtokenCreateRequest req);
 	List<String> getTokens(MemberModel model);
 	void createToken(FCMtokenModel model);
-	void deleteToken(String token);
+	void deleteToken(String uid);
 	
 	int upsert(FCMtokenModel model);
 	int deactivate(String token);

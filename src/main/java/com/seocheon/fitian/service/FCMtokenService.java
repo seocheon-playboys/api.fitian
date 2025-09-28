@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.seocheon.fitian.dto.FCMtokenCreateRequest;
 import com.seocheon.fitian.mapper.FCMtokenMapper;
 import com.seocheon.fitian.model.FCMtokenModel;
-import com.seocheon.fitian.model.ResponseModel;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,17 +21,15 @@ public class FCMtokenService {
 	public FCMtokenModel getToken(FCMtokenModel model) {
 		return mapper.getToken(model);
 	}
-	
+
 	@Transactional
 	public void createToken(FCMtokenModel model) {
 		mapper.createToken(model);
 	}
 	
 	@Transactional
-	public ResponseModel deleteToken() {
-		ResponseModel res = new ResponseModel();
-		
-		return res;
+	public void deleteToken(String uid) {
+		mapper.deleteToken(uid);
 	}
 	
 	@Transactional

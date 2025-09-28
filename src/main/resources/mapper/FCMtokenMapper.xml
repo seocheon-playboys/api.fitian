@@ -30,7 +30,7 @@
     
     <delete id="deleteToken">
 		delete from fitian.Fcm_token
-		where token = #{token}
+		where uid = #{uid}
 	</delete>
 	
 	<insert id="upsert">

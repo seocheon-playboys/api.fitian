@@ -62,7 +62,7 @@
     </update>
     
     <update id="deleteMember" parameterType="String">
-		update fitian.Member SET useYN="N"
+		delete from fitian.Member
 		where uid = #{uid}
 	</update>
 	
