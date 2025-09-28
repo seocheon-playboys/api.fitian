@@ -114,18 +114,22 @@ public class MemberService {
 	@Transactional
 	public void deactivate(CustomUserDetails userDetails) {
 
-		String boxCode = userDetails.getMember().getBoxCode();
 		String uid = userDetails.getUsername();
+		String boxCode = userDetails.getMember().getBoxCode();
 
-		//참여 채널에서 나가기
-		List<ChannelModel> models = channelMapper.selectChannelsByUid(boxCode, uid);
-		for(ChannelModel model : models) {
-			channelService.deleteParticipant(boxCode, model.getChannelId(), uid);
+		if(!boxCode.isEmpty()) {
+			//참여 채널에서 나가기
+			List<ChannelModel> models = channelMapper.selectChannelsByUid(boxCode, uid);
+			for(ChannelModel model : models) {
+				channelService.deleteParticipant(boxCode, model.getChannelId(), uid);
+			}
+
+			//멤버십 삭제하기
+			MembershipModel membership = membershipService.getMembership(boxCode, uid);
+			if(membership != null) {
+				membershipService.deleteMembership(membership, uid);
+			}
 		}
-
-		//멤버십 삭제하기
-		MembershipModel membership = membershipService.getMembership(boxCode, uid);
-		membershipService.deleteMembership(membership, uid);
 
 		//FCM 토큰 삭제하기
 		fcMtokenMapper.deleteToken(uid);
