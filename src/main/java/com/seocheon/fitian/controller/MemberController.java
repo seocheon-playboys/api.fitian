@@ -79,6 +79,10 @@ public class MemberController {
     public ResponseEntity<ApiResponse<MemberResponseDto>> updateMember(
     		@RequestBody RankUpdateRequest update,
     		@CurrentUser CustomUserDetails userDetails) {
+		
+		MemberModel member = memberService.findByUid(update.getUid());
+		String oldRank = member.getRank();
+		String newRank = update.getRank();
 
 		//타겟 회원이 owner 일시 못바꿈
 		if(member.getRank().equals("owner")) {
@@ -89,10 +93,6 @@ public class MemberController {
 		if(!member.getBoxCode().equals(userDetails.getMember().getBoxCode())) {
 			return ResponseEntity.badRequest().body(ApiResponse.failure("다른 박스의 회원 정보는 변경할 수 없습니다."));
 		}
-		
-		MemberModel member = memberService.findByUid(update.getUid());
-		String oldRank = member.getRank();
-		String newRank = update.getRank();
 		
 		if(oldRank.equals("guest")) {
 			//public인 채널에 전부 참여자로 추가
